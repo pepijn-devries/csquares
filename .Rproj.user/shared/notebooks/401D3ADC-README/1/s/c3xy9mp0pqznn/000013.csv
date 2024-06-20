@@ -1,5 +1,0 @@
-"0","st_as_stars.csquares(c(xmin = 5.0, xmax = 5.5, ymin = 52.5, ymax = 53), , crs = 4326)
-"
-"2","Error in st_transform.sfc(sf::st_as_sfc(sf::st_bbox(x, x)), crs = 4326) : 
-  cannot transform sfc object with missing crs
-"

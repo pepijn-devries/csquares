@@ -1,4 +1,0 @@
-library(rgl)
-open3d()                                   # create new plot
-spheres3d(x = 1, y = 1, z = 1, radius = 1) # produce sphere
-axes3d()                
