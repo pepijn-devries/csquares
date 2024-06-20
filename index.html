@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Concise Spatial QUery And REpresentation System (c-squares) for R • csquares</title>
+<title>Concise Spatial Query And Representation System (c-squares) for R • csquares</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Concise Spatial QUery And REpresentation System (c-squares) for R">
+<script src="pkgdown.js"></script><meta property="og:title" content="Concise Spatial Query And Representation System (c-squares) for R">
 <meta property="og:description" content="Encode and decode c-squares, from and to simple feature (sf) or spatiotemporal arrays (stars) objects. Use c-squares codes to quickly join or query spatial data.">
 <meta property="og:image" content="/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">csquares</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1</span>
       </span>
     </div>
 
@@ -70,7 +70,7 @@
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p><img src="reference/figures/logo.svg" align="right" height="139" alt=""></p>
+<p><img src="reference/figures/logo.png" align="right" height="139" alt=""></p>
 <p>The Concise Spatial QUery And REpresentation System (c-squares) are identifiers that correspond with cells in a global grid. The system was developed by <a href="https://en.wikipedia.org/wiki/CSIRO_Oceans_and_Atmosphere" class="external-link">CSIRO Oceans &amp; Atmosphere</a> and divides the globe in rectangles of 10 by 10 degrees (longitude and latitude in WGS84). It is a hierarchical system, meaning that higher resolutions are also supported, as long as its cell size is a tenfold of 1 or 5 degrees (i.e., cells can have the following sizes in degrees: 10, 5, 1, 0.5, 0.1, etc.).</p>
 <p>The c-squares format is a well defined exchange format for spatial raster data, it allows for light-weight text querying / aggregation and expansion to different resolutions. The csquare R package facilitates the translation of c-square code into spatial information (<a href="https://r-spatial.github.io/sf/" class="external-link">sf</a> and <a href="https://r-spatial.github.io/stars/" class="external-link">stars</a>) and vice versa.</p>
 <p>For more technical information on c-squares, please consult the <a href="https://en.wikipedia.org/wiki/C-squares" class="external-link">Wikipedia page</a> or the <a href="https://www.cmar.csiro.au/csquares/" class="external-link">CSIRO c-squares page</a>.</p>
