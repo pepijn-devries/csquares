@@ -1,0 +1,15 @@
+temp<-
+  result|>
+  dplyr::group_by(.data$line_number) |>
+  dplyr::summarise(
+    geom = list({
+      browser()
+      gms <- .data$geom
+      is_empty <- lapply(gms, sf::st_is_empty) |> unlist()
+      do.call(c, .data$geom[!is_empty])
+    }),
+    check1 = !any(!.data$check1),
+    check2 = !any(!.data$check2),
+    check3 = !any(!.data$check3),
+    check4 = !any(!.data$check4),
+    .groups = "drop")

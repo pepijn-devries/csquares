@@ -1,0 +1,14 @@
+temp  <- st_as_stars.csquares(nc, add_csquares = TRUE, resolution = 1)
+temp2 <- c(temp$csquares)|> st_as_sf.csquares()
+temp3 <- temp |> sf::st_coordinates() |> sf::st_as_sf(coords = c("x", "y"), crs = 4326)
+ggplot2::ggplot() +
+  stars::geom_stars(data=temp)+
+  ggplot2::geom_sf(data = temp2) +
+  ggplot2::geom_sf(data = temp3)
+
+temp3 |> as_csquares(1) |> st_as_sf.csquares() |> plot()
+
+temp4 <-
+    st_as_sf.csquares("7500:110:3|7500:110:1|1500:110:3|1500:110:1")
+as_csquares(temp4)
+

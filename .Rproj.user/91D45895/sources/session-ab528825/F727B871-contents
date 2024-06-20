@@ -1,0 +1,38 @@
+Package: csquares
+Title: Concise Spatial QUery And REpresentation System (c-squares) for R
+Version: 0.0.0.9000
+Authors@R:
+    person("Pepijn", "de Vries", role = c("aut", "cre"),
+    email = "pepijn.devries@outlook.com",
+    comment = c(ORCID = "0000-0002-7961-6646"))
+Author:
+    Pepijn de Vries [aut, cre] (0000-0002-7961-6646)
+Description: Encode and decode c-squares, from and to 'simple feature' (sf)
+    or 'spatiotemporal arrays' (stars) objects. Use c-squares codes to quickly
+    join or query spatial data.
+Imports:
+    dplyr,
+    purrr,
+    rlang,
+    sf,
+    stars,
+    stringr,
+    tidyr
+Suggests:
+    ggplot2
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Depends: 
+    R (>= 4.1.0)
+LazyData: true
+Collate: 
+    'helpers.R'
+    'as_csquares.R'
+    'as_stars.R'
+    'csquares-package.r'
+    'imports.R'
+    'orca.R'
+    'st_as_sf.R'
+    'summarise.R'

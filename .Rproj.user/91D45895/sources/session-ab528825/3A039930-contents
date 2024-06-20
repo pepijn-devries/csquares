@@ -1,0 +1,54 @@
+library(sf)
+library(csquares)
+nc <- st_read(system.file("shape/nc.shp", package = "sf"))
+st_csquares(st_bbox(nc))
+
+#https://doi.org/10.17608/k6.auckland.5086654
+#https://doi.org/10.1038/s41467-017-01121-2
+
+temp <-
+  st_as_sfc.csquares(
+  c("7500:110:3|7500:110:1|1500:110:3|1500:110:1",
+    "7500:110:3|7500:110:1|1500:110:3|1500:110:?"))
+
+obis <- readr::read_csv("../data/obis_2009_csq_allspecies.csv")
+orca <-
+  obis |>
+  dplyr::filter(.data$species == "Orcinus orca") |>
+  tidyr::pivot_longer(!"species", names_to = "csquares", values_to = "occurence") |>
+  dplyr::mutate(occurence = .data$occurence == 1) |>
+  dplyr::rename(orcinus_orca = "occurence") |>
+  dplyr::select(-"species") |>
+  as.data.frame()
+usethis::use_data(orca, overwrite = T)
+
+orca2 <-
+  orca |>
+  dplyr::as_tibble() |>
+  dplyr::mutate(
+    geom = st_as_sfc.csquares(.data$csquares)
+  ) |>
+  sf::st_as_sf(crs = 4326)
+orca2 |>
+  sf::st_transform(crs = 3857) |>
+# sf::st_transform(st_crs("+proj=laea +lat_0=30 +lon_0=120")) |>
+  plot()
+
+library(ggplot2)
+orca2 |>
+  sf::st_transform(st_crs("+proj=laea +lat_0=30 +lon_0=120")) |>
+  ggplot() +
+  geom_sf()
+plot(orca2)
+temp <- readr::read_csv("../data/fishbase.csv", skip = 33, col_names = FALSE)
+temp_sub <- temp[sample.int(nrow(temp), 5000)|>sort(),]
+temp2 <- dplyr::tibble(geom = csquares::st_as_sfc.csquares(temp_sub$X5)) |>
+  sf::st_as_sf()
+plot(temp2)
+temp3 <- temp2$geom |> st_centroid() |> st_coordinates()
+temp4 <- dplyr::bind_cols(
+  temp_sub,
+  temp3 |> dplyr::as_tibble() |> dplyr::rename(x_der = "X", y_der = "Y")
+)
+(temp4$X3 - temp4$y_der) |> table()
+(temp4$X4 - temp4$x_der) |> table()
