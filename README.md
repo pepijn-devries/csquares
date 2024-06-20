@@ -4,7 +4,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-<img src="man/figures/logo.svg" align="right" height="139" alt="" />
+<img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 The Concise Spatial QUery And REpresentation System (c-squares) are
 identifiers that correspond with cells in a global grid. The system was
