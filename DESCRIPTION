@@ -28,6 +28,7 @@ Depends:
     R (>= 4.1.0)
 LazyData: true
 Collate: 
+    'as_csquace_code.R'
     'helpers.R'
     'as_csquares.R'
     'as_stars.R'

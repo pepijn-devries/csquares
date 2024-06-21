@@ -16,32 +16,73 @@
 #' @include helpers.R
 #' @author Pepijn de Vries
 #' @export
-as_csquares <- function(x, resolution = 1) {
+as_csquares <- function(x, resolution, ...) {
+  UseMethod("as_csquares")
+}
+
+#' @rdname as_csquares
+#' @export
+as_csquares.character <- function(x) {
+  browser() # TODO
+  class(x) <- c("csquares", class(x))
+  x
+}
+
+#' @rdname as_csquares
+#' @export
+as_csquares.numeric <- function(x, resolution = 1) {
   resolution <- .check_resolution(resolution)
-  l10 <- ceiling(-log10(resolution))
-  l5  <- round((resolution/(10^-l10))/5)
-
-  result <- x
   
-  if (inherits(x, c("sf", "stars"))) {
-    result <- result |>
-      sf::st_transform(4326) |>
-      sf::st_coordinates()
+  if (inherits(x, "matrix")) {
+    .csquares_generic(x, resolution)
+  } else {
+    rlang::abort(
+      c(
+        x = "Numeric values can only be converted to c-squares in a two column matrix form",
+        i = "Make sure your numbers represent two columns (x and y coordinates) in a matrix"
+      )
+    )
   }
+}
 
-  result <-
-    result |>
+#' @rdname as_csquares
+#' @export
+as_csquares.sf <- function(x, resolution = 1) {
+  .csquares_spatial(x, resolution)
+}
+
+#' @rdname as_csquares
+#' @export
+as_csquares.stars <- function(x, resolution = 1) {
+  .csquares_spatial(x, resolution)
+}
+
+.csquares_spatial <- function(x, resolution) {
+  resolution <- .check_resolution(resolution)
+  x <-
+    x |>
+    sf::st_transform(4326) |>
+    sf::st_coordinates() |>
+    .csquares_generic(resolution)
+}
+
+.csquares_generic <- function(x, resolution) {
+  l10 <- attr(resolution, "l10")
+  l5  <- attr(resolution, "l5")
+  
+  x <-
+    x |>
     dplyr::as_tibble(.name_repair = "minimal") |>
     dplyr::rename(x = 1, y = 2)
-
-  if (!"L3" %in% colnames(result))
-    result <-
-    result |>
-    dplyr::mutate(
-      L3 = dplyr::row_number()
-    )
-
-  result |>
+  
+  if (!"L3" %in% colnames(x))
+    x <-
+      x |>
+      dplyr::mutate(
+        L3 = dplyr::row_number()
+      )
+  x <-
+    x |>
     dplyr::mutate(
       quadrant = (0L + 4L*(.data$x < 0)) + (2L + 2L*xor(.data$x >= 0, .data$y >= 0)) - 1L,
       x_cur    = abs(trunc(.data$x/10)),
@@ -54,7 +95,7 @@ as_csquares <- function(x, resolution = 1) {
         array(rep(seq_len(l10 + 1), each = length(.data$x)),
               dim = c(length(.data$x), l10 + 1, 2)) |>
           apply(2, function(x, x1, y1) {
-
+            
             last_digit <- x[1] == (l10 + 1)
             if (last_digit) fun <- round else fun <- floor
             x <-
@@ -62,13 +103,13 @@ as_csquares <- function(x, resolution = 1) {
             x <- cbind(
               .digit_check(x), x)
             x[last_digit & l5 == 1,2:3] <- ""
-
+            
             apply(x, 1, paste0, collapse = "")
           }, x1 = .data$x, y1 = .data$y) |>
           (\(x) if(is.null(dim(x)))
             paste0(x[x != ""], collapse = ":") else
               apply(x, 1, paste0, collapse = ":"))()
-          
+        
       },
       csquares = cbind(
         sprintf("%1i%1i%02i", .data$quadrant,
@@ -79,4 +120,6 @@ as_csquares <- function(x, resolution = 1) {
     dplyr::group_by(dplyr::across(dplyr::any_of("L3"))) |>
     dplyr::summarise(csquares = paste0(.data$csquares, collapse = "|")) |>
     dplyr::pull("csquares")
+  class(x) <- c("csquares", class(x))
+  x
 }

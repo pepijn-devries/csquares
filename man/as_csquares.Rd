@@ -2,9 +2,21 @@
 % Please edit documentation in R/as_csquares.R
 \name{as_csquares}
 \alias{as_csquares}
+\alias{as_csquares.character}
+\alias{as_csquares.numeric}
+\alias{as_csquares.sf}
+\alias{as_csquares.stars}
 \title{Convert lon-lat coordinates into c-square codes}
 \usage{
-as_csquares(x, resolution = 1)
+as_csquares(x, resolution, ...)
+
+\method{as_csquares}{character}(x)
+
+\method{as_csquares}{numeric}(x, resolution = 1)
+
+\method{as_csquares}{sf}(x, resolution = 1)
+
+\method{as_csquares}{stars}(x, resolution = 1)
 }
 \arguments{
 \item{x}{An object to be encoded as c-squares. \code{x} can be a \code{numeric} \code{matrix} with two columns

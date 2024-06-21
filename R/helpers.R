@@ -3,8 +3,12 @@
     c(x = "Cannot encode resolutions >10 or <= 0.",
       i = "Make sure the value of 'resolution' is 10 or less yet greater than 0.")
   )
-  sgnf  <- 10^(-ceiling(-log10(resolution)))
+  
+  l10   <- ceiling(-log10(resolution))
+  l5    <- round((resolution/(10^-l10))/5)
+  sgnf  <- 10^-l10
   digit <- resolution/sgnf
+  
   res_fixed <-
     sgnf *
     ifelse(digit < 7.5 & digit > 2.5, 5,
@@ -13,6 +17,8 @@
   if (any(abs((res_fixed/resolution) - 1) > 1e-6)) {
     rlang::warn(c(i = "'resolution' should be a tenfold of 1 or 5."))
   }
+  attr(res_fixed, "l10") <- l10
+  attr(res_fixed, "l5")  <- l5
   res_fixed
 }
 
