@@ -4,11 +4,11 @@
 \name{csquares-package}
 \alias{csquares}
 \alias{csquares-package}
-\title{csquares: Concise Spatial Query And Representation System (c-squares) for R}
+\title{csquares: Concise Spatial Query And Representation System (c-Squares)}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Encode and decode c-squares, from and to 'simple feature' (sf) or 'spatiotemporal arrays' (stars) objects. Use c-squares codes to quickly join or query spatial data.
+Encode and decode c-squares, from and to simple feature (sf) or spatiotemporal arrays (stars) objects. Use c-squares codes to quickly join or query spatial data.
 }
 \author{
 \strong{Maintainer}: Pepijn de Vries \email{pepijn.devries@outlook.com} (\href{https://orcid.org/0000-0002-7961-6646}{ORCID})
