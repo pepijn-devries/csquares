@@ -4,7 +4,7 @@
 \name{csquares-package}
 \alias{csquares}
 \alias{csquares-package}
-\title{csquares: Concise Spatial Query And Representation System (c-Squares)}
+\title{csquares: Concise Spatial Query and Representation System (c-Squares)}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 

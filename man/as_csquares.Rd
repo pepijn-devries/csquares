@@ -2,22 +2,49 @@
 % Please edit documentation in R/as_csquares.R
 \name{as_csquares}
 \alias{as_csquares}
+\alias{as_csquares.default}
+\alias{as_csquares.character}
+\alias{as_csquares.numeric}
+\alias{as_csquares.data.frame}
+\alias{as_csquares.sf}
+\alias{as_csquares.stars}
 \title{Convert lon-lat coordinates into c-square codes}
 \usage{
-as_csquares(x, resolution = 1)
+as_csquares(x, resolution, csquares, ...)
+
+\method{as_csquares}{default}(x, resolution, csquares, ...)
+
+\method{as_csquares}{character}(x, resolution, csquares, validate = TRUE, ...)
+
+\method{as_csquares}{numeric}(x, resolution = 1, csquares, ...)
+
+\method{as_csquares}{data.frame}(x, resolution = 1, csquares, ...)
+
+\method{as_csquares}{sf}(x, resolution = 1, csquares, ...)
+
+\method{as_csquares}{stars}(x, resolution = 1, csquares, ...)
 }
 \arguments{
-\item{x}{An object to be encoded as c-squares. \code{x} can be a \code{numeric} \code{matrix} with two columns
+\item{x}{An object to be coerced to a \code{csquares} object. \code{x} can be a vector of \code{character} strings
+representing c-squares code. It can also be a \code{numeric} \code{matrix} with two columns
 containing the x and y coordinates. \code{x} can also be a simple features object
 (\code{\link[sf:st_as_sf]{sf}}) or a spatial arrays object (\code{\link[stars:st_as_stars]{stars}}).}
 
 \item{resolution}{Resolution (in WGS84 degrees) to be used for creating c-squares codes.
 As per c-square specifications, the resolution should be 10 or less, yet greater than 0.
 It should be a tenfold of 1 or 5. Valid resolutions are therefore: 10, 5, 1, 0.5, 0.1, etc.}
+
+\item{csquares}{If \code{x} is not a vector of \code{character} strings (but for instance a \code{data.frame}),
+the \code{csquares} argument should specify the name of the element of \code{x} containing the c-square
+codes as \code{character} strings.}
+
+\item{...}{Currently ignored}
+
+\item{validate}{A \code{logical} value indicating whether the created object needs to be validated.
+Defaults to \code{TRUE}. Validation can be time-consuming so set to \code{FALSE} to save computing time.}
 }
 \value{
-Returns a \code{vector} with the same number of items as rows in \code{x}. It contains
-c-square codes corresponding with \code{x}.
+Returns a \code{csquares} object that contains c-squares codes.
 }
 \description{
 Takes WGS84 longitude and latitude coordinates and finds the closest matching c-squares
@@ -25,6 +52,7 @@ for a given resolution.
 }
 \examples{
 as_csquares(cbind(x = 5.2399066, y = 52.7155812), resolution = 1)
+as_csquares(orca, csquares = "csquares")
 }
 \author{
 Pepijn de Vries

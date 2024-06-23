@@ -2,6 +2,8 @@
 # csquares
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/pepijn-devries/csquares/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pepijn-devries/csquares/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 <img src="man/figures/logo.png" align="right" height="139" alt="" />
@@ -58,11 +60,14 @@ library(csquares)
 library(sf)
 library(ggplot2)
 
-## Convert the c-squares into a simple features object
-## and tranform to Robinson's projection
+## Convert the data.frame into a csquares object
+orca_csq <- as_csquares(orca, csquares = "csquares")
+
+## Convert the csquares object into a simple features object
+## and transform to Robinson's projection
 orca_sf <-
-  orca |>
-  st_as_sf.csquares("csquares") |>
+  orca_csq |>
+  st_as_sf() |>
   st_transform(crs = "+proj=robin +lon_0=0 +x_0=0 +y_0=0")
 
 ## Make a plot of the spatial data
@@ -80,7 +85,7 @@ bounding box.
 
 ``` r
 st_bbox(c(xmin = 5.0, xmax = 5.5, ymin = 52.5, ymax = 53), crs = 4326) |>
-  st_as_stars.csquares(resolution = 0.1, add_csquares = TRUE)
+  new_csquares(resolution = 0.1)
 #> stars object with 2 dimensions and 1 attribute
 #> attribute(s):
 #>   csquares         

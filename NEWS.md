@@ -1,4 +1,4 @@
-csquares v0.0.2 (Release date: 2024-06-21)
+csquares v0.0.3 (Release date: 2024-06-23)
 -------------
 
   * Initial release
