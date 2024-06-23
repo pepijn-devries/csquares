@@ -1,6 +1,6 @@
 Package: csquares
-Title: Concise Spatial Query And Representation System (c-Squares)
-Version: 0.0.2
+Title: Concise Spatial Query and Representation System (c-Squares)
+Version: 0.0.3
 Authors@R:
     person("Pepijn", "de Vries", role = c("aut", "cre"),
     email = "pepijn.devries@outlook.com",
@@ -12,6 +12,7 @@ Description: Encode and decode c-squares, from and to simple feature (sf)
     join or query spatial data.
 Imports:
     dplyr,
+    methods,
     purrr,
     rlang,
     sf,
@@ -28,12 +29,15 @@ Depends:
     R (>= 4.1.0)
 LazyData: true
 Collate: 
-    'as_csquace_code.R'
     'helpers.R'
     'as_csquares.R'
     'as_stars.R'
     'csquares-package.r'
-    'imports.R'
+    'csquares_methods.R'
+    'init.R'
+    'new_csquares.R'
     'orca.R'
     'st_as_sf.R'
     'summarise.R'
+    'tidyverse.R'
+    'validate.R'

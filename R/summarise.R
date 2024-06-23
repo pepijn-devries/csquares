@@ -13,15 +13,18 @@
 #' @inheritParams dplyr::summarise
 #' @returns Returns the summarised object inheriting its class from `x`
 #' @examples
+#' library(dplyr)
 #' orca |>
-#'   st_as_sf.csquares("csquares") |>
-#'   summarise.csquare(
+#'   as_csquares(csquares = "csquares") |>
+#'   summarise(
 #'     .by = "csquares",
 #'     orcinus_orca = any(na.omit(.data$orcinus_orca)))
 #' 
 #' @author Pepijn de Vries
+#' @name summarise
+#' @rdname summarise
 #' @export
-summarise.csquare <- function(x, ..., .by, tiers_down = 1L) {
+summarise.csquares <- function(x, ..., .by, tiers_down = 1L) {
   if (any(grepl("[|]", x[[.by]]))) {
     rlang::abort(
       c(x = "Cannot handle records with multiple c-squares.",
@@ -56,11 +59,9 @@ summarise.csquare <- function(x, ..., .by, tiers_down = 1L) {
   if (is_sf || is_stars) x <- st_as_sf.csquares(x, .by)
 
   if (is_stars) {
-    resolution <- x$csquares |> nchar()
-    resolution <- min(resolution/4)
-    resolution <- ifelse(resolution %% 1 > 0, 5, 1)*10^-floor(resolution - 1)
+    resolution <- .nchar_to_csq_res(x$csquares) |> min()
 
-    grd <- st_as_stars.csquares(x, resolution = resolution, add_csquares = TRUE) |>
+    grd <- new_csquares(x, resolution = resolution) |>
       dplyr::rename(!!.by := "csquares")
     ret <- grd |>
       .to_df() |>
@@ -73,5 +74,6 @@ summarise.csquare <- function(x, ..., .by, tiers_down = 1L) {
     x <- sf::st_transform(x, crs)
   }
 
+  class(x) <- c("csquares", class(x))
   x
 }

@@ -1,70 +1,63 @@
-#' Create a c-squares raster from a bounding box
+#' Coerce csqaures object into a stars object
 #' 
-#' Creates a spatial raster ([`stars`][stars::st_as_stars]) for a specified bounding box, using
-#' a specified resolution. The raster will be conform c-squares specifications, and the c-squares
-#' code can be added to the raster as attribute when requested (see `add_csquares`).
+#' Take a `csquares` object created with [new_csquares] or [as_csquares] and
+#' coerce it to a spatiotemporal array ([stars][stars::st_as_stars]).
 #' 
-#' @param x An object of class [`bbox`][sf::st_bbox] or an object that can be coerced to a `bbox`.
-#' It defines the bounding box for the c-squares grid created by this function.
-#' @inheritParams as_csquares
-#' @param crs The projection to be used for the created grid. By default it is WGS84 (EPSG:4326).
-#' @param add_csquares A `logical` value indicating whether an attribute with corresponding c-square
-#' codes should be included in the result.
-#' @returns Returns a [`stars`][stars::st_as_stars] object based on the provided bounding box and
-#' resolution.
+#' @param x An object of class `csquares` created with [new_csquares] or [as_csquares]
+#' @param ... ignored.
+#' @returns Returns a spatiotemporal array ([stars][stars::st_as_stars]) object based on `x`.
 #' @examples
-#' library(sf)
-#' nc <- st_read(system.file("shape/nc.shp", package = "sf"))
-#' st_as_stars.csquares(nc, add_csquares = TRUE)
+#' library(stars)
+#' st_as_stars(as_csquares("7500:110:3|7500:110:1|1500:110:3|1500:110:1"))
+#' st_as_stars(as_csquares(orca, csquares = "csquares"))
 #' @include as_csquares.R helpers.R
 #' @author Pepijn de Vries
 #' @export
 st_as_stars.csquares <-
-  function(x, resolution = 1, crs = 4326, add_csquares = FALSE) {
-
-    resolution <- .check_resolution(resolution)
-
-    if (inherits(x, "stars"))
-      if (requireNamespace("stars"))
-        rlang::abort(c(x = "Could not load namespace 'stars'.",
-                       i = "Install package 'stars' and try again."))
-    
-    crs_in <- tryCatch({sf::st_crs(x)}, error = function(e) NA)
-    if (is.na(crs_in)) {
-      rlang::warn("Object 'x' crs is unknown, assuming it is EPSG:4326.")
-      crs_in <- sf::st_crs(4326)
-    }
-    
-    x <-
-      x |>
-      sf::st_bbox(crs = crs_in) |>
-      sf::st_as_sfc() |>
-      sf::st_transform(crs = 4326) |>
-      sf::st_bbox()
-    
-    x <-
-      sf::st_bbox(
-        c(
-          xmin = resolution*round((x[["xmin"]] - 0.499999*resolution)/resolution),
-          xmax = resolution*round((x[["xmax"]] + 0.499999*resolution)/resolution),
-          ymin = resolution*round((x[["ymin"]] - 0.499999*resolution)/resolution),
-          ymax = resolution*round((x[["ymax"]] + 0.499999*resolution)/resolution)
-        ),
-        crs = 4326)
-    
-    result <-
-      x |>
-      stars::st_as_stars(dx = resolution, dy = resolution)
-    
-    if (sf::st_crs(x)$input != "EPSG:4326") {
+  function(x, ...) {
+    if (inherits(x, "character")) {
+      x <- lapply(x, strsplit, split = "[|]")
+      if (length(x) != 1 && any((lapply(x, \(x) unlist(x) |> length()) |> unlist()) > 1))
+        rlang::abort(c(
+          x = "Cannot convert csquares object with multiple csquares code per element into stars",
+          i = "Make sure that csquares codes don't contain pipe character ('|')"
+        ))
+      x <- unlist(x)
+      resolution <- .nchar_to_csq_res(x)
+      if (any(resolution[[1]] != resolution))
+        rlang::abort(c(
+          x = "Cannot convert csquares object with csquares codes of variable resolutions",
+          i = "Make sure that all csquares codes have the same number of characters"
+        ))
+      resolution <- resolution[[1]]
       result <-
-        result |>
-        sf::st_transform(crs = crs)
+        x |>
+        as_csquares(validate = FALSE) |>
+        sf::st_as_sf() |>
+        new_csquares(resolution = resolution)
+      return(result)
+    } else if (inherits(x, "stars")) {
+      return(x)
+    } else if (inherits(x, "sf")) {
+      rlang::abort(c(
+        x = "csquares objects inheriting from 'sf' cannot be converted into a 'stars' object"
+      ))
+    } else if (inherits(x, "data.frame")) {
+      .by <- attributes(x)$csquares_col
+      new_cols <- x |> dplyr::select(!.by) |> colnames()
+      grd <-
+        stars::st_as_stars(x[[.by]]) |>
+        dplyr::mutate(
+          !!!stats::setNames(rep(NA, length(new_cols)), new_cols),
+          dplyr::across(dplyr::any_of(new_cols), ~{
+            x[[dplyr::cur_column()]] [
+              match(.data[[.by]], .env$x[[.by]])
+            ]
+          })
+        )
+      attributes(grd)$csquares_col <- .by
+      class(grd) <- c("csquares", class(grd))
+      return(grd)
     }
-    
-    result[["values"]] <- NULL
-    if (add_csquares) {
-      result[["csquares"]] <- as_csquares(result, resolution = resolution)
-    }
-    return (result)
+    NextMethod("st_as_stars")
   }

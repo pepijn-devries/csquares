@@ -2,36 +2,26 @@
 % Please edit documentation in R/as_stars.R
 \name{st_as_stars.csquares}
 \alias{st_as_stars.csquares}
-\title{Create a c-squares raster from a bounding box}
+\title{Coerce csqaures object into a stars object}
 \usage{
-st_as_stars.csquares(x, resolution = 1, crs = 4326, add_csquares = FALSE)
+st_as_stars.csquares(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{\link[sf:st_bbox]{bbox}} or an object that can be coerced to a \code{bbox}.
-It defines the bounding box for the c-squares grid created by this function.}
+\item{x}{An object of class \code{csquares} created with \link{new_csquares} or \link{as_csquares}}
 
-\item{resolution}{Resolution (in WGS84 degrees) to be used for creating c-squares codes.
-As per c-square specifications, the resolution should be 10 or less, yet greater than 0.
-It should be a tenfold of 1 or 5. Valid resolutions are therefore: 10, 5, 1, 0.5, 0.1, etc.}
-
-\item{crs}{The projection to be used for the created grid. By default it is WGS84 (EPSG:4326).}
-
-\item{add_csquares}{A \code{logical} value indicating whether an attribute with corresponding c-square
-codes should be included in the result.}
+\item{...}{ignored.}
 }
 \value{
-Returns a \code{\link[stars:st_as_stars]{stars}} object based on the provided bounding box and
-resolution.
+Returns a spatiotemporal array (\link[stars:st_as_stars]{stars}) object based on \code{x}.
 }
 \description{
-Creates a spatial raster (\code{\link[stars:st_as_stars]{stars}}) for a specified bounding box, using
-a specified resolution. The raster will be conform c-squares specifications, and the c-squares
-code can be added to the raster as attribute when requested (see \code{add_csquares}).
+Take a \code{csquares} object created with \link{new_csquares} or \link{as_csquares} and
+coerce it to a spatiotemporal array (\link[stars:st_as_stars]{stars}).
 }
 \examples{
-library(sf)
-nc <- st_read(system.file("shape/nc.shp", package = "sf"))
-st_as_stars.csquares(nc, add_csquares = TRUE)
+library(stars)
+st_as_stars(as_csquares("7500:110:3|7500:110:1|1500:110:3|1500:110:1"))
+st_as_stars(as_csquares(orca, csquares = "csquares"))
 }
 \author{
 Pepijn de Vries
