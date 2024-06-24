@@ -75,13 +75,7 @@
                                  .data$check2 == 3L)),
       quadrant   = ifelse(
         .data$code_order == 1L,
-        dplyr::case_match(
-          substr(.data$code_part, 1L, 1L),
-          "7" ~ "NW",
-          "1" ~ "NE",
-          "5" ~ "SW",
-          "3" ~ "SE",
-          .default = "--"),
+        .get_quadrant(.data$code_part),
         NA)
     ) |>
     tidyr::fill(.data$quadrant, .direction = "down") |>
@@ -160,4 +154,14 @@
       check3 = !any(!.data$check3),
       check4 = !any(!.data$check4),
       .groups = "drop")
+}
+
+.get_quadrant <- function(x) {
+  dplyr::case_match(
+    substr(x, 1L, 1L),
+    "7" ~ "NW",
+    "1" ~ "NE",
+    "5" ~ "SW",
+    "3" ~ "SE",
+    .default = "--")
 }

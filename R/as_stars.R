@@ -59,5 +59,5 @@ st_as_stars.csquares <-
       class(grd) <- c("csquares", class(grd))
       return(grd)
     }
-    NextMethod("st_as_stars")
+    NextMethod()
   }
