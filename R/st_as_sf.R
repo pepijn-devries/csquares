@@ -26,6 +26,7 @@
 #' @export
 st_as_sf.csquares <- function(x, use_geometry = TRUE, ...) {
   is_spatial <- inherits(x, c("stars", "sf"))
+
   if (use_geometry && is_spatial) {
     result <- NextMethod()
   } else {
@@ -37,7 +38,7 @@ st_as_sf.csquares <- function(x, use_geometry = TRUE, ...) {
       result <- dplyr::as_tibble(x)
     } else if (inherits(x, c("character", "vctrs_vctr"))) {
       .by <- "csquares"
-      result <- dplyr::tibble(csquares = vctrs::new_vctr(x, class = "csquares"))    
+      result <- dplyr::tibble(csquares = vctrs::new_vctr(x, class = c("csquares", "character")))
     } else {
       result <- x
     }
@@ -48,7 +49,7 @@ st_as_sf.csquares <- function(x, use_geometry = TRUE, ...) {
         attributes(x)$csquares_col <- .by <- "csquares"
       }
     }
-    class(result) <- setdiff(class(x), "csquares")
+    class(result) <- setdiff(class(result), "csquares")
     result <-
       result |>
       dplyr::mutate(

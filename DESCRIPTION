@@ -1,6 +1,6 @@
 Package: csquares
 Title: Concise Spatial Query and Representation System (c-Squares)
-Version: 0.0.3.003
+Version: 0.0.3.004
 Authors@R:
     person("Pepijn", "de Vries", role = c("aut", "cre"),
     email = "pepijn.devries@outlook.com",
