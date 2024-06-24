@@ -42,7 +42,7 @@ as_csquares.default <- function(x, resolution, csquares, ...) {
 #' @name as_csquares
 #' @export
 as_csquares.character <- function(x, resolution, csquares, validate = TRUE, ...) {
-  class(x) <- c("csquares", class(x))
+  class(x) <- union("csquares", class(x))
   if (validate) {
     check <- tryCatch({
       validate_csquares(x)
@@ -89,7 +89,7 @@ as_csquares.data.frame <- function(x, resolution = 1, csquares, ...) {
     attributes(x)$csquares_col <- csquares
   }
   
-  class(x) <- c("csquares", class(x))
+  class(x) <- union("csquares", class(x))
   
   x
 }
@@ -176,6 +176,6 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
     dplyr::summarise(csquares = paste0(.data$csquares, collapse = "|")) |>
     dplyr::pull("csquares") |>
     c()
-  class(x) <- c("csquares", class(x))
+  x <- vctrs::new_vctr(x, class = "csquares")
   x
 }

@@ -62,6 +62,6 @@ new_csquares <-
     result[["values"]] <- NULL
     result[["csquares"]] <- as_csquares.stars(result, resolution = resolution)[["csquares"]]
     attributes(result)$csquares_col <- "csquares"
-    class(result) <- c("csquares", class(result))
+    class(result) <- union("csquares", class(result))
     return (result)
   }

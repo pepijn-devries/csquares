@@ -25,29 +25,39 @@
 #' @author Pepijn de Vries
 #' @export
 st_as_sf.csquares <- function(x, use_geometry = TRUE, ...) {
-  if (use_geometry && inherits(x, c("stars", "sf"))) {
+  is_spatial <- inherits(x, c("stars", "sf"))
+  if (use_geometry && is_spatial) {
     result <- NextMethod()
-    attributes(result)$csquares_col <- attributes(x)$csquares_col
-    class(result) <- c("csquares", class(result))
-    return(result)
-  }
-  if (inherits(x, c("data.frame", "stars"))) {
-    .by <- attributes(x)$csquares_col
-    if (is.null(.by)) rlang::abort("csquare column is not specified")
-    if (inherits(x, "sf")) {
-      rlang::warn("Replacing existing geometry!")
-      result <- sf::st_drop_geometry(x)
+  } else {
+    if (is_spatial) {
+      if (inherits(x, "sf")) {
+        rlang::warn("Replacing existing geometry!")
+        result <- sf::st_drop_geometry(x)
+      }
+      result <- dplyr::as_tibble(x)
+    } else if (inherits(x, c("character", "vctrs_vctr"))) {
+      .by <- "csquares"
+      result <- dplyr::tibble(csquares = vctrs::new_vctr(x, class = "csquares"))    
+    } else {
+      result <- x
     }
-    result <- dplyr::as_tibble(x)
-  } else if (inherits(x, "character")){
-    .by <- "csquares"
-    result <- dplyr::tibble(csquares = x)    
+    if (!inherits(x, c("character", "vctrs_vctr"))) {
+      .by <- attributes(x)$csquares_col
+      if (is.null(.by)) {
+        rlang::warn("csquare column is not specified, assuming it is called 'csquares'")
+        attributes(x)$csquares_col <- .by <- "csquares"
+      }
+    }
+    
+    result <-
+      result |>
+      dplyr::mutate(
+        geom = st_as_sfc.csquares(.data[[.by]], ...)
+      ) |>
+      sf::st_as_sf(crs = 4326)
+    attributes(result)$csquares_col <- .by
   }
-  result |>
-    dplyr::mutate(
-      geom = st_as_sfc.csquares(.data[[.by]], ...)
-    ) |>
-    sf::st_as_sf(crs = 4326)
+  return(result)
 }
 
 #' @name st_as_sfc

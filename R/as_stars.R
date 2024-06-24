@@ -15,7 +15,7 @@
 #' @export
 st_as_stars.csquares <-
   function(x, ...) {
-    if (inherits(x, "character")) {
+    if (inherits(x, c("character", "vctrs_vctr"))) {
       x <- lapply(x, strsplit, split = "[|]")
       if (length(x) != 1 && any((lapply(x, \(x) unlist(x) |> length()) |> unlist()) > 1))
         rlang::abort(c(
@@ -56,7 +56,6 @@ st_as_stars.csquares <-
           })
         )
       attributes(grd)$csquares_col <- .by
-      class(grd) <- c("csquares", class(grd))
       return(grd)
     }
     NextMethod()

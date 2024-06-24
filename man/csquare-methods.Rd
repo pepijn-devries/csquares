@@ -5,6 +5,7 @@
 \alias{show}
 \alias{show.csquares}
 \alias{print.csquares}
+\alias{as.character.csquares}
 \title{Basic csquares methods}
 \usage{
 \method{format}{csquares}(x, ...)
@@ -14,6 +15,8 @@ show(x, ...)
 \method{show}{csquares}(x, ...)
 
 \method{print}{csquares}(x, ...)
+
+\method{as.character}{csquares}(x, ...)
 }
 \arguments{
 \item{x}{A \code{csquares} object to be handled by the s3 methods}
