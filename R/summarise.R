@@ -74,6 +74,6 @@ summarise.csquares <- function(x, ..., .by, tiers_down = 1L) {
     x <- sf::st_transform(x, crs)
   }
 
-  class(x) <- c("csquares", class(x))
+  class(x) <- union("csquares", class(x))
   x
 }

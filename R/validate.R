@@ -16,7 +16,7 @@ validate_csquares <- function(x) {
       x = "'x' is not of class 'csquares'",
       i = "Create a csquares object first with 'new_csquare' or 'as_csquares'"
     ))
-  x <- if(inherits(x, "character")) {
+  x <- if(inherits(x, c("character", "vctrs_vctr"))) {
     x
   } else {
     x[[attributes(x)$csquares_col]]

@@ -10,7 +10,7 @@
 #' @include helpers.R
 #' @export
 format.csquares <- function(x, ...) {
-  if (inherits(x, "character")) {
+  if (inherits(x, c("character", "vctrs_vctr"))) {
     dplyr::tibble(codes = strsplit(x, "[|]")) |>
       dplyr::mutate(rown  = dplyr::row_number()) |>
       tidyr::unnest("codes") |>
@@ -53,8 +53,16 @@ show.csquares <- function(x, ...) {
 #' @rdname csquare-methods
 #' @export
 print.csquares <- function(x, ...) {
-  if (inherits(x, "character")) {
+  if (inherits(x, c("character", "vctrs_vctr"))) {
     cat(paste(format.csquares(x[seq_len(min(length(x), getOption("max.print")))], ...),
               collapse = "\n"))
+  } else NextMethod()
+}
+
+#' @rdname csquare-methods
+#' @export
+as.character.csquares <- function(x, ...) {
+  if (inherits(x, c("character", "vctrs_vctr"))) {
+    unclass(x)
   } else NextMethod()
 }
