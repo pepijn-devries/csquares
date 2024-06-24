@@ -42,7 +42,7 @@ as_csquares.default <- function(x, resolution, csquares, ...) {
 #' @name as_csquares
 #' @export
 as_csquares.character <- function(x, resolution, csquares, validate = TRUE, ...) {
-  class(x) <- union("csquares", class(x))
+  x <- vctrs::new_vctr(x, class = c("csquares", "character"))
   if (validate) {
     check <- tryCatch({
       validate_csquares(x)
@@ -85,6 +85,7 @@ as_csquares.data.frame <- function(x, resolution = 1, csquares, ...) {
     attributes(x)$csquares_col <- csq_col
     
   } else {
+    
     x[[csquares]] <- as_csquares(x[[csquares]])
     attributes(x)$csquares_col <- csquares
   }
@@ -114,7 +115,6 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
     sf::st_transform(4326) |>
     sf::st_coordinates() |>
     .csquares_generic(resolution)
-  class(x)
   nms <- make.names(c(names(x), "csquares"), unique = TRUE)
   nms <- nms[[length(nms)]]
   x[[nms]] <- csq
@@ -176,6 +176,6 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
     dplyr::summarise(csquares = paste0(.data$csquares, collapse = "|")) |>
     dplyr::pull("csquares") |>
     c()
-  x <- vctrs::new_vctr(x, class = "csquares")
+  x <- vctrs::new_vctr(x, class = c("csquares", "character"))
   x
 }
