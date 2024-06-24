@@ -48,13 +48,14 @@ st_as_sf.csquares <- function(x, use_geometry = TRUE, ...) {
         attributes(x)$csquares_col <- .by <- "csquares"
       }
     }
-    
+    class(result) <- setdiff(class(x), "csquares")
     result <-
       result |>
       dplyr::mutate(
         geom = st_as_sfc.csquares(.data[[.by]], ...)
       ) |>
       sf::st_as_sf(crs = 4326)
+    
     attributes(result)$csquares_col <- .by
   }
   return(result)
