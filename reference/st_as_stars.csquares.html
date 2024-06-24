@@ -18,7 +18,7 @@ coerce it to a spatiotemporal array (stars)."><meta property="og:image" content=
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">csquares</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3.002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3.003</span>
       </span>
     </div>
 
@@ -78,28 +78,9 @@ coerce it to a spatiotemporal array (<a href="https://r-spatial.github.io/stars/
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/" class="external-link">stars</a></span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: abind</span>
 <span class="r-in"><span><span class="fu"><a href="https://r-spatial.github.io/stars/reference/st_as_stars.html" class="external-link">st_as_stars</a></span><span class="op">(</span><span class="fu"><a href="as_csquares.html">as_csquares</a></span><span class="op">(</span><span class="st">"7500:110:3|7500:110:1|1500:110:3|1500:110:1"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> stars object with 2 dimensions and 1 attribute</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attribute(s):</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   csquares         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Length:4          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Class :character  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mode  :character  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> dimension(s):</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   from to offset delta refsys x/y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x    1  2   -0.5   0.5 WGS 84 [x]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> y    1  2     52  -0.5 WGS 84 [y]</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in UseMethod("mutate"):</span> no applicable method for 'mutate' applied to an object of class "character"</span>
 <span class="r-in"><span><span class="fu"><a href="https://r-spatial.github.io/stars/reference/st_as_stars.html" class="external-link">st_as_stars</a></span><span class="op">(</span><span class="fu"><a href="as_csquares.html">as_csquares</a></span><span class="op">(</span><span class="va">orca</span>, csquares <span class="op">=</span> <span class="st">"csquares"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> stars object with 2 dimensions and 2 attributes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attribute(s):</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   csquares          orcinus_orca   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Length:2592        Mode :logical  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Class :character   FALSE:1849     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mode  :character   TRUE :209      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                     NA's :534      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> dimension(s):</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   from to offset delta refsys x/y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x    1 72   -180     5 WGS 84 [x]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> y    1 36     90    -5 WGS 84 [y]</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in UseMethod("mutate"):</span> no applicable method for 'mutate' applied to an object of class "character"</span>
 </code></pre></div>
     </div>
   </div>
