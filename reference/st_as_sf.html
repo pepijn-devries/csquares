@@ -19,7 +19,7 @@ an sf object."><meta property="og:image" content="/logo.svg"><!-- mathjax --><sc
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">csquares</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3.004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3.005</span>
       </span>
     </div>
 
@@ -30,7 +30,13 @@ an sf object."><meta property="og:image" content="/logo.svg"><!-- mathjax --><sc
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/pepijn-devries/csquares/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -40,7 +46,7 @@ an sf object."><meta property="og:image" content="/logo.svg"><!-- mathjax --><sc
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a simple features object from c-squares</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/pepijn-devries/csquares/blob/HEAD/R/st_as_sf.R" class="external-link"><code>R/st_as_sf.R</code></a></small>
     <div class="hidden name"><code>st_as_sf.Rd</code></div>
     </div>
 
@@ -51,9 +57,9 @@ an <code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="exter
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">st_as_sf.csquares</span><span class="op">(</span><span class="va">x</span>, use_geometry <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">st_as_sf.csquares</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, use_geometry <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">st_as_sfc.csquares</span><span class="op">(</span><span class="va">x</span>, use_geometry <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">st_as_sfc.csquares</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, use_geometry <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -64,6 +70,10 @@ c-square code. <code>x</code> can also be a <code>data.frame</code> with a colum
 (Note that wildcard characters are not supported)</p></dd>
 
 
+<dt>...</dt>
+<dd><p>Ignored</p></dd>
+
+
 <dt>use_geometry</dt>
 <dd><p>If <code>use_geometry</code> is <code>TRUE</code> and <code>x</code> inherits a spatial feature,
 its geometry will be used to cast the object. This is much faster than its alternative
@@ -71,10 +81,6 @@ when <code>use_geometry</code> is <code>FALSE</code>. In the latter case, the c-
 into explicit spatial information. The latter is more reliable as it does not rely on
 the assumption that the geometry of <code>x</code> corresponds with the csquares codes in the object.
 In short: use <code>TRUE</code> for speed, use <code>FALSE</code> for reliability.</p></dd>
-
-
-<dt>...</dt>
-<dd><p>Ignored</p></dd>
 
 </dl></div>
     <div id="value">
