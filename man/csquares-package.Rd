@@ -10,6 +10,15 @@
 
 Encode and decode c-squares, from and to simple feature (sf) or spatiotemporal arrays (stars) objects. Use c-squares codes to quickly join or query spatial data.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://pepijn-devries.github.io/csquares/}
+  \item \url{https://github.com/pepijn-devries/csquares/}
+  \item Report bugs at \url{https://github.com/pepijn-devries/csquares/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Pepijn de Vries \email{pepijn.devries@outlook.com} (\href{https://orcid.org/0000-0002-7961-6646}{ORCID})
 

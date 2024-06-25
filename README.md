@@ -4,6 +4,12 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/pepijn-devries/csquares/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pepijn-devries/csquares/actions/workflows/R-CMD-check.yaml)
+![cranlogs](https://cranlogs.r-pkg.org/badges/csquares)
+[![version](https://www.r-pkg.org/badges/version/csquares)](https://CRAN.R-project.org/package=csquares)
+[![cran
+checks](https://badges.cranchecks.info/worst/csquares.svg)](https://cran.r-project.org/web/checks/check_results_csquares.html)
+[![csquares status
+badge](https://pepijn-devries.r-universe.dev/badges/csquares)](https://pepijn-devries.r-universe.dev/csquares)
 <!-- badges: end -->
 
 <img src="man/figures/logo.png" align="right" height="139" alt="" />
