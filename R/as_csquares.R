@@ -16,10 +16,13 @@
 #' @param validate A `logical` value indicating whether the created object needs to be validated.
 #' Defaults to `TRUE`. Validation can be time-consuming so set to `FALSE` to save computing time.
 #' @param ... Currently ignored
+#' @param use_centroids In case `x` is a simple features object and `use_centroids` is `TRUE`,
+#' the centroid of each geometry is used for deriving c-squares. If it is `FALSE` all coordinates
+#' in the geometry are used.
 #' @returns Returns a `csquares` object that contains c-squares codes.
 #' @examples
 #' as_csquares(cbind(x = 5.2399066, y = 52.7155812), resolution = 1)
-#' as_csquares(orca, csquares = "csquares")
+#' orca_csq <- as_csquares(orca, csquares = "csquares")
 #' @include helpers.R
 #' @author Pepijn de Vries
 #' @rdname as_csquares
@@ -97,7 +100,8 @@ as_csquares.data.frame <- function(x, resolution = 1, csquares, ...) {
 
 #' @rdname as_csquares
 #' @export
-as_csquares.sf <- function(x, resolution = 1, csquares, ...) {
+as_csquares.sf <- function(x, resolution = 1, csquares, ..., use_centroids = TRUE) {
+  if (use_centroids) x <- sf::st_centroid(x)
   .csquares_spatial(x, resolution)
 }
 

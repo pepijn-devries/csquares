@@ -56,7 +56,7 @@ summarise.csquares <- function(x, ..., .by, tiers_down = 1L) {
     dplyr::group_by(.data[[.by]]) |>
     dplyr::summarise(...)
   
-  if (is_sf || is_stars) x <- st_as_sf.csquares(x, .by)
+  if (is_sf || is_stars) x <- st_as_sf.csquares(x, csquares = .by)
 
   if (is_stars) {
     resolution <- .nchar_to_csq_res(x$csquares) |> min()
