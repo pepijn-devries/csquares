@@ -24,7 +24,7 @@
 #' @rdname st_as_sf
 #' @author Pepijn de Vries
 #' @export
-st_as_sf.csquares <- function(x, use_geometry = TRUE, ...) {
+st_as_sf.csquares <- function(x, ..., use_geometry = TRUE) {
   is_spatial <- inherits(x, c("stars", "sf"))
 
   if (use_geometry && is_spatial) {
@@ -43,7 +43,9 @@ st_as_sf.csquares <- function(x, use_geometry = TRUE, ...) {
       result <- x
     }
     if (!inherits(x, c("character", "vctrs_vctr"))) {
+
       .by <- attributes(x)$csquares_col
+      if (is.null(.by)) .by <- list(...)$csquares
       if (is.null(.by)) {
         rlang::warn("csquare column is not specified, assuming it is called 'csquares'")
         attributes(x)$csquares_col <- .by <- "csquares"
@@ -65,7 +67,7 @@ st_as_sf.csquares <- function(x, use_geometry = TRUE, ...) {
 #' @name st_as_sfc
 #' @rdname st_as_sf
 #' @export
-st_as_sfc.csquares <- function(x, use_geometry = TRUE, ...) {
+st_as_sfc.csquares <- function(x, ..., use_geometry = TRUE) {
   if (use_geometry && inherits(x, c("sf", "stars"))) {
     result <- NextMethod()
     return(result)

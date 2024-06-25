@@ -20,7 +20,7 @@ as_csquares(x, resolution, csquares, ...)
 
 \method{as_csquares}{data.frame}(x, resolution = 1, csquares, ...)
 
-\method{as_csquares}{sf}(x, resolution = 1, csquares, ...)
+\method{as_csquares}{sf}(x, resolution = 1, csquares, ..., use_centroids = TRUE)
 
 \method{as_csquares}{stars}(x, resolution = 1, csquares, ...)
 }
@@ -42,6 +42,10 @@ codes as \code{character} strings.}
 
 \item{validate}{A \code{logical} value indicating whether the created object needs to be validated.
 Defaults to \code{TRUE}. Validation can be time-consuming so set to \code{FALSE} to save computing time.}
+
+\item{use_centroids}{In case \code{x} is a simple features object and \code{use_centroids} is \code{TRUE},
+the centroid of each geometry is used for deriving c-squares. If it is \code{FALSE} all coordinates
+in the geometry are used.}
 }
 \value{
 Returns a \code{csquares} object that contains c-squares codes.
@@ -52,7 +56,7 @@ for a given resolution.
 }
 \examples{
 as_csquares(cbind(x = 5.2399066, y = 52.7155812), resolution = 1)
-as_csquares(orca, csquares = "csquares")
+orca_csq <- as_csquares(orca, csquares = "csquares")
 }
 \author{
 Pepijn de Vries

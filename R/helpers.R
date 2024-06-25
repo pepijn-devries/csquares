@@ -78,7 +78,7 @@
         .get_quadrant(.data$code_part),
         NA)
     ) |>
-    tidyr::fill(.data$quadrant, .direction = "down") |>
+    tidyr::fill("quadrant", .direction = "down") |>
     dplyr::mutate(
       coord = {
         stp  <- .data$step_size
