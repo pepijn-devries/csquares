@@ -1,4 +1,10 @@
-csquares v0.0.3.005 (Release date: 2024-06-24)
+csquares v0.0.3.005 (Release date: TODO)
+-------------
+
+  * Added self tests
+  * Several minor corrections
+
+csquares v0.0.3 (Release date: 2024-06-24)
 -------------
 
   * Initial release
