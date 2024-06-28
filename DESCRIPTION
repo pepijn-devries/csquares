@@ -36,6 +36,7 @@ Collate:
     'as_stars.R'
     'csquares-package.r'
     'csquares_methods.R'
+    'expand_csquares.R'
     'init.R'
     'new_csquares.R'
     'orca.R'

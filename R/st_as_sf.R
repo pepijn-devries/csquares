@@ -72,9 +72,8 @@ st_as_sfc.csquares <- function(x, ..., use_geometry = TRUE) {
     result <- NextMethod()
     return(result)
   }
-  x <- .csquares_to_coords(x)
-  if (any(!(x$check1 & x$check2 & x$check3 & x$check4)))
+  x <- .csquares_to_coords(x) |> dplyr::pull("geom")
+  if (x |> lapply(sf::st_is_empty) |> unlist() |> any())
     rlang::warn("Malformed csquares, introduced empty geometries.")
-  x |>
-    dplyr::pull("geom")
+  x
 }
