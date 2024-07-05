@@ -48,6 +48,10 @@ as_csquares.character <- function(x, resolution, csquares, validate = TRUE, ...)
   x <- vctrs::new_vctr(x, class = c("csquares", "character"))
   if (validate) {
     check <- tryCatch({
+      has_wildcards <- grepl("[*]", x)
+      if (any( has_wildcards )) {
+        x[has_wildcards] <- expand_wildcards(x[has_wildcards])
+      }
       validate_csquares(x)
     }, error = function(e) FALSE)
     if (!check)

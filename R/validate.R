@@ -21,6 +21,8 @@ validate_csquares <- function(x) {
   } else {
     x[[attributes(x)$csquares_col]]
   }
-  check <- .csquares_to_coords(x)
-  all(check$check1 & check$check2 & check$check3 & check$check4)
+  strsplit(x, "[|]") |>
+    lapply(.check_csquare_validity) |>
+    unlist() |>
+    all()
 }

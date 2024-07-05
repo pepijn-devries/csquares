@@ -2,7 +2,9 @@ test_that("Source code should not have things on TODO list", {
   expect_false({
     skip_if(length(unclass(packageVersion("csquares"))[[1]]) > 3,
             "Skipping during development")
-    files_to_check <- list.files("../..", pattern = ".r$|NEWS|DESCRIPTION|README", recursive = T, full.names = T)
+    r_path <- normalizePath(test_path()) |> dirname() |> dirname()
+    files_to_check <- list.files(r_path, pattern = ".[r|R]$|NEWS|DESCRIPTION|README\\.md",
+                                 recursive = TRUE, full.names = TRUE)
     files_to_check <- files_to_check[!endsWith(files_to_check, "test-dev.r")]
     any(
       unlist(
