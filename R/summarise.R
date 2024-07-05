@@ -56,6 +56,9 @@ summarise.csquares <- function(x, ..., .by, tiers_down = 1L) {
     dplyr::group_by(.data[[.by]]) |>
     dplyr::summarise(...)
   
+  attributes(x)$csquares_col <- .by
+  class(x) <- union(class(x), "csquares")
+  
   if (is_sf || is_stars) x <- st_as_sf.csquares(x, csquares = .by)
 
   if (is_stars) {

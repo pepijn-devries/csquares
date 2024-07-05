@@ -26,7 +26,7 @@
 #' @export
 st_as_sf.csquares <- function(x, ..., use_geometry = TRUE) {
   is_spatial <- inherits(x, c("stars", "sf"))
-
+  
   if (use_geometry && is_spatial) {
     result <- NextMethod()
   } else {
@@ -45,7 +45,7 @@ st_as_sf.csquares <- function(x, ..., use_geometry = TRUE) {
     if (!inherits(x, c("character", "vctrs_vctr"))) {
 
       .by <- attributes(x)$csquares_col
-      if (is.null(.by)) .by <- list(...)$csquares
+      if (is.null(.by)) .by <- list(...)$csquares_col
       if (is.null(.by)) {
         rlang::warn("csquare column is not specified, assuming it is called 'csquares'")
         attributes(x)$csquares_col <- .by <- "csquares"
@@ -58,7 +58,7 @@ st_as_sf.csquares <- function(x, ..., use_geometry = TRUE) {
         geom = st_as_sfc.csquares(.data[[.by]], ...)
       ) |>
       sf::st_as_sf(crs = 4326)
-    
+    class(result) <- union("csquares", class(result))
     attributes(result)$csquares_col <- .by
   }
   return(result)
@@ -72,9 +72,8 @@ st_as_sfc.csquares <- function(x, ..., use_geometry = TRUE) {
     result <- NextMethod()
     return(result)
   }
-  x <- .csquares_to_coords(x)
-  if (any(!(x$check1 & x$check2 & x$check3 & x$check4)))
+  x <- .csquares_to_coords(x) |> dplyr::pull("geom")
+  if (x |> lapply(sf::st_is_empty) |> unlist() |> any())
     rlang::warn("Malformed csquares, introduced empty geometries.")
-  x |>
-    dplyr::pull("geom")
+  x
 }

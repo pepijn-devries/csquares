@@ -35,6 +35,7 @@ st_as_stars.csquares <-
         as_csquares(validate = FALSE) |>
         sf::st_as_sf() |>
         new_csquares(resolution = resolution)
+      class(result) <- union("csquares", class(result))
       return(result)
     } else if (inherits(x, "stars")) {
       return(x)
@@ -44,7 +45,7 @@ st_as_stars.csquares <-
       ))
     } else if (inherits(x, "data.frame")) {
       .by <- attributes(x)$csquares_col
-      new_cols <- x |> dplyr::select(!.by) |> colnames()
+      new_cols <- x |> drop_csquares() |> colnames()
       grd <-
         stars::st_as_stars(x[[.by]]) |>
         dplyr::mutate(
@@ -55,6 +56,7 @@ st_as_stars.csquares <-
             ]
           })
         )
+      class(grd) <- union("csquares", class(grd))
       attributes(grd)$csquares_col <- .by
       return(grd)
     }
