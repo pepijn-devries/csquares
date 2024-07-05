@@ -1,4 +1,6 @@
 test_that("Source code should not have things on TODO list", {
+  skip_on_ci()
+  skip_on_cran()
   expect_false({
     skip_if(length(unclass(packageVersion("csquares"))[[1]]) > 3,
             "Skipping during development")

@@ -1,4 +1,4 @@
-csquares v0.0.4 (Release date: 2024-07-05)
+csquares v0.0.5 (Release date: 2024-07-05)
 -------------
 
   * Added function to expand wildcards
