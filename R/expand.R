@@ -5,8 +5,10 @@
 #' wild cards with valid combinations of values and expands
 #' the compact notation to an explicit notation without
 #' wildcards.
+#' Check out `vignette("Wildcards")` for more details.
 #' @param x A `character` string containing csquares codes with
 #' wildcards (asterisk character).
+#' @param ... ignored
 #' @returns Returns a `csquares` object with full notation
 #' @author Pepijn de Vries
 #' @examples
@@ -16,7 +18,7 @@
 #' expand_wildcards("1000:***:*")
 #' expand_wildcards(c("1000:*", "1000:***", "1000:1**", "1000:***:*"))
 #' @export
-expand_wildcards <- function(x) {
+expand_wildcards <- function(x, ...) {
   x <-
     dplyr::tibble(
       codes = lapply(x, \(x) strsplit(x, "[|]")[[1]])

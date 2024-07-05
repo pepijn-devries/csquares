@@ -39,8 +39,8 @@
   ## root coordinates should not be >17, >8
   checkvalues <- as.numeric(substr(x, 3, 4)) |> suppressWarnings()
   check <- check &
-    (!is.na(checkvalues) & checkvalues <= 17 &
-       substr(x, 2, 2) != "9")
+    (is.na(checkvalues) | (checkvalues <= 17 &
+       substr(x, 2, 2) != "9"))
   
   ## Colons occur at the correct positions
   check <- check & (

@@ -8,7 +8,8 @@ orca_sf <- {
     st_as_sf()
 }
 
-orca_back <- as_csquares(orca_sf |> select(!"csquares"), resolution = 5) |> suppressWarnings()
+orca_back <- orca_sf |> drop_csquares() |>
+  as_csquares(resolution = 5) |> suppressWarnings()
 
 test_that("Number of rows of input and output matches", {
   expect_equal({

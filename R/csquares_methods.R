@@ -1,8 +1,8 @@
 #' Basic csquares methods
 #' 
-#' Basic methods for `csquares` objects for formatting and printing the objects
+#' Basic S3 methods for `csquares` objects for formatting and printing the objects
 #' 
-#' @param x A `csquares` object to be handled by the s3 methods
+#' @param x,object A `csquares` object to be handled by the s3 methods
 #' @param ... Ignored
 #' @returns Returns (a formatted version of) x
 #' @export format.csquares
@@ -37,15 +37,6 @@ format.csquares <- function(x, ...) {
   } else NextMethod()
 }
 
-#' @rdname csquare-methods
-#' @export show
-show <- function(x, ...){
-  UseMethod("show")
-}
-
-#' @rdname csquare-methods
-#' @export show.csquares
-#' @export
 show.csquares <- function(x, ...) {
   format.csquares(x, ...)
 }
@@ -65,4 +56,28 @@ as.character.csquares <- function(x, ...) {
   if (inherits(x, c("character", "vctrs_vctr"))) {
     unclass(x)
   } else NextMethod()
+}
+
+#' @rdname csquare-methods
+#' @export
+summary.csquares <- function(object, ...) {
+  if (inherits(object, c("character", "vctrs_vctr")))
+    summary(unclass(object)) else NextMethod()
+}
+
+#' @rdname csquare-methods
+#' @export
+as.data.frame.csquares <- function(x, ...) {
+  if (inherits(x, "character")) {
+    x <- data.frame(csquares = unclass(x))
+    class(x$csquares) <- union(c("csquares", "vctrs_vctr"), class(x$csquares))
+    .by <- "csquares"
+  } else {
+    .by = attributes(x)$csquares_col
+    class(x) <- setdiff(class(x), "csquares")
+    x <- as.data.frame(x)
+  }
+  attributes(x)$csquares_col <- .by
+  class(x) <- union("csquares", class(x))
+  x
 }

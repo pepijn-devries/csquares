@@ -2,24 +2,24 @@
 % Please edit documentation in R/csquares_methods.R
 \name{format.csquares}
 \alias{format.csquares}
-\alias{show}
-\alias{show.csquares}
 \alias{print.csquares}
 \alias{as.character.csquares}
+\alias{summary.csquares}
+\alias{as.data.frame.csquares}
 \title{Basic csquares methods}
 \usage{
 \method{format}{csquares}(x, ...)
 
-show(x, ...)
-
-\method{show}{csquares}(x, ...)
-
 \method{print}{csquares}(x, ...)
 
 \method{as.character}{csquares}(x, ...)
+
+\method{summary}{csquares}(object, ...)
+
+\method{as.data.frame}{csquares}(x, ...)
 }
 \arguments{
-\item{x}{A \code{csquares} object to be handled by the s3 methods}
+\item{x, object}{A \code{csquares} object to be handled by the s3 methods}
 
 \item{...}{Ignored}
 }
@@ -27,5 +27,5 @@ show(x, ...)
 Returns (a formatted version of) x
 }
 \description{
-Basic methods for \code{csquares} objects for formatting and printing the objects
+Basic S3 methods for \code{csquares} objects for formatting and printing the objects
 }
