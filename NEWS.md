@@ -1,3 +1,8 @@
+csquares v0.0.5.001 (Release date: TODO)
+-------------
+
+  * Several minor corrections
+
 csquares v0.0.5 (Release date: 2024-07-05)
 -------------
 

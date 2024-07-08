@@ -51,7 +51,7 @@ summarise.csquares <- function(x, ..., .by, tiers_down = 1L) {
       new_len = ifelse(.data$new_len < 4L, 4L, .data$new_len),
       !!.by := substr(.data[[.by]], 1L, .data$new_len)
     ) |>
-    dplyr::select(-"new_len") |>
+    dplyr::select(!dplyr::any_of("new_len")) |>
     sf::st_drop_geometry() |>
     dplyr::group_by(.data[[.by]]) |>
     dplyr::summarise(...)

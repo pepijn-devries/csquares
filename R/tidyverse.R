@@ -51,6 +51,8 @@ filter.csquares <- function(.data, ..., .dots) {
 }
 
 select.csquares <- function(.data, ...) {
+  # If .data is a 'csquares' object, make sure that the 'select' doesn't drop the
+  # csquares column
   if (inherits(.data, "data.frame")) {
     if (!requireNamespace("tidyselect", quietly = TRUE)) 
       rlang::abort(c(
@@ -60,7 +62,7 @@ select.csquares <- function(.data, ...) {
     .by <- attributes(.data)$csquares_col
     loc <- union(
       loc,
-      tidyselect::eval_select(quote(.by), .data)
+      tidyselect::eval_select(quote(dplyr::any_of(.by)), .data)
     )
     class(.data) <- setdiff(class(.data), "csquares")
     .data <- .data |> dplyr::select(dplyr::any_of(loc))
