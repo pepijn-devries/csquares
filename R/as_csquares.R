@@ -112,12 +112,13 @@ as_csquares.sf <- function(x, resolution = 1, csquares, ..., use_centroids = TRU
 #' @rdname as_csquares
 #' @export
 as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
+  if (!missing(csquares)) rlang::warn("Specified csquares column is ignored for stars object x")
   .csquares_spatial(x, resolution)
 }
 
 .csquares_spatial <- function(x, resolution) {
   resolution <- .check_resolution(resolution)
-  
+  x <- drop_csquares(x)
   csq <-
     x |>
     sf::st_transform(4326) |>
@@ -127,6 +128,7 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
   nms <- nms[[length(nms)]]
   x[[nms]] <- csq
   attributes(x)$csquares_col <- nms
+  class(x) <- union("csquares", class(x))
   x
 }
 

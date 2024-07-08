@@ -24,6 +24,6 @@ drop_csquares <- function(x, ...) {
   .by <- attributes(x)$csquares_col
   attributes(x)$csquare_col <- NULL
   if (length(.by) > 0)
-    x <- dplyr::select(x, !.by)
+    x <- dplyr::select(x, !dplyr::any_of(.by))
   return(x)
 }
