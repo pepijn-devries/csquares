@@ -1,12 +1,18 @@
 #' Basic csquares methods
 #' 
-#' Basic S3 methods for `csquares` objects for formatting and printing the objects
+#' Basic S3 methods for handling `csquares` objects
 #' 
 #' @param x,object A `csquares` object to be handled by the s3 methods
-#' @param ... Ignored
-#' @returns Returns (a formatted version of) x
+#' @param y A `data.frame` to be merged with `x`
+#' @inheritParams base::rbind
+#' @param i,j,name Indices/name for selecting subsets of `x`
+#' @param drop `logical` value indicating if unused dimensions should be dropped
+#' @param value Replacement values for a subset. a `csquares` object or a `character` string that can be coerced
+#' to a `csquares` object
+#' @param ... Passed on to generic methods
+#' @returns Returns (a subsetted / formatted / modified version of) x
 #' @export format.csquares
-#' @rdname csquare-methods
+#' @rdname csquares-methods
 #' @include helpers.R
 #' @export
 format.csquares <- function(x, ...) {
@@ -41,7 +47,7 @@ show.csquares <- function(x, ...) {
   format.csquares(x, ...)
 }
 
-#' @rdname csquare-methods
+#' @rdname csquares-methods
 #' @export
 print.csquares <- function(x, ...) {
   if (inherits(x, c("character", "vctrs_vctr"))) {
@@ -50,7 +56,7 @@ print.csquares <- function(x, ...) {
   } else NextMethod()
 }
 
-#' @rdname csquare-methods
+#' @rdname csquares-methods
 #' @export
 as.character.csquares <- function(x, ...) {
   if (inherits(x, c("character", "vctrs_vctr"))) {
@@ -58,26 +64,132 @@ as.character.csquares <- function(x, ...) {
   } else NextMethod()
 }
 
-#' @rdname csquare-methods
+#' @rdname csquares-methods
 #' @export
-summary.csquares <- function(object, ...) {
+summary.csquares <- function(
+    object, ...) {
   if (inherits(object, c("character", "vctrs_vctr")))
     summary(unclass(object)) else NextMethod()
 }
 
-#' @rdname csquare-methods
+#' @rdname csquares-methods
 #' @export
 as.data.frame.csquares <- function(x, ...) {
   if (inherits(x, "character")) {
-    x <- data.frame(csquares = unclass(x))
-    class(x$csquares) <- union(c("csquares", "vctrs_vctr"), class(x$csquares))
-    .by <- "csquares"
+    x <- unclass(x)
+    x <- NextMethod()
+    class(x[,1]) <- union(c("csquares", "vctrs_vctr"), class(x[,1]))
+    .by <- 1
   } else {
-    .by = attributes(x)$csquares_col
+    .by <- attributes(x)$csquares_col
     class(x) <- setdiff(class(x), "csquares")
-    x <- as.data.frame(x)
+    x <- as.data.frame(x, ...)
   }
-  attributes(x)$csquares_col <- .by
-  class(x) <- union("csquares", class(x))
-  x
+  .s3_finalise(x, .by)
+}
+
+#' @rdname csquares-methods
+#' @export
+data.frame.csquares <- function(...) {
+  browser()
+  NextMethod()
+}
+
+#' @rdname csquares-methods
+#' @export
+c.csquares <- function(...) {
+  .no_stars(list(...)[[1]], "c")
+  if (.all_of_class(..., my_class = "character")) {
+    if (.all_of_class(..., my_class = "csquares")) NextMethod() else {
+      elements <- lapply(list(...), as_csquares)
+      do.call(c, elements)
+    }
+  } else {
+    elements <- lapply(list(...), as_csquares)
+    do.call(rbind, elements)
+  }
+}
+
+#' @rdname csquares-methods
+#' @export
+rbind.csquares <- function(..., deparse.level = 1) {
+  .no_stars_or_char(list(...)[[1]], "rbind")
+  .by <- attributes(list(...)[[1]])$csquares_col
+  result <- lapply(list(...), \(x) {
+    if (!inherits(x, "csquares")) x <- as_csquares(x, use_centroids = FALSE)
+    attributes(x)$csquares_col <- NULL
+    class(x) <- setdiff(class(x), "csquares")
+    x
+  })
+  result <- do.call(rbind, result)
+  .s3_finalise(result, .by)
+}
+
+#' @rdname csquares-methods
+#' @export
+cbind.csquares <- function(..., deparse.level = 1) {
+  .no_stars_or_char(list(...)[[1]], "cbind")
+  .by <- attributes(list(...)[[1]])$csquares_col
+  result <- lapply(list(...), \(x) {
+    attributes(x)$csquares_col <- NULL
+    class(x) <- setdiff(class(x), "csquares")
+    x
+  })
+  result <- do.call(cbind, result)
+  .s3_finalise(result, .by)
+}
+
+#' @rdname csquares-methods
+#' @export
+`[.csquares` <- function(x, i, j, ..., drop = FALSE) {
+  .by <- .s3_df_stars_prep(x, "[", allow_all_types = TRUE)
+  class(x) <- setdiff(class(x), "csquares")
+  .s3_finalise(NextMethod(), .by)
+}
+
+#' @rdname csquares-methods
+#' @export
+`[[.csquares` <- function(x, i) {
+  NextMethod()
+}
+
+#' @rdname csquares-methods
+#' @export
+`$.csquares` <- function(x, name) {
+  NextMethod()
+}
+
+#' @rdname csquares-methods
+#' @export
+`[<-.csquares` <- function(x, i, j, value) {
+  .by <- .s3_df_stars_prep(x, "[<-", allow_all_types = TRUE)
+  class(x) <- setdiff(class(x), "csquares")
+  if (!inherits(x, "data.frame"))
+    class(value) <- setdiff(class(x), "csquares")
+  .s3_finalise(NextMethod(), .by)
+}
+
+#' @rdname csquares-methods
+#' @export
+`[[<-.csquares` <- function(x, i, value) {
+  .by <- .s3_df_stars_prep(x, "[[<-", allow_all_types = TRUE)
+  class(x) <- setdiff(class(x), "csquares")
+  .s3_finalise(NextMethod(), .by)
+}
+
+#' @rdname csquares-methods
+#' @export
+`$<-.csquares` <- function(x, i, value) {
+  .by <- .s3_df_stars_prep(x, "$<-", allow_all_types = TRUE)
+  class(x) <- setdiff(class(x), "csquares")
+  .s3_finalise(NextMethod(), .by)
+}
+
+#' @rdname csquares-methods
+#' @export
+`merge.csquares` <- function(x, y, ...) {
+  .by <- .s3_df_stars_prep(x, "merge", allow_all_types = TRUE)
+  class(x) <- setdiff(class(x), "csquares")
+  attributes(x)$csquares_col <- NULL
+  .s3_finalise(NextMethod(), .by)
 }

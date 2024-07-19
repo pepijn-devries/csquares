@@ -67,7 +67,7 @@ as_csquares.character <- function(x, resolution, csquares, validate = TRUE, ...)
 #' @export
 as_csquares.numeric <- function(x, resolution = 1, csquares, ...) {
   if (inherits(x, "matrix")) {
-    as_csquares.data.frame(data.frame(x = x[,1], y = x[,2]), resolution)
+    as_csquares(data.frame(x = x[,1], y = x[,2]), resolution)
   } else {
     rlang::abort(
       c(
@@ -82,24 +82,19 @@ as_csquares.numeric <- function(x, resolution = 1, csquares, ...) {
 #' @export
 as_csquares.data.frame <- function(x, resolution = 1, csquares, ...) {
   if (missing(csquares)) {
+    if (inherits(x, "csquares")) return(x)
     resolution <- .check_resolution(resolution)
     
-    csquares <- .csquares_generic(x, resolution)
-    
-    csq_col <- make.names(c(colnames(x), "csquares"), unique = TRUE)
-    csq_col <- csq_col[[length(csq_col)]]
-    x[[csq_col]] <- csquares
-    attributes(x)$csquares_col <- csq_col
-    
+    dat <- .csquares_generic(x, resolution)
+    csquares <- make.names(c(colnames(x), "csquares"), unique = TRUE)
+    csquares <- csquares[[length(csquares)]]
+    x[[csquares]] <- dat
+
   } else {
-    
     x[[csquares]] <- as_csquares(x[[csquares]])
-    attributes(x)$csquares_col <- csquares
   }
-  
-  class(x) <- union("csquares", class(x))
-  
-  x
+
+  .s3_finalise(x, csquares)
 }
 
 #' @rdname as_csquares
@@ -127,9 +122,7 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
   nms <- make.names(c(names(x), "csquares"), unique = TRUE)
   nms <- nms[[length(nms)]]
   x[[nms]] <- csq
-  attributes(x)$csquares_col <- nms
-  class(x) <- union("csquares", class(x))
-  x
+  .s3_finalise(x, nms)
 }
 
 .csquares_generic <- function(x, resolution) {

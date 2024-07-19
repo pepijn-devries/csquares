@@ -4,11 +4,15 @@
 \alias{expand_wildcards}
 \title{Expand c-squares with wildcards to all matching c-squares}
 \usage{
-expand_wildcards(x, ...)
+expand_wildcards(x, csquares, ...)
 }
 \arguments{
 \item{x}{A \code{character} string containing csquares codes with
-wildcards (asterisk character).}
+wildcards (asterisk character); or a \code{data.frame} that contains
+a column with csquares codes with wildcards}
+
+\item{csquares}{When \code{x} is \code{data.frame} this argument should
+specify the column name that contains the csquares codes with wildcards.}
 
 \item{...}{ignored}
 }
@@ -29,6 +33,8 @@ expand_wildcards("1000:***")
 expand_wildcards("1000:1**")
 expand_wildcards("1000:***:*")
 expand_wildcards(c("1000:*", "1000:***", "1000:1**", "1000:***:*"))
+
+expand_wildcards(data.frame(csq = "1000:*", foo = "bar"), csquares = "csq")
 }
 \author{
 Pepijn de Vries
