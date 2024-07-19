@@ -36,7 +36,6 @@ test_that("Length of input codes and output csquares are equal", {
   expect_equal({length(codes)}, {length(csq)})
 })
 
-
 test_that("A stars can be converted into a csquares object", {
   expect_true({
     orca_stars <-

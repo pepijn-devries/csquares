@@ -78,7 +78,7 @@
 #'   orca_nest <- nest(orca_csq, nested_data = c("csquares", "orcinus_orca"))
 #'   
 #'   ## Unnest it:
-#'   unnest(orca_nest, c(nested_data))
+#'   unnest(orca_nest, "nested_data")
 #' }
 #' 
 #' @author Pepijn de Vries

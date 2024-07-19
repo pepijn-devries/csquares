@@ -89,11 +89,11 @@ as_csquares.data.frame <- function(x, resolution = 1, csquares, ...) {
     csquares <- make.names(c(colnames(x), "csquares"), unique = TRUE)
     csquares <- csquares[[length(csquares)]]
     x[[csquares]] <- dat
-
+    
   } else {
     x[[csquares]] <- as_csquares(x[[csquares]])
   }
-
+  
   .s3_finalise(x, csquares)
 }
 
@@ -135,10 +135,10 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
   
   if (!"L3" %in% colnames(x))
     x <-
-      x |>
-      dplyr::mutate(
-        L3 = dplyr::row_number()
-      )
+    x |>
+    dplyr::mutate(
+      L3 = dplyr::row_number()
+    )
   x <-
     x |>
     dplyr::mutate(
