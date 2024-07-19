@@ -22,7 +22,7 @@ validate_csquares <- function(x) {
     x[[attributes(x)$csquares_col]]
   }
   strsplit(x, "[|]") |>
-    lapply(.check_csquare_validity) |>
     unlist() |>
+    .check_csquare_validity() |>
     all()
 }

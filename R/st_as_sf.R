@@ -23,10 +23,10 @@
 #' @name st_as_sf
 #' @rdname st_as_sf
 #' @author Pepijn de Vries
+#' @include tidyverse.R
 #' @export
 st_as_sf.csquares <- function(x, ..., use_geometry = TRUE) {
   is_spatial <- inherits(x, c("stars", "sf"))
-  
   if (use_geometry && is_spatial) {
     result <- NextMethod()
   } else {
@@ -72,8 +72,12 @@ st_as_sfc.csquares <- function(x, ..., use_geometry = TRUE) {
     result <- NextMethod()
     return(result)
   }
+  if (inherits(x, c("data.frame", "stars")))
+    x <- x[[attributes(x)$csquares_col]]
   x <- .csquares_to_coords(x) |> dplyr::pull("geom")
   if (x |> lapply(sf::st_is_empty) |> unlist() |> any())
     rlang::warn("Malformed csquares, introduced empty geometries.")
-  x
+  x |>
+    lapply(sf::st_union, by_feature = TRUE) |>
+    sf::st_as_sfc()
 }

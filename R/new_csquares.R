@@ -22,7 +22,7 @@ new_csquares <-
     resolution <- .check_resolution(resolution)
     
     if (inherits(x, "stars"))
-      if (requireNamespace("stars"))
+      if (requireNamespace("stars", quietly = TRUE))
         rlang::abort(c(x = "Could not load namespace 'stars'.",
                        i = "Install package 'stars' and try again."))
     
@@ -61,7 +61,6 @@ new_csquares <-
     
     result[["values"]] <- NULL
     result[["csquares"]] <- as_csquares.stars(result, resolution = resolution)[["csquares"]]
-    attributes(result)$csquares_col <- "csquares"
-    class(result) <- union("csquares", class(result))
+    result <- .s3_finalise(result, "csquares")
     return (result)
   }

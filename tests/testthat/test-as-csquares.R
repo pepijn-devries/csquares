@@ -36,14 +36,6 @@ test_that("Length of input codes and output csquares are equal", {
   expect_equal({length(codes)}, {length(csq)})
 })
 
-test_that("Both input codes and output squares produce the same number of elements", {
-  expect_identical({
-    csq_sf$geom |> lapply(length) |> unlist()
-  }, {
-    strsplit(codes, "[|]") |> lapply(length) |> unlist()
-  })
-})
-
 test_that("A stars can be converted into a csquares object", {
   expect_true({
     orca_stars <-

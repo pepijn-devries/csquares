@@ -1,9 +1,15 @@
-csquares v0.0.5.001 (Release date: TODO)
+csquares v0.0.6
 -------------
 
+  * Improved support for tidyverse and base generics
+    * Csquares properties are now preserved when calling tidyverse and base methods
+  * Implementation of `summarise.csquares()` is changed to better match
+    tidyverse generic
+    * The previous implementation of `summarise.csquares()` (<= v0.0.5)
+      is migrated to `resample_csquares()`
   * Several minor corrections
 
-csquares v0.0.5 (Release date: 2024-07-05)
+csquares v0.0.5
 -------------
 
   * Added function to expand wildcards
@@ -13,7 +19,7 @@ csquares v0.0.5 (Release date: 2024-07-05)
   * Added self tests
   * Several minor corrections
 
-csquares v0.0.3 (Release date: 2024-06-24)
+csquares v0.0.3
 -------------
 
   * Initial release

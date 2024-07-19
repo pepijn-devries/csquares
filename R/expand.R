@@ -7,7 +7,10 @@
 #' wildcards.
 #' Check out `vignette("Wildcards")` for more details.
 #' @param x A `character` string containing csquares codes with
-#' wildcards (asterisk character).
+#' wildcards (asterisk character); or a `data.frame` that contains
+#' a column with csquares codes with wildcards
+#' @param csquares When `x` is `data.frame` this argument should
+#' specify the column name that contains the csquares codes with wildcards.
 #' @param ... ignored
 #' @returns Returns a `csquares` object with full notation
 #' @author Pepijn de Vries
@@ -17,13 +20,31 @@
 #' expand_wildcards("1000:1**")
 #' expand_wildcards("1000:***:*")
 #' expand_wildcards(c("1000:*", "1000:***", "1000:1**", "1000:***:*"))
+#' 
+#' expand_wildcards(data.frame(csq = "1000:*", foo = "bar"), csquares = "csq")
 #' @export
-expand_wildcards <- function(x, ...) {
+expand_wildcards <- function(x, csquares, ...) {
+  is_char <- inherits(x, "character")
+  copy <- NULL
+  if (missing(csquares)) {
+    if (inherits(x, "data.frame"))
+      rlang::abort(c(x = "`csquares` argument is missing", i = "Specify which column contains csquares codes"))
+  } else {
+    if (is_char)
+      rlang::abort(c(x = "Cannot assign `csquares` column when `x` inherits from `character`",
+                     i = "Coerce `x` to a data.frame or omit the `csquares` argument"))
+  }
+  if (inherits(x, "data.frame")) {
+    copy <- x
+    x <- dplyr::tibble(codes = x[[csquares]] |> unclass())
+  } else {
+    x <- dplyr::tibble(codes = x)
+  }
+  
   x <-
-    dplyr::tibble(
-      codes = lapply(x, \(x) strsplit(x, "[|]")[[1]])
-    ) |>
+    x |>
     dplyr::mutate(
+      codes = lapply(.data$codes, \(x) strsplit(x, "[|]")[[1]]),
       row   = dplyr::row_number()
     ) |>
     tidyr::unnest("codes") |>
@@ -83,6 +104,17 @@ expand_wildcards <- function(x, ...) {
         })
       },
       codes_exp = unlist(.data$codes_exp)
-    )
-  x$codes_exp |> as_csquares(validate = FALSE)
+    ) |>
+    dplyr::group_by(.data$row) |>
+    dplyr::summarise(codes_exp = .data$codes_exp |> unique() |> sort() |> paste0(collapse = "|"),
+                     .groups = "keep") |>
+    dplyr::arrange(.data$row) |>
+    dplyr::pull("codes_exp") |>
+    as_csquares()
+  if (missing(csquares)) {
+    x
+  } else {
+    dplyr::mutate(copy, !!csquares := x) |>
+      as_csquares(csquares = csquares)
+  }
 }

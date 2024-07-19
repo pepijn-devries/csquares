@@ -1,6 +1,6 @@
 Package: csquares
 Title: Concise Spatial Query and Representation System (c-Squares)
-Version: 0.0.5.001
+Version: 0.0.6
 Authors@R:
     person("Pepijn", "de Vries", role = c("aut", "cre"),
     email = "pepijn.devries@outlook.com",
@@ -46,9 +46,9 @@ Collate:
     'init.R'
     'new_csquares.R'
     'orca.R'
-    'st_as_sf.R'
-    'summarise.R'
+    'resample.R'
     'tidyverse.R'
+    'st_as_sf.R'
     'validate.R'
 Config/testthat/edition: 3
 URL: https://pepijn-devries.github.io/csquares/, https://github.com/pepijn-devries/csquares/

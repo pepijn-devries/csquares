@@ -56,14 +56,29 @@
     unlist()
   
   ## the number after the colon should encode the following digits
-  checkvalue <- as.numeric(substr(x, deg5 + 1, deg5 + 2)) |>
-    suppressWarnings()
-  checkvalue <- .digit_check(
-    cbind(floor(checkvalue/10), checkvalue %% 10)
-  )
   check <- check &
-    ((is.na(checkvalue) | checkvalue == substr(x, deg5, deg5)))
-  
+    dplyr::tibble(
+      x = lapply(x, \(x) {
+        cbind(
+          stringr::str_sub(x, start = deg5 + 1, end = deg5 + 2),
+          stringr::str_sub(x, start = deg5, end = deg5)
+        )
+      })) |>
+    dplyr::mutate(id = dplyr::row_number()) |>
+    tidyr::unnest("x") |>
+    dplyr::mutate(
+      checkvalue = .data$x[,1],
+      x = .data$x[,2],
+      checkvalue = as.numeric(.data$checkvalue) |> suppressWarnings(),
+      checkvalue = .digit_check(
+        cbind(floor(.data$checkvalue/10), .data$checkvalue %% 10)
+      ),
+      check = (is.na(.data$checkvalue) | .data$checkvalue == .data$x)
+    ) |>
+    dplyr::group_by(.data$id) |>
+    dplyr::summarise(check = all(.data$check)) |>
+    dplyr::pull("check")
+
   ## very first number should match a quadrant number
   checkstring <- c(as.character((1:4)*2 - 1), wc, "")
   check <- check &
@@ -203,4 +218,68 @@
     "5" ~ "SW",
     "3" ~ "SE",
     .default = "--")
+}
+
+.no_stars_or_char <- function(x, method) {
+  if (inherits(x, c("character", "stars"))) {
+    rlang::abort(
+      c(x = 
+          sprintf("'%s' is not implemented for 'csquares' objects inheriting from 'character' or 'stars'",
+                  method),
+        i = "Coerce object to 'data.frame', 'tibble' or 'sf' first.")
+    )
+  }
+}
+
+.no_stars <- function(x, method) {
+  if (inherits(x, c("stars"))) {
+    rlang::abort(
+      c(x = 
+          sprintf("'%s' is not implemented for 'csquares' objects inheriting from 'stars'",
+                  method),
+        i = "Coerce object to 'data.frame', 'tibble' or 'sf' first.")
+    )
+  }
+}
+
+.s3_df_stars_prep <- function(x, method, allow_all_types = FALSE) {
+  .by <- attributes(x)$csquares_col
+  if (!inherits(x, c("data.frame", "stars")) && !allow_all_types) {
+    rlang::abort(c(
+      x = sprintf("'%s' not available for csquares objects that don't inherit class 'data.frame' or 'stars'",
+                  method),
+      i = "Coerce your csquares object to 'sf', 'tibble', 'data.frame', or 'stars' first."
+    ))
+  }
+  if (inherits(x, "stars") && !requireNamespace("stars", quietly = TRUE)) {
+    rlang::abort(c(
+      x = "Package 'stars' is required but not available",
+      i = "Please install 'stars' and try again"
+    ))
+  }
+  if (inherits(x, "sf") && !requireNamespace("sf", quietly = TRUE)) {
+    rlang::abort(c(
+      x = "Package 'sf' is required but not available",
+      i = "Please install 'sf' and try again"
+    ))
+  }
+  if (!is.null(.by) && !.by %in% names(x)) {
+    .by2 <- (lapply(x, inherits, "csquares") |> unlist()) |> which()
+    if (length(.by2) < 1)
+      rlang::abort(c(x = "No csquares column found in csquares object!",
+                     i = "Make sure you are working with a valid csquares object."))
+    .by <- names(x)[[.by2[[1]]]]
+  }
+  
+  .by
+}
+
+.s3_finalise <- function(x, .by) {
+  attributes(x)$csquares_col <- .by
+  class(x) <- union("csquares", class(x))
+  x
+}
+
+.all_of_class <- function(..., my_class) {
+  lapply(list(...), inherits, my_class) |> unlist() |> all()
 }
