@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">csquares</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.5.001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.6</span>
       </span>
     </div>
 
@@ -113,9 +113,8 @@ notation with wildcard is used.</p>
 <code class="sourceCode R"><span><span class="va">csqw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/as_csquares.html">as_csquares</a></span><span class="op">(</span><span class="st">"1000:*"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">csqw</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   4 squares</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt;   4 squares</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">csq</span>, <span class="va">csqw</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
@@ -130,7 +129,7 @@ is included in the character string and is separated by the pipe
 wraps a call to <code><a href="../reference/expand_wildcards.html">expand_wildcards()</a></code> which expands c-square
 codes containing wildcards. It will replace the short notation with
 wildcard by pipe seperated csquares codes.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/expand_wildcards.html">expand_wildcards</a></span><span class="op">(</span><span class="st">"1000:*"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "1000:1|1000:2|1000:3|1000:4"</span></span></code></pre></div>
@@ -145,12 +144,11 @@ asterisk. For this R package it doesn’t matter. Bother characters are
 interpreted exactly the same.</p>
 <p>The example below shows how you can filter a specific quadrant from
 the global killer whale data set using a wildcard notation.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Linking to GEOS 3.10.2, GDAL 3.4.1, PROJ 8.2.1; sf_use_s2() is TRUE</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; Linking to GEOS 3.10.2, GDAL 3.4.1, PROJ 8.2.1; sf_use_s2() is TRUE</span></span>
+<span></span>
 <span><span class="va">orca_sf</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">orca</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/as_csquares.html">as_csquares</a></span><span class="op">(</span>csquares <span class="op">=</span> <span class="st">"csquares"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -158,7 +156,7 @@ the global killer whale data set using a wildcard notation.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">orca_sf</span><span class="op">[</span><span class="st">"orcinus_orca"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Wildcards_files/figure-html/filter-1.png" width="700"></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">## Note that the first number in the csquares code (1)</span></span>
 <span><span class="co">## represents the North East quadrant</span></span>
@@ -176,13 +174,13 @@ the global killer whale data set using a wildcard notation.</p>
 <h3 id="mode">Mode<a class="anchor" aria-label="anchor" href="#mode"></a>
 </h3>
 <p>Consider the following <code>csquares</code> object:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">csq_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/as_csquares.html">as_csquares</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1000:100|1000:111|1000:206|1000:207"</span>, <span class="st">"1000:122"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>It is a <code>vector</code> of two elements, the first containing 4
 squares, the second 1 square. Let’s say we want to check if
 <code>"1000:1**"</code> matches with any of the elements in the
 <code>vector</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/in_csquares.html">in_csquares</a></span><span class="op">(</span><span class="va">csq_example</span>, <span class="st">"1000:1**"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE TRUE</span></span></code></pre></div>
 <p>Which is <code>TRUE</code> for both elements in the vector. This
@@ -194,7 +192,7 @@ to <code>"any"</code>. Meaning that it will return <code>TRUE</code> if
 any of the codes in an element matches. You should set the mode to
 <code>"all"</code> if you only want a positive match when all codes in
 an element match:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/in_csquares.html">in_csquares</a></span><span class="op">(</span><span class="va">csq_example</span>, <span class="st">"1000:1**"</span>, mode <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] FALSE  TRUE</span></span></code></pre></div>
 </div>
@@ -204,7 +202,7 @@ an element match:</p>
 <p>Now, let’s compare the same <code>csquares</code> object with
 <code>"1000:*"</code> which has a lower resolution than the squares in
 the object:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/in_csquares.html">in_csquares</a></span><span class="op">(</span><span class="va">csq_example</span>, <span class="st">"1000:*"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE TRUE</span></span></code></pre></div>
 <p>Again, it matches with all elements in the <code>vector</code>, even
@@ -213,7 +211,7 @@ though the resolution is different. This is because
 will also match with any ‘child’ square with a higher resolution. If you
 want a strict match where the resolution also matches use
 <code>strict = TRUE</code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/in_csquares.html">in_csquares</a></span><span class="op">(</span><span class="va">csq_example</span>, <span class="st">"1000:*"</span>, strict <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] FALSE FALSE</span></span></code></pre></div>
 </div>

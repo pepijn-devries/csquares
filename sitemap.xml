@@ -8,7 +8,7 @@
 <url><loc>/index.html</loc></url>
 <url><loc>/news/index.html</loc></url>
 <url><loc>/reference/as_csquares.html</loc></url>
-<url><loc>/reference/csquare-methods.html</loc></url>
+<url><loc>/reference/csquares-methods.html</loc></url>
 <url><loc>/reference/csquares-package.html</loc></url>
 <url><loc>/reference/drop_csquares.html</loc></url>
 <url><loc>/reference/expand_wildcards.html</loc></url>
@@ -16,9 +16,10 @@
 <url><loc>/reference/index.html</loc></url>
 <url><loc>/reference/new_csquares.html</loc></url>
 <url><loc>/reference/orca.html</loc></url>
+<url><loc>/reference/resample_csquares.html</loc></url>
 <url><loc>/reference/st_as_sf.html</loc></url>
 <url><loc>/reference/st_as_stars.csquares.html</loc></url>
-<url><loc>/reference/summarise.html</loc></url>
+<url><loc>/reference/tidyverse.html</loc></url>
 <url><loc>/reference/validate_csquares.html</loc></url>
 </urlset>
 
