@@ -1,6 +1,6 @@
 Package: csquares
 Title: Concise Spatial Query and Representation System (c-Squares)
-Version: 0.0.7
+Version: 0.0.7.0001
 Authors@R:
     person("Pepijn", "de Vries", role = c("aut", "cre"),
     email = "pepijn.devries@outlook.com",
@@ -24,13 +24,16 @@ Imports:
 Suggests:
     curl,
     DiagrammeR,
+    DiagrammeRsvg,
     ggplot2,
+    htmltools,
     knitr,
     lifecycle,
     rmarkdown,
     rnaturalearth,
     rnaturalearthdata,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    xml2
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

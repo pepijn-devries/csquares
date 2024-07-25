@@ -1,3 +1,9 @@
+csquares v0.0.7.0001
+-------------
+
+  * TODO
+  * Reduce file size of vignettes
+
 csquares v0.0.7
 -------------
 

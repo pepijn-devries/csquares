@@ -37,8 +37,10 @@ diagram below. What you can do with
 `csquares` objects in part depends on its parent. Let's start with showing how `csqaures` objects
 are created and how they will inherit properties from the different parents listed above.
 
-```{r csquares-schematic, echo=FALSE, warning = FALSE}
+```{r csquares-schematic, echo=FALSE, warning=FALSE, result='asis'}
 library(DiagrammeR)
+library(DiagrammeRsvg)
+library(xml2)
 grViz(
 "
 digraph 'Csquares schematic' {
@@ -75,7 +77,14 @@ strucdf:df -> strucsf:sf;
 strucchar:charcsq -> strucdf:dfcsq;
 strucchar:charcsq -> strucsf:sfcsq;
 }
-")
+") |>
+  export_svg() |>
+  read_xml() |>
+  as.character() |>
+  ## By rendering it as html instead of a Graphviz object
+  ## we save a huge chunk of javascript that we don't need (~600 kB)
+  ## the result is still the same
+  htmltools::HTML()
 ```
 
 ## Creating `csquares` objects
@@ -158,6 +167,15 @@ csquares_stars[["dummy"]] <-
   csquares_df[["dummy"]] [
     match(csquares_stars[["csquares"]], csquares_df[["csquares"]])
   ]
+```
+
+Or simply use `left_join()`:
+
+```{r csquares-stars-join}
+csquares_stars <-
+  left_join(csquares_stars,
+            data.frame(csquares = "1000", foo = "bar"),
+            by = "csquares")
 ```
 
 ## Validating `csquares` objects
