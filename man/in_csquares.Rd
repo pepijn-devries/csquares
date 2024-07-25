@@ -35,7 +35,7 @@ elements or rows as \code{x}
 }
 \description{
 Checks if csquares codes in \code{table} matches values in \code{x}. Wildcards
-are allowed in \code{table} for this comparison. Check out \code{vignette("Wildcards")}
+are allowed in \code{table} for this comparison. Check out \code{vignette("wildcards")}
 for more details.
 }
 \examples{

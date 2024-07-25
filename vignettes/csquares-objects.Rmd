@@ -1,0 +1,182 @@
+---
+title: "Csquares objects"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Csquares objects}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(csquares)
+```
+
+## The S3 class `csquares`
+
+The csquares package has defined a `csquares` class. Objects that are of this class contain a `character` vector or
+is a `character` vector itself, where the characters represent valid [csquares](https://en.wikipedia.org/wiki/C-squares) codes.
+The advantage to have a distinct class for these objects is that you automatically inherit all methods that
+are available for parent classes. The `csquares` object can essentially inherit from the following classes (arranged
+from simplest to most complex):
+
+  * `character` vectors;
+  * `data.frame`;
+  * spatial classes:
+    * sf (`sf::st_sf()`);
+    * stars (`stars::st_as_stars()`).
+
+It is important to realise that `csquare` objects can have varying parents, which is visualised in the
+diagram below. What you can do with
+`csquares` objects in part depends on its parent. Let's start with showing how `csqaures` objects
+are created and how they will inherit properties from the different parents listed above.
+
+```{r csquares-schematic, echo=FALSE, warning = FALSE}
+library(DiagrammeR)
+grViz(
+"
+digraph 'Csquares schematic' {
+layout = 'dot';
+splines = spline;
+node [fontname = Helvetica shape = box style = filled fillcolor = white class = 'csquare_nodes'];
+
+csquares   [label = 'csquares' fillcolor = palegreen];
+strucstrs  [label = '{<stars>stars::stars|<starscsq>csquares}' URL='#using-spatiotemporal-arrays-stars' shape = record];
+
+subgraph cluster_dfc {
+style = filled;
+fontname = Helvetica;
+fillcolor = lightcyan;
+label = 'data.frame csquare';
+strucdf    [label = '{<df>data.frame|<dfcsq>csquares}' URL='#using-data-frames' shape = record];
+strucsf    [label = '{<sf>sf::sf|<sfcsq>csquares}' URL='#using-simple-features-sf' shape = record];
+}
+subgraph cluster_char {
+style = filled;
+fontname = Helvetica;
+fillcolor = lightcyan;
+label = 'character csquare';
+strucchar  [label = '{<character>character|<charcsq>csquares}' URL='#using-characters' shape = record];
+vctr       [label = 'vctrs::vctrs_vctr'];
+}
+
+vctr -> strucchar:character
+strucchar:charcsq  -> csquares;
+strucdf:dfcsq      -> csquares;
+strucsf:sfcsq      -> csquares;
+strucstrs:starscsq -> csquares;
+strucdf:df -> strucsf:sf;
+strucchar:charcsq -> strucdf:dfcsq;
+strucchar:charcsq -> strucsf:sfcsq;
+}
+")
+```
+
+## Creating `csquares` objects
+
+### Using characters
+
+The simplest way of creating a `csquares` object is by coercing other objects with `as_csquares()`.
+The example below shows how to create a `csquares` object from a vector of `characters`:
+
+```{r create-csquares}
+csquares_char <- as_csquares(c("1000", "3000", "5000", "7000"))
+```
+
+### Using data.frames
+
+Perhaps a more useful format is a `data.frame`, as you can add data associated with the spatial squares.
+You can cast the previous object to a `data.frame` and it will automatically inherit the `csquares` class:
+
+```{r csquares-data.frame}
+csquares_df <- as.data.frame(csquares_char)
+
+class(csquares_df)
+```
+
+This means that you can apply all operations that you could apply to a normal `data.frame`. This includes
+[tidyverse](https://www.tidyverse.org) operations as explained in more detail in `vignette("tidy")`. For
+example, you can add columns with data:
+
+```{r csquares-obj-mut, message=FALSE}
+library(dplyr)
+
+csquares_df <-
+  csquares_df |>
+  mutate(dummy = 1:4)
+```
+
+You can also cast a plain `data.frame` to a csquares object. In that case, your `data.frame` should already
+contain a column with csquares codes. All you have to do is specify which column this is:
+
+```{r plain-df}
+orca_csq <- as_csquares(orca, csquares = "csquares")
+```
+
+### Using Simple Features (sf)
+
+Remember that csquares encode geographic rectangles, so it makes sense to include this spatial information
+in the `data.frame`. This is achieved by coercing a `csquares` `data.frame` to a simple features (`sf`) object.
+It too will automatically inherit the `csquares` class:
+
+```{r csquares-sf, message=FALSE}
+library(sf)
+csquares_sf <- st_as_sf(csquares_df)
+```
+
+The object `csquares_sf` now has a column holding the csquares codes and a column containing the corresponding geometric
+features. Both should represent the same spatial object. But be careful! Not all methods are aware of this, so
+modifying the geometric column might break this association.
+
+### Using Spatiotemporal Arrays (stars)
+
+`csquares` objects inheriting from the `stars` are a little trickier. This is because there are more constraints: You
+cannot include just any csquares at any location with varying resolutions. At the moment `csquares` only support
+regular linear grids where each grid cell size is the same as that of the associated csquares. To create a `csquares` `stars`
+object, you have to provide a bounding box and a resolution in degrees:
+
+```{r csquares-stars, message=FALSE}
+library(stars)
+
+csquares_stars <- new_csquares(csquares_sf, resolution = 10L)
+```
+
+Even though we use the `csquares_sf` object to create the grid, it doesn't include any of the columns from the `sf` object
+in the resulting `stars` object. That is because only the bounding box of `csquares_sf` is used to create `csquares_stars`.
+You can add information to the grid by matching the csquares codes:
+
+```{r csquares-stars-fill}
+## create an empty column:
+csquares_stars[["dummy"]] <- NA
+csquares_stars[["dummy"]] <-
+  csquares_df[["dummy"]] [
+    match(csquares_stars[["csquares"]], csquares_df[["csquares"]])
+  ]
+```
+
+## Validating `csquares` objects
+
+When creating a csquares object with `as_csquares`, it is not allowed to pass illegal codes,
+or codes with wildcards (see `vignette("wildcards")`). It will throw an error. You could try to
+work around this and
+create a fake `csquares` object by assigning the class manually to an illegal code. However,
+if you test its validity
+you will see that it is not going to fly:
+
+```{r validate}
+## Let's create a fake csquares object with a code that is merely impossible:
+fake_csquares <- "1099"
+class(fake_csquares) <- "csquares"
+
+## Of course this isn't valid
+validate_csquares(fake_csquares)
+
+## This one is:
+validate_csquares(csquares_char)
+```

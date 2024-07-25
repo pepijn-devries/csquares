@@ -3,12 +3,13 @@
 #' Tidyverse methods for `csquares` objects that inherit from `data.frame`, `tibble`, `sf`, or
 #' in some cases `stars`. Load the tidyverse package containing the generic implementation (`dplyr` or `tidyr`),
 #' and call the function without the `.csquares` suffix.
-#' See examples for more details. The methods implemented here ensure that the `csquare` class is preserved.
+#' See examples and `vignette("tidy")` for more details. The methods implemented here ensure that the `csquare` class is preserved.
 #' 
 #' Note that the implementation of `summarise.csquares` has changed since version 0.0.5.002, to better
 #' reflect the `dplyr` generic implementation. To get results similar to the earlier implementation please
 #' use `resample_csquares()`.
 #' @param .data,...,.dots,data,x,add,.fn,.cols,.keep_all,cols,cols_vary,names_to,names_prefix,names_sep,names_pattern,names_ptypes,names_transform,names_repair,values_to,values_drop_na,values_ptypes,values_transform,id_cols,id_expand,names_from,names_glue,names_sort,names_vary,names_expand,values_from,values_fill,values_fn,unused_fn,.tbl,.keep,col,sep,remove,.preserve Passed to tidyverse generic methods. Consult their documentation.
+#' @name tidyverse
 #' @rdname tidyverse
 #' @include init.R
 #' @include helpers.R
@@ -87,6 +88,7 @@ filter.csquares <- function(.data, ..., .dots) {
   .s3_finalise(NextMethod(), .by)
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 select.csquares <- function(.data, ...) {
   # If .data is a 'csquares' object, make sure that the 'select' doesn't drop the
@@ -115,6 +117,7 @@ select.csquares <- function(.data, ...) {
   .data
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 as_tibble.csquares <- function(x, ...) {
   if (inherits(x, "character")) {
@@ -126,24 +129,28 @@ as_tibble.csquares <- function(x, ...) {
   .s3_finalise(NextMethod(), .by)
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 arrange.csquares <- function(.data, ..., .dots) {
   .by <- .s3_df_stars_prep(.data, "arrange")
   .s3_finalise(NextMethod(), .by)
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 group_by.csquares <- function(.data, ..., add = FALSE) {
   .by <- .s3_df_stars_prep(.data, "group_by")
   .s3_finalise(NextMethod(), .by)
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 ungroup.csquares <- function(.data, ...) {
   .by <- .s3_df_stars_prep(.data, "ungroup")
   .s3_finalise(NextMethod(), .by)
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 rowwise.csquares <- function(.data, ...) {
   .by <- .s3_df_stars_prep(.data, "rowwise")
@@ -158,6 +165,7 @@ mutate.csquares <- function(.data, ..., .dots) {
   result
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 rename.csquares <- function(.data, ...) {
   .by    <- .s3_df_stars_prep(.data, "rename")
@@ -178,18 +186,21 @@ rename_with.csquares <- function(.data, .fn, .cols, ...) {
   .s3_finalise(result, .by)
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 slice.csquares <- function(.data, ..., .dots) {
   .by <- .s3_df_stars_prep(.data, "slice")
   .s3_finalise(NextMethod(), .by)
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 distinct.csquares <- function(.data, ..., .keep_all = FALSE) {
   .by <- .s3_df_stars_prep(.data, "distinct")
   .s3_finalise(NextMethod(), .by)
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 summarise.csquares <- function(.data, ..., .dots) {
   .no_stars_or_char(.data, "summarise")
@@ -229,6 +240,7 @@ summarise.csquares <- function(.data, ..., .dots) {
   result
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 pivot_longer.csquares <- function(
     data, cols, ..., cols_vary = "fastest", names_to = "name", 
@@ -243,6 +255,7 @@ pivot_longer.csquares <- function(
   .s3_finalise(NextMethod(), .by)
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 pivot_wider.csquares <- function(
     data, ..., id_cols = NULL, id_expand = FALSE, names_from = NULL, names_prefix = "", 
@@ -287,6 +300,7 @@ pivot_wider.csquares <- function(
   result
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 group_split.csquares <- function(.tbl, ..., .keep = TRUE) {
   .by <- .s3_df_stars_prep(.tbl, "group_split")
@@ -294,6 +308,8 @@ group_split.csquares <- function(.tbl, ..., .keep = TRUE) {
   result <- lapply(NextMethod(), .s3_finalise, .by = .by)
 }
 
+#' @name tidyverse
+#' @rdname tidyverse
 nest.csquares <- function(.data, ...) {
   .no_stars_or_char(.data, "nest")
   .by <- .s3_df_stars_prep(.data, "nest")
@@ -308,13 +324,14 @@ nest.csquares <- function(.data, ...) {
     result <- .s3_finalise(result, .by)
   } else {
     result[[nested_col]] <-
-      lapply(result[[nested_col]], as_csquares.data.frame, csquares = .by)
+      lapply(result[[nested_col]], as_csquares.data.frame, csquares = .by, validate = FALSE)
     attributes(result)$csquares_col <- .by
     class(result) <- union("csquares_nested", class(result))
   }
   result
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 unite.csquares <- function(data, col, ..., sep = "_", remove = TRUE) {
   .no_stars(data)
@@ -332,18 +349,34 @@ unite.csquares <- function(data, col, ..., sep = "_", remove = TRUE) {
   .s3_finalise(data, .by)
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 unnest.csquares <- function(data, ..., .preserve = NULL) {
   .by <- .s3_df_stars_prep(data, "unnest")
   .s3_finalise(NextMethod(), .by)
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
-unnest.csquares_nested <- function(data, ..., .preserve = NULL) {
+unnest.csquares_nested <- function(data, cols, ...) {
   .by <- attributes(data)$csquares_col
-  .s3_finalise(NextMethod(), .by)
+  cols <- tidyselect::eval_select(cols, data)
+  for (col in cols) {
+    is_csquares <- lapply(data[[col]], inherits, "csquares") |> unlist() |> any()
+    if (is_csquares) {
+      data[[col]] <- lapply(data[[col]], \(x) {
+        class(x) <- setdiff(class(x), "csquares")
+        x
+      })
+    }
+  }
+  cols <- names(cols)
+  data <- NextMethod()
+  data[[.by]] <- as_csquares(data[[.by]], validate = FALSE)
+  .s3_finalise(data, .by)
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 drop_na.csquares <- function(x, ...) {
   .by <- .s3_df_stars_prep(.data, "drop_na")

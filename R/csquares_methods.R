@@ -9,6 +9,8 @@
 #' @param drop `logical` value indicating if unused dimensions should be dropped
 #' @param value Replacement values for a subset. a `csquares` object or a `character` string that can be coerced
 #' to a `csquares` object
+#' @param short `logical` option to print `csquares` `vctrs_vec`. If `TRUE` it will only print one line, if
+#' `FALSE` it will print up to `options("max.print")` records.
 #' @param ... Passed on to generic methods
 #' @returns Returns (a subsetted / formatted / modified version of) x
 #' @export format.csquares
@@ -28,31 +30,32 @@ format.csquares <- function(x, ...) {
         format = if(.data$n > 1) {
           paste(format(.data$n, width = 3), "squares")
         } else {
-          paste0(substr(.data$quad, 1, 1),
-                 format(
-                   as.numeric(substr(.data$codes, 2, 2))*10,
-                   width = 2),
-                 ", ",
-                 substr(.data$quad, 2, 2),
-                 format(
-                   as.numeric(substr(.data$codes, 3, 4))*10,
-                   width = 3), " (", .data$res, "\u00B0)")
+          ifelse(
+            is.na(.data$codes),
+            "empty",
+            paste0(substr(.data$quad, 1, 1),
+                   format(
+                     as.numeric(substr(.data$codes, 2, 2))*10,
+                     width = 2),
+                   " ",
+                   substr(.data$quad, 2, 2),
+                   format(
+                     as.numeric(substr(.data$codes, 3, 4))*10,
+                     width = 3), " (", .data$res, "\u00B0)")
+          )
         }
       ) |>
       dplyr::pull("format")
   } else NextMethod()
 }
 
-show.csquares <- function(x, ...) {
-  format.csquares(x, ...)
-}
-
 #' @rdname csquares-methods
 #' @export
-print.csquares <- function(x, ...) {
+print.csquares <- function(x, short = TRUE, ...) {
   if (inherits(x, c("character", "vctrs_vctr"))) {
-    cat(paste(format.csquares(x[seq_len(min(length(x), getOption("max.print")))], ...),
-              collapse = "\n"))
+    if (short) {
+      vctrs::obj_str(x)
+    } else vctrs::obj_print(x)
   } else NextMethod()
 }
 
@@ -79,7 +82,15 @@ as.data.frame.csquares <- function(x, ...) {
     x <- unclass(x)
     x <- NextMethod()
     class(x[,1]) <- union(c("csquares", "vctrs_vctr"), class(x[,1]))
-    .by <- 1
+    if (is.null(names(x))) {
+      .by <- 1
+    } else {
+      names(x)[[1]] <- "csquares"
+      .by <- "csquares"
+    }
+
+  } else if (inherits(x, "data.frame")) {
+    return(x)
   } else {
     .by <- attributes(x)$csquares_col
     class(x) <- setdiff(class(x), "csquares")
@@ -91,7 +102,6 @@ as.data.frame.csquares <- function(x, ...) {
 #' @rdname csquares-methods
 #' @export
 data.frame.csquares <- function(...) {
-  browser()
   NextMethod()
 }
 
@@ -130,6 +140,10 @@ rbind.csquares <- function(..., deparse.level = 1) {
 cbind.csquares <- function(..., deparse.level = 1) {
   .no_stars_or_char(list(...)[[1]], "cbind")
   .by <- attributes(list(...)[[1]])$csquares_col
+  idx <- which(.by == names(list(...)[[1]]))
+  result <- do.call(dplyr::bind_cols, list(...))
+  .by <- names(result)[[idx]]
+
   result <- lapply(list(...), \(x) {
     attributes(x)$csquares_col <- NULL
     class(x) <- setdiff(class(x), "csquares")
@@ -187,9 +201,18 @@ cbind.csquares <- function(..., deparse.level = 1) {
 
 #' @rdname csquares-methods
 #' @export
-`merge.csquares` <- function(x, y, ...) {
+merge.csquares <- function(x, y, ...) {
   .by <- .s3_df_stars_prep(x, "merge", allow_all_types = TRUE)
   class(x) <- setdiff(class(x), "csquares")
   attributes(x)$csquares_col <- NULL
+  .s3_finalise(NextMethod(), .by)
+}
+
+#' @rdname csquares-methods
+#' @export
+`names<-.csquares` <- function(x, value) {
+  .by <- .s3_df_stars_prep(x, "merge", allow_all_types = TRUE)
+  .by <- value[names(x) == .by]
+  class(x) <- setdiff(class(x), "csquares")
   .s3_finalise(NextMethod(), .by)
 }

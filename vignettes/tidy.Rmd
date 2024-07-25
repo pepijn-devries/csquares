@@ -1,0 +1,129 @@
+---
+title: "Tidy csquares"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tidy csquares}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+ggplot2::theme_set(ggplot2::theme_light())
+```
+
+## The Csquares family
+
+`csquares` objects can inherit properties from different parents as illustrated in `vignette("csquares-objects")`.
+When a `csquares` object inherits from the class `data.frame()`, you can apply many
+[tidyverse](https://www.tidyverse.org/) operations while preserving the `csquares` properties of the object.
+When you create a `csquares` object from a `character()`, you cannot use tidyverse operations as it doesn't inherit
+the `data.frame()` class. You can check which ancestors your object has by calling `class()` as shown in the example below.
+
+```{r no-tidy, warning=FALSE, message=FALSE}
+## Required libraries
+library(csquares)
+library(dplyr)
+library(sf)
+library(ggplot2)
+
+## create a simple csquares object:
+char_csq <- as_csquares(c("1000", "3000"))
+
+## This simple objects has "character" as parent class.
+## So tidyverse is out of the question here.
+class(char_csq)
+```
+
+So let's start by creating a `csquares` object that does inherit from the `data.frame()` class. It will be used in
+examples shown in this vignette.
+
+```{r yes-tidy}
+## create a csquares object with geometries:
+orca_csq  <- orca |> as_csquares(csquares = "csquares")
+
+## It inherits the class data.frame.
+class(orca_csq)
+```
+
+## Tidyverse operations
+
+All tidyverse (and base) methods implemented in the Csquares package end with the suffix `.csquares`. You should
+never call these functions directly as this will likely produce errors. Instead, load the packages that implement
+the generic method (e.g., `dplyr` for `mutate()` and `summarise()`; `tidyr` for `pivot_wider()`; `sf`
+for `st_as_sf()` etc.). Then call the method without the `.csquares` suffix as shown in the examples below.
+As you call the method on `csquares` objects, the correct implementation of the generic method will be dispatched
+automatically.
+
+The example below shows how you can mutate a column in a `csquares` object,
+then group by a specific column and summarise it. The csquares
+properties are grouped automatically. If the `csquares` object inherits spatial features, the geometries are
+recalculated after summarising.
+
+```{r mutate, warning=FALSE}
+orca_sum <-
+  orca_csq |>
+## Add geometries to the object
+  st_as_sf() |>
+  ## use `mutate` to create a column that contains the csquares' quadrant
+  mutate(quadrant = case_match(substr(csquares |> as.character(), 1L, 1L),
+                               "1" ~ "NE", "3" ~ "SE", "5" ~ "SW", "7" ~ "NW")) |>
+  ## grouping by the column with logical values and summarising
+  ## will reduce the number of rows to 4 (one for each quadrant)
+  group_by(quadrant) |>
+  summarise(realms = sum(orcinus_orca), .groups = "keep")
+
+## Note that csquares are automatically concatted and
+## geometries recalculated
+ggplot(orca_sum) +
+  geom_sf(aes(fill = realms)) +
+  geom_sf_text(aes(label = quadrant)) +
+  coord_sf() +
+  labs(title = "Realm count per quadrant", x = NULL, y = NULL)
+```
+
+Printing the summarised object shows that there are only two rows left. One for each value in the grouped column.
+
+```{r show_sum}
+orca_sum
+```
+
+## Join
+
+Joining `csquares` objects is pretty straightforward and is only allowed on objects that inherit
+from the `data.frame` class. An exception are `csquares` objects that inherit from the
+`stars` class (`stars::st_as_stars()`). On those objects you are allowed to perform
+left joins, all other joins are impossible. See also `?join`.
+
+Below you see how you can simply join a `data.frame` to a `csquares` object by the csquares
+code.
+
+```{r join}
+df <- data.frame(foo = "bar", csquares = "3603:3")
+
+left_join(orca_csq, df, by = "csquares") |> print(max = 30)
+right_join(orca_csq, df, by = "csquares")
+```
+
+You are also allowed to join a `csquares` object to another `csquares` by another column
+that does not represent the csquares codes:
+
+```{r join_extra}
+csq <- data.frame(orcinus_orca = FALSE, csquares = "3603:3") |>
+  as_csquares(csquares = "csquares")
+
+left_join(orca_csq, csq, by = "orcinus_orca") |> print(max = 30)
+```
+
+Note that the resulting `csquares` object has two columns with csquares codes.
+Only the column from the left-hand table in the join is used for further
+operations. However, you should wonder if this join is meaningful when mismatching
+csquares codes are the result.
+
+## Further reading
+
+For some additional `csquares` specific examples check out `?tidyverse` and `?join`. For extensive documentation
+on tidy operations, consult the [tidyverse website](https://www.tidyverse.org).

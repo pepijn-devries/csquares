@@ -1,7 +1,7 @@
 #' Match c-squares against other c-squares (with wildcards)
 #' 
 #' Checks if csquares codes in `table` matches values in `x`. Wildcards
-#' are allowed in `table` for this comparison. Check out `vignette("Wildcards")`
+#' are allowed in `table` for this comparison. Check out `vignette("wildcards")`
 #' for more details.
 #' @param x An object of class 'csquares' that will be checked for matching
 #' values in `table`

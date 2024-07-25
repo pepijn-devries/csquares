@@ -11,9 +11,18 @@ setOldClass("csquares")
 
 register_all_s3_methods = function() {
   ## Note that superseded tidyverse methods are not included, as there are better alternatives
+  ## vctrs
+  register_s3_method("vctrs",   "vec_cast",      "csquares")
+  register_s3_method("vctrs",   "vec_ptype2",    "csquares")
+  register_s3_method("vctrs",   "vec_proxy",     "csquares")
+  register_s3_method("vctrs",   "vec_restore",   "csquares")
+  ## sf
   register_s3_method("sf",      "st_as_sf",      "csquares")
   register_s3_method("sf",      "st_as_sfc",     "csquares")
+  register_s3_method("sf",      "st_join",       "csquares")
+  ## stars
   register_s3_method("stars",   "st_as_stars",   "csquares")
+  ## dplyr
   register_s3_method("dplyr",   "arrange",       "csquares")
   register_s3_method("dplyr",   "as_tibble",     "csquares")
   register_s3_method("dplyr",   "distinct",      "csquares")
@@ -28,6 +37,14 @@ register_all_s3_methods = function() {
   register_s3_method("dplyr",   "slice",         "csquares")
   register_s3_method("dplyr",   "summarise",     "csquares")
   register_s3_method("dplyr",   "ungroup",       "csquares")
+  ## dplyr joins
+  register_s3_method("dplyr",   "inner_join",    "csquares")
+  register_s3_method("dplyr",   "left_join",     "csquares")
+  register_s3_method("dplyr",   "full_join",     "csquares")
+  register_s3_method("dplyr",   "anti_join",     "csquares")
+  register_s3_method("dplyr",   "right_join",    "csquares")
+  register_s3_method("dplyr",   "semi_join",     "csquares")
+  ## tidyr
   register_s3_method("tidyr",   "drop_na",       "csquares")
   register_s3_method("tidyr",   "nest",          "csquares")
   register_s3_method("tidyr",   "pivot_longer",  "csquares")
@@ -35,7 +52,6 @@ register_all_s3_methods = function() {
   register_s3_method("tidyr",   "unite",         "csquares")
   register_s3_method("tidyr",   "unnest",        "csquares")
   register_s3_method("tidyr",   "unnest",        "csquares_nested")
-  register_s3_method("methods", "show",          "csquares")
 }
 
 # from: https://github.com/tidyverse/hms/blob/master/R/zzz.R

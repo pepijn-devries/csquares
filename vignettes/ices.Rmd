@@ -1,0 +1,98 @@
+---
+title: "ICES rectangles"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ICES rectangles}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+ggplot2::theme_set(ggplot2::theme_light())
+```
+
+```{r setup, message = FALSE, warning = FALSE}
+library(csquares)
+```
+
+## ICES Statistical Rectangles
+
+_Support for ICES rectangles is experimental_
+
+[ICES statistical rectangles](https://en.wikipedia.org/wiki/ICES_Statistical_Rectangles) is
+a notation system developped by the International Council for the Exploration of the Sea (ICES).
+The packages allows you to convert the notation into a [`sf`](https://r-spatial.github.io/sf/)
+object. The example and illustration below shows a small subset of ICES rectangles and subrectangles.
+
+```{r ices_to_csquares, warning=FALSE, message=FALSE}
+library(sf)
+my_ices_codes <-
+  c("31F21", "31F22", "31F23", "31F24", "31F25", "31F26", "31F27", "31F28", "31F29",
+      "32F2", "33F2", "34F2", "35F2",
+      "31F3", "32F3", "33F3", "34F3", "35F3",
+      "31F4", "32F4", "33F4", "34F4", "35F4")
+
+my_ices_rects <- ices_rectangles(my_ices_codes)
+```
+
+```{r ices_plot, warning=FALSE, message=FALSE, echo=FALSE}
+library(ggplot2)
+library(rnaturalearth)
+library(rnaturalearthdata)
+rnaturalearth::check_rnaturalearthdata()
+cur_s2 <- sf_use_s2()
+sf_use_s2(FALSE)
+world <- ne_countries(scale = "medium", returnclass = "sf") |>
+  st_crop(my_ices_rects) |>
+  suppressWarnings()
+sf_use_s2(cur_s2)
+
+ggplot(my_ices_rects) +
+  geom_sf(data = world, fill = "yellowgreen") +
+  geom_sf(fill = "transparent") +
+  geom_sf_text(aes(label = ICES), size = ifelse(my_ices_rects$subrect, 2, 4)) +
+  labs(x = NULL, y = NULL)
+```
+
+ICES subrectangles divide the parent ICES rectangle into 3 by 3 equal rectangles. Unfortunately, this
+makes the subrectangles incompatible with Csquares as those divide parent rectangles into 2 by 2 or 10 by 10
+equal rectangles. The csquares package offers some helper functions to convert ICES rectangles to csquares
+and vice versa. The example below show how to get the corresponding csquares codes for
+the requested ICES rectangles.
+
+```{r ices_to_csq, message=FALSE}
+library(dplyr)
+
+ices_csq <-
+  ## Note that ICES subrects return empty csquares
+  ices_to_csquares(my_ices_codes) |>
+  ## Remove empty csquares as those can not be converted into geometries
+  filter(!is.na(csquares)) |>
+  ## add geometries
+  st_as_sf()
+```
+
+The subrectangles produces `NA` values and shows a warning. This yields the csquares
+as depicted below.
+
+```{r ices_plot2, warning=FALSE, message=FALSE, echo=FALSE}
+ggplot(ices_csq) +
+  geom_sf(data = world, fill = "yellowgreen") +
+  geom_sf(fill = "transparent") +
+  geom_sf_text(aes(label = gsub("[|]", "\n", as.character(csquares))), angle = 30, size = 3) +
+  labs(x = NULL, y = NULL)
+
+```
+
+We can easily get the ICES rectangles that correspond with those csquares using:
+
+```{r ices_fom_csq, message=FALSE}
+ices_from_csquares(ices_csq)
+```
+
+We get the same ICES rectangles that we started with, except for the subrectangles
+which are incompatible.

@@ -25,7 +25,7 @@ notation of csquares. \code{expand_wildcards} will replace all
 wild cards with valid combinations of values and expands
 the compact notation to an explicit notation without
 wildcards.
-Check out \code{vignette("Wildcards")} for more details.
+Check out \code{vignette("wildcards")} for more details.
 }
 \examples{
 expand_wildcards("1000:*")

@@ -21,8 +21,8 @@ character. In the context of c-squares, wildcards can be used to compactly
 notate a range of raster cells. Let's say you have the following string of four
 c-squares defined:
 
-```{r defs}
-library(csquares, warn.conflicts = FALSE)
+```{r defs, warning = TRUE}
+library(csquares)
 
 csq <- as_csquares("1000:1|1000:2|1000:3|1000:4")
 

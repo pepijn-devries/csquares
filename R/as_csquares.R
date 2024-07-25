@@ -46,11 +46,11 @@ as_csquares.default <- function(x, resolution, csquares, ...) {
 #' @export
 as_csquares.character <- function(x, resolution, csquares, validate = TRUE, ...) {
   x <- vctrs::new_vctr(x, class = c("csquares", "character"))
-  if (validate) {
+  if (validate && length(x) > 0) {
     check <- tryCatch({
       has_wildcards <- grepl("[*]", x)
       if (any( has_wildcards )) {
-        x[has_wildcards] <- expand_wildcards(x[has_wildcards])
+        x[has_wildcards] <- expand_wildcards(x[has_wildcards] |> unclass())
       }
       validate_csquares(x)
     }, error = function(e) FALSE)
@@ -91,7 +91,7 @@ as_csquares.data.frame <- function(x, resolution = 1, csquares, ...) {
     x[[csquares]] <- dat
     
   } else {
-    x[[csquares]] <- as_csquares(x[[csquares]])
+    x[[csquares]] <- as_csquares(x[[csquares]], ...)
   }
   
   .s3_finalise(x, csquares)
@@ -100,6 +100,13 @@ as_csquares.data.frame <- function(x, resolution = 1, csquares, ...) {
 #' @rdname as_csquares
 #' @export
 as_csquares.sf <- function(x, resolution = 1, csquares, ..., use_centroids = TRUE) {
+  if (use_centroids) x <- sf::st_centroid(x)
+  .csquares_spatial(x, resolution)
+}
+
+#' @rdname as_csquares
+#' @export
+as_csquares.sfc <- function(x, resolution = 1, csquares, ..., use_centroids = TRUE) {
   if (use_centroids) x <- sf::st_centroid(x)
   .csquares_spatial(x, resolution)
 }
@@ -119,6 +126,7 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
     sf::st_transform(4326) |>
     sf::st_coordinates() |>
     .csquares_generic(resolution)
+  if (inherits(x, "sfc")) return (csq)
   nms <- make.names(c(names(x), "csquares"), unique = TRUE)
   nms <- nms[[length(nms)]]
   x[[nms]] <- csq
