@@ -49,6 +49,10 @@ format.csquares <- function(x, ...) {
   } else NextMethod()
 }
 
+show.csquares <- function(x, ...) {
+  format.csquares(x, ...)
+}
+
 #' @rdname csquares-methods
 #' @export
 print.csquares <- function(x, short = TRUE, ...) {
