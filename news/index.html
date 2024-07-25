@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">csquares</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7</span>
       </span>
     </div>
 
@@ -32,6 +32,15 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/csquares-objects.html">Csquares objects</a>
+    </li>
+    <li>
+      <a href="../articles/ices.html">ICES rectangles</a>
+    </li>
+    <li>
+      <a href="../articles/tidy.html">Tidy csquares</a>
+    </li>
+    <li>
       <a href="../articles/Wildcards.html">Wildcards</a>
     </li>
   </ul></li>
@@ -58,7 +67,22 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.0.6" id="csquares-v006">csquares v0.0.6<a class="anchor" aria-label="anchor" href="#csquares-v006"></a></h2>
+<h2 class="page-header" data-toc-text="0.0.7" id="csquares-v007">csquares v0.0.7<a class="anchor" aria-label="anchor" href="#csquares-v007"></a></h2>
+<ul><li>Added experimental functions to convert ICES rectangles</li>
+<li>Added tidyverse join operations</li>
+<li>Added vignettes:
+<ul><li><code><a href="../articles/tidy.html">vignette("tidy")</a></code></li>
+<li><code><a href="../articles/csquares-objects.html">vignette("csquares-objects")</a></code></li>
+<li><code><a href="../articles/ices.html">vignette("ices")</a></code></li>
+</ul></li>
+<li>Methods that (potentially) rename columns should update the value for the <code>csquares_col</code> attribute. This is now fixed for: <code>names.csquares()</code> and <code><a href="../reference/csquares-methods.html">cbind.csquares()</a></code>
+</li>
+<li>Implemented <code>vctrs</code> cast mechanisms</li>
+<li>Better methods for showing and printing <code>csquares</code>
+</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.0.6" id="csquares-v006">csquares v0.0.6<small>2024-07-19</small><a class="anchor" aria-label="anchor" href="#csquares-v006"></a></h2>
 <ul><li>Improved support for tidyverse and base generics
 <ul><li>Csquares properties are now preserved when calling tidyverse and base methods</li>
 </ul></li>

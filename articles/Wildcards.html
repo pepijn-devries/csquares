@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">csquares</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7</span>
       </span>
     </div>
 
@@ -49,6 +49,15 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/csquares-objects.html">Csquares objects</a>
+    </li>
+    <li>
+      <a href="../articles/ices.html">ICES rectangles</a>
+    </li>
+    <li>
+      <a href="../articles/tidy.html">Tidy csquares</a>
+    </li>
+    <li>
       <a href="../articles/Wildcards.html">Wildcards</a>
     </li>
   </ul>
@@ -95,12 +104,12 @@ character. In the context of c-squares, wildcards can be used to
 compactly notate a range of raster cells. Let’s say you have the
 following string of four c-squares defined:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pepijn-devries.github.io/csquares/" class="external-link">csquares</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pepijn-devries.github.io/csquares/" class="external-link">csquares</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">csq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/as_csquares.html">as_csquares</a></span><span class="op">(</span><span class="st">"1000:1|1000:2|1000:3|1000:4"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">csq</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   4 squares</span></span></code></pre></div>
+<span><span class="co">#&gt;  csquares [1:1]   4 squares</span></span></code></pre></div>
 <p>These are four squares of 5° by 5°. As you can see the first four
 digits of each of the four squares are identical. Therefore, these
 squares could be notated as <code>"1000:*"</code> where <code>*</code>
@@ -113,7 +122,7 @@ notation with wildcard is used.</p>
 <code class="sourceCode R"><span><span class="va">csqw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/as_csquares.html">as_csquares</a></span><span class="op">(</span><span class="st">"1000:*"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">csqw</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   4 squares</span></span>
+<span><span class="co">#&gt;  csquares [1:1]   4 squares</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">csq</span>, <span class="va">csqw</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>

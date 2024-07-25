@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">csquares</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7</span>
       </span>
     </div>
 
@@ -32,6 +32,15 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/csquares-objects.html">Csquares objects</a>
+    </li>
+    <li>
+      <a href="../articles/ices.html">ICES rectangles</a>
+    </li>
+    <li>
+      <a href="../articles/tidy.html">Tidy csquares</a>
+    </li>
+    <li>
       <a href="../articles/Wildcards.html">Wildcards</a>
     </li>
   </ul></li>
@@ -67,7 +76,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'csquares'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, short <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'csquares'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
@@ -108,7 +117,10 @@
 <span><span class="va">x</span><span class="op">$</span><span class="va">i</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'csquares'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'csquares'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -121,6 +133,11 @@
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Passed on to generic methods</p></dd>
+
+
+<dt id="arg-short">short<a class="anchor" aria-label="anchor" href="#arg-short"></a></dt>
+<dd><p><code>logical</code> option to print <code>csquares</code> <code>vctrs_vec</code>. If <code>TRUE</code> it will only print one line, if
+<code>FALSE</code> it will print up to <code>options("max.print")</code> records.</p></dd>
 
 
 <dt id="arg-deparse-level">deparse.level<a class="anchor" aria-label="anchor" href="#arg-deparse-level"></a></dt>

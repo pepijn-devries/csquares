@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">csquares</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7</span>
       </span>
     </div>
 
@@ -32,6 +32,15 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/csquares-objects.html">Csquares objects</a>
+    </li>
+    <li>
+      <a href="../articles/ices.html">ICES rectangles</a>
+    </li>
+    <li>
+      <a href="../articles/tidy.html">Tidy csquares</a>
+    </li>
+    <li>
       <a href="../articles/Wildcards.html">Wildcards</a>
     </li>
   </ul></li>
@@ -114,22 +123,18 @@ integer.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Resample csquares based on the one with the lowest resolution:</span></span></span>
 <span class="r-in"><span><span class="fu">resample_csquares</span><span class="op">(</span><span class="va">csq</span>,    <span class="st">"min"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> N 0, E  0 (10°)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> S 0, W  0 (10°)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> S 0, E  0 (10°)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  csquares [1:3] N 0 E  0 (10°), S 0 W  0 (10°), S 0 E  0 (10°)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Resample csquares to a specific resolution</span></span></span>
 <span class="r-in"><span><span class="fu">resample_csquares</span><span class="op">(</span><span class="va">csq</span>,    <span class="st">"target"</span>, resolution <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   4 squares</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> S 0, W  0 (5°)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> S 0, E  0 (5°)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  csquares [1:3]   4 squares, S 0 W  0 (5°), S 0 E  0 (5°)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Same, but applied to a csquares object inheriting from a data.frame</span></span></span>
 <span class="r-in"><span><span class="fu">resample_csquares</span><span class="op">(</span><span class="va">csq_df</span>, <span class="st">"target"</span>, resolution <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              csq foobar</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      4 squares      a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 S 0, W  0 (5°)      b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 S 0, E  0 (5°)      c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             csq foobar</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     4 squares      a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 S 0 W  0 (5°)      b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 S 0 E  0 (5°)      c</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Same, but applied to a csquares object inheriting the `sf` class</span></span></span>
 <span class="r-in"><span><span class="co">## Note that the geometry is updated based on the resampled csquares</span></span></span>
@@ -143,21 +148,19 @@ integer.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -10 ymin: -5 xmax: 10 ymax: 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              csq foobar                           geom</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      4 squares      a POLYGON ((0 5, 0 10, 5 10, ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 S 0, W  0 (5°)      b POLYGON ((-5 0, -10 0, -10 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 S 0, E  0 (5°)      c POLYGON ((0 0, 5 0, 5 -5, 0...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             csq foobar                           geom</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     4 squares      a POLYGON ((0 5, 0 10, 5 10, ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 S 0 W  0 (5°)      b POLYGON ((-5 0, -10 0, -10 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 S 0 E  0 (5°)      c POLYGON ((0 0, 5 0, 5 -5, 0...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Resample csquares one step down.</span></span></span>
 <span class="r-in"><span><span class="fu">resample_csquares</span><span class="op">(</span><span class="va">csq</span>,    <span class="st">"down"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> N 0, E  0 (10°)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2 squares</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> S 0, E  0 (0.5°)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  csquares [1:3] N 0 E  0 (10°),   2 squares, S 0 E  0 (0.5°)</span>
 <span class="r-in"><span><span class="fu">resample_csquares</span><span class="op">(</span><span class="va">csq_df</span>, <span class="st">"down"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                csq foobar</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  N 0, E  0 (10°)      a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        2 squares      b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 S 0, E  0 (0.5°)      c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               csq foobar</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  N 0 E  0 (10°)      a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       2 squares      b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 S 0 E  0 (0.5°)      c</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"stars"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="co">## Csquares objects can inherit from the stars class as well.</span></span></span>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">csquares</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7</span>
       </span>
     </div>
 
@@ -32,6 +32,15 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/csquares-objects.html">Csquares objects</a>
+    </li>
+    <li>
+      <a href="../articles/ices.html">ICES rectangles</a>
+    </li>
+    <li>
+      <a href="../articles/tidy.html">Tidy csquares</a>
+    </li>
+    <li>
       <a href="../articles/Wildcards.html">Wildcards</a>
     </li>
   </ul></li>
@@ -65,7 +74,7 @@
         </td>
         <td><p>Convert lon-lat coordinates into c-square codes</p></td>
       </tr><tr><td>
-          <p><code><a href="csquares-methods.html">format(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">print(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">as.character(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">summary(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">as.data.frame(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">data.frame.csquares()</a></code> <code><a href="csquares-methods.html">c(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">rbind(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">cbind(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`[`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`[[`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`$`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`[&lt;-`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`[[&lt;-`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`$&lt;-`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">merge(<i>&lt;csquares&gt;</i>)</a></code> </p>
+          <p><code><a href="csquares-methods.html">format(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">print(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">as.character(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">summary(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">as.data.frame(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">data.frame.csquares()</a></code> <code><a href="csquares-methods.html">c(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">rbind(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">cbind(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`[`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`[[`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`$`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`[&lt;-`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`[[&lt;-`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`$&lt;-`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">merge(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`names&lt;-`(<i>&lt;csquares&gt;</i>)</a></code> </p>
         </td>
         <td><p>Basic csquares methods</p></td>
       </tr><tr><td>
@@ -76,6 +85,14 @@
           <p><code><a href="expand_wildcards.html">expand_wildcards()</a></code> </p>
         </td>
         <td><p>Expand c-squares with wildcards to all matching c-squares</p></td>
+      </tr><tr><td>
+          <p><code><a href="ices_columns.html">ices_columns()</a></code> </p>
+        </td>
+        <td><p>Valid ICES rectangle columns</p></td>
+      </tr><tr><td>
+          <p><code><a href="ices_geom.html">ices_centroids()</a></code> <code><a href="ices_geom.html">ices_rectangles()</a></code> <code><a href="ices_geom.html">ices_to_csquares()</a></code> <code><a href="ices_geom.html">ices_from_csquares()</a></code> </p>
+        </td>
+        <td><p>Get ICES geometries</p></td>
       </tr><tr><td>
           <p><code><a href="in_csquares.html">in_csquares()</a></code> </p>
         </td>
@@ -101,13 +118,21 @@
         </td>
         <td><p>Coerce csqaures object into a stars object</p></td>
       </tr><tr><td>
-          <p><code><a href="tidyverse.html">filter.csquares()</a></code> <code><a href="tidyverse.html">select.csquares()</a></code> <code><a href="tidyverse.html">as_tibble.csquares()</a></code> <code><a href="tidyverse.html">arrange.csquares()</a></code> <code><a href="tidyverse.html">group_by.csquares()</a></code> <code><a href="tidyverse.html">ungroup.csquares()</a></code> <code><a href="tidyverse.html">rowwise.csquares()</a></code> <code><a href="tidyverse.html">mutate.csquares()</a></code> <code><a href="tidyverse.html">rename.csquares()</a></code> <code><a href="tidyverse.html">rename_with.csquares()</a></code> <code><a href="tidyverse.html">slice.csquares()</a></code> <code><a href="tidyverse.html">distinct.csquares()</a></code> <code><a href="tidyverse.html">summarise.csquares()</a></code> <code><a href="tidyverse.html">pivot_longer.csquares()</a></code> <code><a href="tidyverse.html">pivot_wider.csquares()</a></code> <code><a href="tidyverse.html">group_split.csquares()</a></code> <code><a href="tidyverse.html">unite.csquares()</a></code> <code><a href="tidyverse.html">unnest.csquares()</a></code> <code><a href="tidyverse.html">unnest.csquares_nested()</a></code> <code><a href="tidyverse.html">drop_na.csquares()</a></code> </p>
+          <p><code><a href="tidyjoins.html">inner_join.csquares()</a></code> <code><a href="tidyjoins.html">left_join.csquares()</a></code> <code><a href="tidyjoins.html">right_join.csquares()</a></code> <code><a href="tidyjoins.html">full_join.csquares()</a></code> <code><a href="tidyjoins.html">semi_join.csquares()</a></code> <code><a href="tidyjoins.html">anti_join.csquares()</a></code> <code><a href="tidyjoins.html">st_join.csquares()</a></code> </p>
+        </td>
+        <td><p>Join <code>csquares</code> objects using tidyverse conventions</p></td>
+      </tr><tr><td>
+          <p><code><a href="tidyverse.html">filter.csquares()</a></code> <code><a href="tidyverse.html">select.csquares()</a></code> <code><a href="tidyverse.html">as_tibble.csquares()</a></code> <code><a href="tidyverse.html">arrange.csquares()</a></code> <code><a href="tidyverse.html">group_by.csquares()</a></code> <code><a href="tidyverse.html">ungroup.csquares()</a></code> <code><a href="tidyverse.html">rowwise.csquares()</a></code> <code><a href="tidyverse.html">mutate.csquares()</a></code> <code><a href="tidyverse.html">rename.csquares()</a></code> <code><a href="tidyverse.html">rename_with.csquares()</a></code> <code><a href="tidyverse.html">slice.csquares()</a></code> <code><a href="tidyverse.html">distinct.csquares()</a></code> <code><a href="tidyverse.html">summarise.csquares()</a></code> <code><a href="tidyverse.html">pivot_longer.csquares()</a></code> <code><a href="tidyverse.html">pivot_wider.csquares()</a></code> <code><a href="tidyverse.html">group_split.csquares()</a></code> <code><a href="tidyverse.html">nest.csquares()</a></code> <code><a href="tidyverse.html">unite.csquares()</a></code> <code><a href="tidyverse.html">unnest.csquares()</a></code> <code><a href="tidyverse.html">unnest.csquares_nested()</a></code> <code><a href="tidyverse.html">drop_na.csquares()</a></code> </p>
         </td>
         <td><p>Tidyverse methods for csquares objects (drop the 'csquares'-suffix)</p></td>
       </tr><tr><td>
           <p><code><a href="validate_csquares.html">validate_csquares()</a></code> </p>
         </td>
         <td><p>Test if a csquares object is valid</p></td>
+      </tr><tr><td>
+          <p><code><a href="vctrs.html">vec_cast.csquares()</a></code> <code><a href="vctrs.html">vec_ptype2.csquares()</a></code> </p>
+        </td>
+        <td><p>vctrs methods for csquares objects</p></td>
       </tr></tbody></table></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
