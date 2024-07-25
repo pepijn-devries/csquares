@@ -17,11 +17,12 @@
 \alias{[[<-.csquares}
 \alias{$<-.csquares}
 \alias{merge.csquares}
+\alias{names<-.csquares}
 \title{Basic csquares methods}
 \usage{
 \method{format}{csquares}(x, ...)
 
-\method{print}{csquares}(x, ...)
+\method{print}{csquares}(x, short = TRUE, ...)
 
 \method{as.character}{csquares}(x, ...)
 
@@ -50,11 +51,16 @@ data.frame.csquares(...)
 \method{$}{csquares}(x, i) <- value
 
 \method{merge}{csquares}(x, y, ...)
+
+\method{names}{csquares}(x) <- value
 }
 \arguments{
 \item{x, object}{A \code{csquares} object to be handled by the s3 methods}
 
 \item{...}{Passed on to generic methods}
+
+\item{short}{\code{logical} option to print \code{csquares} \code{vctrs_vec}. If \code{TRUE} it will only print one line, if
+\code{FALSE} it will print up to \code{options("max.print")} records.}
 
 \item{deparse.level}{integer controlling the construction of labels in
     the case of non-matrix-like arguments (for the default method):\cr

@@ -1,6 +1,6 @@
 Package: csquares
 Title: Concise Spatial Query and Representation System (c-Squares)
-Version: 0.0.6
+Version: 0.0.7
 Authors@R:
     person("Pepijn", "de Vries", role = c("aut", "cre"),
     email = "pepijn.devries@outlook.com",
@@ -23,9 +23,13 @@ Imports:
     vctrs
 Suggests:
     curl,
+    DiagrammeR,
     ggplot2,
     knitr,
+    lifecycle,
     rmarkdown,
+    rnaturalearth,
+    rnaturalearthdata,
     testthat (>= 3.0.0)
 License: GPL (>= 3)
 Encoding: UTF-8
@@ -42,14 +46,17 @@ Collate:
     'csquares_methods.R'
     'drop.R'
     'expand.R'
+    'ices.R'
     'in.R'
     'init.R'
+    'joins_tidy.R'
     'new_csquares.R'
     'orca.R'
     'resample.R'
     'tidyverse.R'
     'st_as_sf.R'
     'validate.R'
+    'vctrs.R'
 Config/testthat/edition: 3
 URL: https://pepijn-devries.github.io/csquares/, https://github.com/pepijn-devries/csquares/
 BugReports: https://github.com/pepijn-devries/csquares/issues

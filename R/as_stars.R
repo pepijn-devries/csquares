@@ -16,8 +16,8 @@
 st_as_stars.csquares <-
   function(x, ...) {
     if (inherits(x, c("character", "vctrs_vctr"))) {
-      x <- lapply(x, strsplit, split = "[|]")
-      if (length(x) != 1 && any((lapply(x, \(x) unlist(x) |> length()) |> unlist()) > 1))
+      x <- strsplit(x, "[|]")
+      if (length(x) != 1 && any((lapply(x, length) |> unlist()) > 1))
         rlang::abort(c(
           x = "Cannot convert csquares object with multiple csquares code per element into stars",
           i = "Make sure that csquares codes don't contain pipe character ('|')"

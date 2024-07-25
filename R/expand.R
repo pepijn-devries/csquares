@@ -5,7 +5,7 @@
 #' wild cards with valid combinations of values and expands
 #' the compact notation to an explicit notation without
 #' wildcards.
-#' Check out `vignette("Wildcards")` for more details.
+#' Check out `vignette("wildcards")` for more details.
 #' @param x A `character` string containing csquares codes with
 #' wildcards (asterisk character); or a `data.frame` that contains
 #' a column with csquares codes with wildcards

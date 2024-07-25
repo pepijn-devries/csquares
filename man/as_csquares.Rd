@@ -7,6 +7,7 @@
 \alias{as_csquares.numeric}
 \alias{as_csquares.data.frame}
 \alias{as_csquares.sf}
+\alias{as_csquares.sfc}
 \alias{as_csquares.stars}
 \title{Convert lon-lat coordinates into c-square codes}
 \usage{
@@ -21,6 +22,8 @@ as_csquares(x, resolution, csquares, ...)
 \method{as_csquares}{data.frame}(x, resolution = 1, csquares, ...)
 
 \method{as_csquares}{sf}(x, resolution = 1, csquares, ..., use_centroids = TRUE)
+
+\method{as_csquares}{sfc}(x, resolution = 1, csquares, ..., use_centroids = TRUE)
 
 \method{as_csquares}{stars}(x, resolution = 1, csquares, ...)
 }

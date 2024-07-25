@@ -145,10 +145,12 @@ resample_csquares <- function(x, method = "target", ..., resolution, magnitude =
     grd <- new_csquares(x |> as_csquares(csquares = .by, validate = FALSE) |>
                           sf::st_as_sf(), resolution = resolution) |>
       dplyr::rename(!!.by := "csquares")
+    ret <- x |> sf::st_drop_geometry()
+    class(ret) <- setdiff(class(ret), "csquares")
     ret <- grd |>
       .to_df() |>
       dplyr::mutate(!!.by := as_csquares(.data[[.by]])) |>
-      dplyr::left_join(x |> sf::st_drop_geometry(), by = .by)
+      dplyr::left_join(ret, by = .by)
     x <- stars::st_as_stars(.set_dim(ret, dim(grd)),
                             dimensions = stars::st_dimensions(grd))
     x <- .s3_finalise(x, .by)

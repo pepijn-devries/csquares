@@ -27,6 +27,7 @@
 }
 
 .check_csquare_validity <- function(x, allow_wildcards = FALSE) {
+
   num_char <- nchar(x)
   num_char_max <- max(num_char)
   
