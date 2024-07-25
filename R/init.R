@@ -37,6 +37,7 @@ register_all_s3_methods = function() {
   register_s3_method("dplyr",   "slice",         "csquares")
   register_s3_method("dplyr",   "summarise",     "csquares")
   register_s3_method("dplyr",   "ungroup",       "csquares")
+  ## dplyr joins
   register_s3_method("dplyr",   "inner_join",    "csquares")
   register_s3_method("dplyr",   "left_join",     "csquares")
   register_s3_method("dplyr",   "full_join",     "csquares")
