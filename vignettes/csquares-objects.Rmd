@@ -101,7 +101,7 @@ class(csquares_df)
 ```
 
 This means that you can apply all operations that you could apply to a normal `data.frame`. This includes
-[tidyverse](https:://www.tidyverse.org) operations as explained in more detail in `vignette("tidy")`. For
+[tidyverse](https://www.tidyverse.org) operations as explained in more detail in `vignette("tidy")`. For
 example, you can add columns with data:
 
 ```{r csquares-obj-mut, message=FALSE}
