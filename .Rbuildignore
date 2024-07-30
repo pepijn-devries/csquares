@@ -4,5 +4,6 @@
 ^\.Rproj\.user$
 ^CODE_OF_CONDUCT\.md$
 ^\.github$
+^build$
 ^docs$
 ^pkgdown$
