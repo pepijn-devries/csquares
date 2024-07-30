@@ -1,7 +1,12 @@
-csquares v0.0.6.0001
+csquares v0.0.7.0002
 -------------
 
-  * TODO
+  * Added coverage workflow
+  * Reduce file size of vignettes
+
+csquares v0.0.7
+-------------
+
   * Added functions to convert ICES rectangles
   * Added tidyverse join operations
   * Added vignettes:
