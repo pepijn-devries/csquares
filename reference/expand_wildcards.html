@@ -22,7 +22,7 @@ Check out vignette("wildcards") for more details.'><meta property="og:image" con
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">csquares</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7.0002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.7.0004</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@ specify the column name that contains the csquares codes with wildcards.</p></dd
 <span class="r-in"><span><span class="fu">expand_wildcards</span><span class="op">(</span><span class="st">"1000:***:*"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  csquares [1:1] 400 squares</span>
 <span class="r-in"><span><span class="fu">expand_wildcards</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1000:*"</span>, <span class="st">"1000:***"</span>, <span class="st">"1000:1**"</span>, <span class="st">"1000:***:*"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  csquares [1:4]   4 squares, N 0 E  0 (1°),   4 squares, N 0 E  0 (0.5°)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  csquares [1:4]   4 squares, 100 squares,  25 squares, 400 squares</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">expand_wildcards</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>csq <span class="op">=</span> <span class="st">"1000:*"</span>, foo <span class="op">=</span> <span class="st">"bar"</span><span class="op">)</span>, csquares <span class="op">=</span> <span class="st">"csq"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           csq foo</span>
