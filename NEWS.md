@@ -1,8 +1,10 @@
-csquares v0.0.7.0002
+csquares v0.0.7.0004
 -------------
 
   * Added coverage workflow
+  * Improved test coverage
   * Reduce file size of vignettes
+  * Several minor fixes
 
 csquares v0.0.7
 -------------

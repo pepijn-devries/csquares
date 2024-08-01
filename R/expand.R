@@ -51,7 +51,7 @@ expand_wildcards <- function(x, csquares, ...) {
     dplyr::mutate(
       code_id      = dplyr::row_number(),
       valid        = .check_csquare_validity(.data$codes, allow_wildcards = TRUE),
-      wildcard_pos = lapply(x, \(x) gregexpr("[*]", x)[[1]])
+      wildcard_pos = lapply(x$codes, \(x) gregexpr("[*]", x)[[1]])
     ) |>
     tidyr::unnest("wildcard_pos")
   

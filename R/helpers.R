@@ -265,11 +265,12 @@
     ))
   }
   if (!is.null(.by) && !.by %in% names(x)) {
-    .by2 <- (lapply(x, inherits, "csquares") |> unlist()) |> which()
-    if (length(.by2) < 1)
+    if (length(x) == 0L) .by2 <- NULL else
+      .by2 <- (lapply(x, inherits, "csquares") |> unlist()) |> which()
+    if (length(.by2) < 1L)
       rlang::abort(c(x = "No csquares column found in csquares object!",
                      i = "Make sure you are working with a valid csquares object."))
-    .by <- names(x)[[.by2[[1]]]]
+    .by <- names(x)[[.by2[[1L]]]]
   }
   
   .by

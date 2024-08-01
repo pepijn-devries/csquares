@@ -28,7 +28,15 @@
 st_as_sf.csquares <- function(x, ..., use_geometry = TRUE) {
   is_spatial <- inherits(x, c("stars", "sf"))
   if (use_geometry && is_spatial) {
+    if (inherits(x, "stars")) {
+      .by <- .s3_df_stars_prep(x)
+      x[[.by]] <- unclass(x[[.by]])
+    }
     result <- NextMethod()
+    if (inherits(x, "stars")) {
+      attributes(result)$csquares_col <- .by
+      result[[.by]] <- as_csquares(result[[.by]], validate = FALSE)
+    }
   } else {
     if (is_spatial) {
       if (inherits(x, "sf")) {
@@ -75,8 +83,6 @@ st_as_sfc.csquares <- function(x, ..., use_geometry = TRUE) {
   if (inherits(x, c("data.frame", "stars")))
     x <- x[[attributes(x)$csquares_col]]
   x <- .csquares_to_coords(x) |> dplyr::pull("geom")
-  if (x |> lapply(sf::st_is_empty) |> unlist() |> any())
-    rlang::warn("Malformed csquares, introduced empty geometries.")
   x |>
     lapply(sf::st_union, by_feature = TRUE) |>
     sf::st_as_sfc()

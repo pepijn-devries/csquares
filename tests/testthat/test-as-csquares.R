@@ -52,3 +52,29 @@ test_that("A stars can be converted into a csquares object", {
     inherits(orca_stars, "csquares") && "csquares_col" %in% names(attributes(orca_stars))
   })
 })
+
+test_that("Error when coercing unsupported type to csquares", {
+  expect_error({
+    as_csquares(raw(0))
+  })
+})
+
+test_that("Error when coercing invalid string to csquares", {
+  expect_error({
+    as_csquares("2000")
+  })
+})
+
+test_that("Error when coercing numeric with wrong dimensions to csquares", {
+  expect_error({
+    as_csquares(1L)
+  })
+})
+
+test_that("Expect specific number of items when converting string with wildcard", {
+  expect_equal(as_csquares("*000") |> length(), 1L)
+})
+
+# test_that("Warn when csquares column is specified when coercing stars", {
+#   new_csquares(sf::st_bbox(c(xmin = 0, xmax = 1, ymin = 50, ymax = 51), crs = 4326)) |> as_csquares()#TODO
+# })

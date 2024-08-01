@@ -68,3 +68,33 @@ test_that(
       all(ices == test_rects)
     })
   })
+
+test_that(
+  "`ices_rectangles` produces a simple features object with same number of rows as input length",
+  {
+    expect_true({
+      rct <- ices_rectangles(test_rects)
+      inherits(rct, "sf") && nrow(rct) == length(test_rects)
+    })
+  })
+
+test_that(
+  "Error for invalid ICES code",
+  {
+    expect_error({
+      ices_centroids("31I1")
+    })
+  })
+
+test_that(
+  "Warning for ICES subrectangles to csquares",
+  {
+    expect_warning({ices_to_csquares("31F21")})
+  })
+
+test_that(
+  "Character is also accepted as csquares (when valid csquares) and produces correct ICES rect",
+  {
+    expect_equal(ices_from_csquares("1500:122:1"), "33F2")
+  })
+

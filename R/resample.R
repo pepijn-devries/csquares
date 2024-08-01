@@ -85,7 +85,8 @@ resample_csquares <- function(x, method = "target", ..., resolution, magnitude =
 
   csq <-
     csq |>
-    dplyr::mutate(id = dplyr::row_number()) |>
+    dplyr::mutate(id = dplyr::row_number(),
+                  csq = strsplit(.data$csq, "[|]")) |>
     tidyr::unnest("csq") |>
     dplyr::mutate(
       len = nchar(.data$csq),
@@ -123,7 +124,10 @@ resample_csquares <- function(x, method = "target", ..., resolution, magnitude =
     dplyr::summarise(csq = .data$csq |> as.character() |> unique() |> sort() |> paste0(collapse = "|")) |>
     dplyr::pull("csq")
   
-  if (is_df || is_stars) x[[.by]] <- csq else x <- csq
+  if (is_df || is_stars) {
+    x[[.by]] <- csq
+    class(x) <- union("csquares", class(x))
+  } else x <- csq
   if (is_sf) x <- sf::st_as_sf(x)
   if (is_stars) {
     class(x) <- setdiff(class(x), "csquares")
