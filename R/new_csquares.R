@@ -30,6 +30,7 @@ new_csquares <-
     if (is.na(crs_in)) {
       rlang::warn("Object 'x' crs is unknown, assuming it is EPSG:4326.")
       crs_in <- sf::st_crs(4326)
+      sf::st_crs(x) <- crs_in
     }
     
     x <-

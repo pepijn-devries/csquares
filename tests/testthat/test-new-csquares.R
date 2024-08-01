@@ -59,3 +59,11 @@ test_that("Fine grids near N0, E0 don't produce duplicated csquares", {
     fine_grid |> pull("csquares") |> c() |> duplicated() |> any()
   })
 })
+
+test_that("Warning when crs is missing", {
+  expect_warning({
+    nc2 <- nc
+    sf::st_crs(nc2) <- NA
+    new_csquares(nc2, 10)
+  })
+})

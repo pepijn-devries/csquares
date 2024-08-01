@@ -62,3 +62,4 @@ st_as_stars.csquares <-
     }
     NextMethod()
   }
+
