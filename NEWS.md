@@ -1,7 +1,7 @@
-csquares v0.0.7.0004
+csquares v0.0.8
 -------------
 
-  * Added coverage workflow
+  * Added code coverage workflow and badge
   * Improved test coverage
   * Reduce file size of vignettes
   * Several minor fixes

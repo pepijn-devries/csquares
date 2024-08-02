@@ -61,7 +61,7 @@ in_csquares <- function(x, table, strict = FALSE, mode = "any", ...) {
   fun <- if(mode == "any") any else all
   if (!inherits(x, "character")) {
     .by <- attributes(x)$csquares_col
-    x <- x[[.by]]
+    if (!is.null(.by)) x <- x[[.by]]
   }
   if (!inherits(x, c("character", "csquares")))
     rlang::abort(

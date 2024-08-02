@@ -30,7 +30,6 @@
 inner_join.csquares = function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   .no_stars(x)
   .by <- .s3_df_stars_prep(x, "inner_join")
-  if (is.null(.by)) .by <- .s3_df_stars_prep(y, "inner_join")
   class(x) <- setdiff(class(x), "csquares")
   class(y) <- setdiff(class(y), "csquares")
   result <- NextMethod()
@@ -42,7 +41,6 @@ inner_join.csquares = function(x, y, by = NULL, copy = FALSE, suffix = c(".x", "
 #' @rdname tidyjoins
 left_join.csquares = function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   .by <- .s3_df_stars_prep(x, "left_join")
-  if (is.null(.by)) .by <- .s3_df_stars_prep(y, "left_join")
   class(x) <- setdiff(class(x), "csquares")
   class(y) <- setdiff(class(y), "csquares")
   if (inherits(x, "stars")) {
@@ -65,7 +63,6 @@ left_join.csquares = function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 right_join.csquares = function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   .no_stars(x)
   .by <- .s3_df_stars_prep(x, "right_join")
-  if (is.null(.by)) .by <- .s3_df_stars_prep(y, "right_join")
   class(x) <- setdiff(class(x), "csquares")
   class(y) <- setdiff(class(y), "csquares")
   result <- NextMethod()
@@ -78,7 +75,6 @@ right_join.csquares = function(x, y, by = NULL, copy = FALSE, suffix = c(".x", "
 full_join.csquares = function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   .no_stars(x)
   .by <- .s3_df_stars_prep(x, "full_join")
-  if (is.null(.by)) .by <- .s3_df_stars_prep(y, "full_join")
   class(x) <- setdiff(class(x), "csquares")
   class(y) <- setdiff(class(y), "csquares")
   result <- NextMethod()
@@ -91,7 +87,6 @@ full_join.csquares = function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 semi_join.csquares = function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   .no_stars(x)
   .by <- .s3_df_stars_prep(x, "semi_join")
-  if (is.null(.by)) .by <- .s3_df_stars_prep(y, "semi_join")
   class(x) <- setdiff(class(x), "csquares")
   class(y) <- setdiff(class(y), "csquares")
   result <- NextMethod()
@@ -104,7 +99,6 @@ semi_join.csquares = function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 anti_join.csquares = function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   .no_stars(x)
   .by <- .s3_df_stars_prep(x, "semi_join")
-  if (is.null(.by)) .by <- .s3_df_stars_prep(y, "semi_join")
   class(x) <- setdiff(class(x), "csquares")
   class(y) <- setdiff(class(y), "csquares")
   result <- NextMethod()
@@ -114,9 +108,8 @@ anti_join.csquares = function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".
 
 #' @name join
 #' @rdname tidyjoins
-st_join.csquares = function(x, y, join, ..., suffix) {
+st_join.csquares = function(x, y, join, ..., suffix = c(".x", ".y")) {
   .by <- .s3_df_stars_prep(x, "st_join")
-  if (is.null(.by)) .by <- .s3_df_stars_prep(y, "st_join")
   class(x) <- setdiff(class(x), "csquares")
   class(y) <- setdiff(class(y), "csquares")
   result <- NextMethod()

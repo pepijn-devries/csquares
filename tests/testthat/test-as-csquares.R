@@ -1,5 +1,5 @@
-library(sf) |> suppressMessages()
-library(dplyr) |> suppressMessages()
+library(sf) |> suppressMessages() |> suppressWarnings()
+library(dplyr) |> suppressMessages() |> suppressWarnings()
 
 crds <-
   cbind(x = runif(100, -180, 180), y = runif(100, -90, 90))
@@ -75,6 +75,32 @@ test_that("Expect specific number of items when converting string with wildcard"
   expect_equal(as_csquares("*000") |> length(), 1L)
 })
 
-# test_that("Warn when csquares column is specified when coercing stars", {
-#   new_csquares(sf::st_bbox(c(xmin = 0, xmax = 1, ymin = 50, ymax = 51), crs = 4326)) |> as_csquares()#TODO
-# })
+test_that("Error when input is of unsupported type", {
+  expect_error(as_csquares(TRUE))
+})
+
+test_that("Error when input is invalid code", {
+  expect_error(as_csquares("foobar"))
+})
+
+test_that("Wildcards are supported", {
+  expect_identical(as_csquares("1000:*") |> unclass(), "1000:1|1000:2|1000:3|1000:4")
+})
+
+test_that("Error when numeric is not matrix", {
+  expect_error(as_csquares(1L))
+})
+
+test_that("Warn when csquares column is specified when coercing stars",{
+  expect_warning({
+    temp <-
+      new_csquares(sf::st_bbox(c(xmin = 0, xmax = 1, ymin = 50, ymax = 51), crs = 4326)) |>
+      as_csquares()
+    temp|> as_csquares(csquares = "csquares")
+  })
+})
+
+test_that("If already a csquares identical object is returned", {
+  expect_identical(crds_sf |> st_drop_geometry(),
+                   crds_sf |> st_drop_geometry() |> as_csquares())
+})
