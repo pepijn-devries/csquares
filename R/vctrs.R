@@ -4,7 +4,7 @@ vec_proxy.csquares <- function(x, ...) {
 
 vec_restore.csquares <- function(x, to, ...) {
   if (inherits(to, "csquares") && !inherits(x, "csquares")) as_csquares(x) else
-    if (inherits(to, "character")) as.character(x) else
+    if (inherits(to, "character")) as_csquares(x, validate = FALSE) else
       x
 }
 
@@ -48,9 +48,6 @@ vec_cast.csquares.default <- function(x, to, ...) {
 #' @export vec_ptype2.csquares
 #' @export
 vec_ptype2.csquares <- function(x, y, ...) {
-  if (typeof(x) != "character")
-    rlang::abort(c(x = "Vector operations on `csquare` are only allowed if they inherit `character`.",
-                   i = "If `x` inherits from `data.frame` or `stars`, pull the csquares column from that object."))
   UseMethod("vec_ptype2.csquares", y)
 }
 
@@ -58,6 +55,7 @@ vec_ptype2.csquares <- function(x, y, ...) {
 #' @method vec_ptype2.csquares character
 #' @export
 vec_ptype2.csquares.character <- function(x, y, ...) {
+  .vec_char_only(x)
   as_csquares(character(0))
 }
 
@@ -65,6 +63,7 @@ vec_ptype2.csquares.character <- function(x, y, ...) {
 #' @method vec_ptype2.csquares csquares
 #' @export
 vec_ptype2.csquares.csquares <- function(x, y, ...) {
+  .vec_char_only(x)
   as_csquares(character(0))
 }
 
@@ -72,5 +71,12 @@ vec_ptype2.csquares.csquares <- function(x, y, ...) {
 #' @method vec_ptype2.csquares default
 #' @export
 vec_ptype2.csquares.default <- function(x, y, ..., x_arg = "x", y_arg = "y") {
+  .vec_char_only(x)
   vctrs::vec_default_ptype2(x, y, x_arg = x_arg, y_arg = y_arg)
+}
+
+.vec_char_only <- function(x) {
+  if (typeof(x) != "character")
+    rlang::abort(c(x = "Vector operations on `csquare` are only allowed if they inherit `character`.",
+                   i = "If `x` inherits from `data.frame` or `stars`, pull the csquares column from that object."))
 }

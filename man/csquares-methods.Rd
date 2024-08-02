@@ -6,7 +6,6 @@
 \alias{as.character.csquares}
 \alias{summary.csquares}
 \alias{as.data.frame.csquares}
-\alias{data.frame.csquares}
 \alias{c.csquares}
 \alias{rbind.csquares}
 \alias{cbind.csquares}
@@ -29,8 +28,6 @@
 \method{summary}{csquares}(object, ...)
 
 \method{as.data.frame}{csquares}(x, ...)
-
-data.frame.csquares(...)
 
 \method{c}{csquares}(...)
 

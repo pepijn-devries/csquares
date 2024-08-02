@@ -93,28 +93,20 @@ filter.csquares <- function(.data, ..., .dots) {
 select.csquares <- function(.data, ...) {
   # If .data is a 'csquares' object, make sure that the 'select' doesn't drop the
   # csquares column
-  if (inherits(.data, c("stars", "data.frame"))) {
-    if (!requireNamespace("tidyselect", quietly = TRUE)) 
-      rlang::abort(c(
-        x = "tidyselect required",
-        i = "Install it first and try again"))
-    loc <- tidyselect::eval_select(quote(c(...)), .data |> dplyr::as_tibble()) |> names()
-    .by <- attributes(.data)$csquares_col
-    loc <- union(
-      loc,
-      tidyselect::eval_select(quote(dplyr::any_of(.by)), .data |> dplyr::as_tibble()) |> names()
-    )
-    class(.data) <- setdiff(class(.data), "csquares")
-    .data <- .data |>
-      dplyr::select(dplyr::any_of(loc)) |>
-      .s3_finalise(.by)
-  } else {
+  .by <- .s3_df_stars_prep(.data, "filter")
+  if (!requireNamespace("tidyselect", quietly = TRUE)) 
     rlang::abort(c(
-      x = "'select' not available for csquares objects that don't inherit class 'data.frame'",
-      i = "Coerce your csquares object to 'sf', 'tibble', or 'data.frame' first."
-    ))
-  }
-  .data
+      x = "tidyselect required",
+      i = "Install it first and try again"))
+  loc <- tidyselect::eval_select(quote(c(...)), .data |> dplyr::as_tibble()) |> names()
+  loc <- union(
+    loc,
+    tidyselect::eval_select(quote(dplyr::any_of(.by)), .data |> dplyr::as_tibble()) |> names()
+  )
+  class(.data) <- setdiff(class(.data), "csquares")
+  .data <- .data |>
+    dplyr::select(dplyr::any_of(loc)) |>
+    .s3_finalise(.by)
 }
 
 #' @name tidyverse
@@ -179,9 +171,11 @@ rename.csquares <- function(.data, ...) {
 rename_with.csquares <- function(.data, .fn, .cols, ...) {
   .no_stars(.data)
   .by <- .s3_df_stars_prep(.data, "rename_with")
-  loc    <- tidyselect::eval_rename(.cols, .data)
+  loc    <- tidyselect::eval_select(rlang::enquo(.cols), .data, allow_rename = FALSE)
   by_loc <- which(names(.data) == .by)
-  result <- NextMethod()
+  class(.data) <- setdiff(class(.data), "csquares")
+
+  result <- dplyr::rename_with(.data = .data, .fn = .fn, .cols = {{.cols}}, ...)
   if (by_loc %in% loc) .by <- names(result)[[by_loc]]
   .s3_finalise(result, .by)
 }
@@ -252,7 +246,17 @@ pivot_longer.csquares <- function(
   .by <- .s3_df_stars_prep(data, "pivot_longer")
   if (attributes(data)$csquares_col %in% cols)
     rlang::abort(c(x = "Cannot pivot 'csquares' column", i = "Please pivot other column(s)"))
-  .s3_finalise(NextMethod(), .by)
+  class(data) <- setdiff(class(data), "csquares")
+  result <-
+    tidyr::pivot_longer(
+      data = data, cols = {{cols}},
+      names_to = names_to, names_prefix = names_prefix, names_sep = names_sep, 
+      names_pattern = names_pattern, names_ptypes = names_ptypes, 
+      names_transform = names_transform, names_repair = names_repair, 
+      values_to = values_to, values_drop_na = values_drop_na, 
+      values_ptypes = values_ptypes, values_transform = values_transform, 
+      ...)
+  .s3_finalise(result, .by)
 }
 
 #' @name tidyverse
@@ -277,9 +281,9 @@ pivot_wider.csquares <- function(
   attributes(data)$agr          <- NULL
   result <-
     tidyr::pivot_wider(
-      data, ..., id_cols = id_cols, id_expand = id_expand, names_from = names_from, names_prefix = names_prefix,
+      data, ..., id_cols = {{id_cols}}, id_expand = id_expand, names_from = {{names_from}}, names_prefix = names_prefix,
       names_sep = names_sep, names_glue = names_glue, names_sort = names_sort, names_vary = names_vary,
-      names_expand = names_expand, names_repair = names_repair, values_from = values_from, values_fill = values_fill,
+      names_expand = names_expand, names_repair = names_repair, values_from = {{values_from}}, values_fill = values_fill,
       values_fn = values_fn, unused_fn = unused_fn)
   if (!.by %in% id_cols) {
     result <-
@@ -371,7 +375,8 @@ unnest.csquares_nested <- function(data, cols, ...) {
     }
   }
   cols <- names(cols)
-  data <- NextMethod()
+  class(data) <- setdiff(class(data), "csquares_nested")
+  data <- tidyr::unnest(data, {{cols}}, ...)
   data[[.by]] <- as_csquares(data[[.by]], validate = FALSE)
   .s3_finalise(data, .by)
 }
@@ -379,6 +384,6 @@ unnest.csquares_nested <- function(data, cols, ...) {
 #' @name tidyverse
 #' @rdname tidyverse
 drop_na.csquares <- function(x, ...) {
-  .by <- .s3_df_stars_prep(.data, "drop_na")
+  .by <- .s3_df_stars_prep(x, "drop_na")
   .s3_finalise(NextMethod(), .by)
 }

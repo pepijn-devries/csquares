@@ -53,13 +53,7 @@ new_csquares <-
     result <-
       x |>
       stars::st_as_stars(dx = resolution, dy = resolution)
-    
-    if (sf::st_crs(x)$input != "EPSG:4326") {
-      result <-
-        result |>
-        sf::st_transform(crs = crs)
-    }
-    
+
     result[["values"]] <- NULL
     result[["csquares"]] <- as_csquares.stars(result, resolution = resolution)[["csquares"]]
     result <- .s3_finalise(result, "csquares")

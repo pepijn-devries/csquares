@@ -101,12 +101,6 @@ as.data.frame.csquares <- function(x, ...) {
 
 #' @rdname csquares-methods
 #' @export
-data.frame.csquares <- function(...) {
-  NextMethod()
-}
-
-#' @rdname csquares-methods
-#' @export
 c.csquares <- function(...) {
   .no_stars(list(...)[[1]], "c")
   if (.all_of_class(..., my_class = "character")) {
@@ -126,9 +120,11 @@ rbind.csquares <- function(..., deparse.level = 1) {
   .no_stars_or_char(list(...)[[1]], "rbind")
   .by <- attributes(list(...)[[1]])$csquares_col
   result <- lapply(list(...), \(x) {
-    if (!inherits(x, "csquares")) x <- as_csquares(x, use_centroids = FALSE)
-    attributes(x)$csquares_col <- NULL
-    class(x) <- setdiff(class(x), "csquares")
+    if (!is.null(x)) {
+      if (!inherits(x, "csquares")) x <- as_csquares(x, use_centroids = FALSE)
+      attributes(x)$csquares_col <- NULL
+      class(x) <- setdiff(class(x), "csquares")
+    }
     x
   })
   result <- do.call(rbind, result)
@@ -145,8 +141,10 @@ cbind.csquares <- function(..., deparse.level = 1) {
   .by <- names(result)[[idx]]
 
   result <- lapply(list(...), \(x) {
-    attributes(x)$csquares_col <- NULL
-    class(x) <- setdiff(class(x), "csquares")
+    if (!is.null(x)) {
+      attributes(x)$csquares_col <- NULL
+      class(x) <- setdiff(class(x), "csquares")
+    }
     x
   })
   result <- do.call(cbind, result)

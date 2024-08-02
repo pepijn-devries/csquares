@@ -23,7 +23,7 @@ semi_join.csquares(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
 anti_join.csquares(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
-st_join.csquares(x, y, join, ..., suffix)
+st_join.csquares(x, y, join, ..., suffix = c(".x", ".y"))
 }
 \arguments{
 \item{x, y}{A pair of data frames, data frame extensions (e.g. a tibble), or

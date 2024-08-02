@@ -100,6 +100,7 @@ as_csquares.data.frame <- function(x, resolution = 1, csquares, ...) {
 #' @rdname as_csquares
 #' @export
 as_csquares.sf <- function(x, resolution = 1, csquares, ..., use_centroids = TRUE) {
+  if (inherits(x, "csquares")) return(x)
   if (use_centroids) x <- sf::st_centroid(x)
   .csquares_spatial(x, resolution)
 }
