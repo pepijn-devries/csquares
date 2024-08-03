@@ -25,7 +25,7 @@ theme_set(theme_light())
 [![version](https://www.r-pkg.org/badges/version/csquares)](https://CRAN.R-project.org/package=csquares)
 [![cran checks](https://badges.cranchecks.info/worst/csquares.svg)](https://cran.r-project.org/web/checks/check_results_csquares.html)
 [![csquares status badge](https://pepijn-devries.r-universe.dev/badges/csquares)](https://pepijn-devries.r-universe.dev/csquares)
-[![codecov](https://codecov.io/gh/pepijn-devries/csquares/graph/badge.svg?token=WCN5V5KJTH)](https://codecov.io/gh/pepijn-devries/csquares)
+[![codecov](https://codecov.io/gh/pepijn-devries/csquares/graph/badge.svg?token=WCN5V5KJTH)](https://app.codecov.io/gh/pepijn-devries/csquares)
 <!-- badges: end -->
 
 <img src="man/figures/logo.png" align="right" height="139" alt="" />

@@ -6,3 +6,5 @@ build
 inst/doc
 docs
 pkgdown
+/doc/
+/Meta/
