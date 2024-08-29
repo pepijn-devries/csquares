@@ -10,6 +10,7 @@
 #' @inheritParams dplyr::inner_join
 #' @inheritParams sf::st_join
 #' @examples
+#' \donttest{
 #' if (requireNamespace(c("sf", "dplyr"))) {
 #'   library(csquares)
 #'   library(sf)
@@ -25,7 +26,7 @@
 #'   orca_grid <- new_csquares(orca_sf, 5)
 #'   orca_grid <- left_join(orca_grid, orca, by = "csquares")
 #' }
-#' 
+#' }
 #' @author Pepijn de Vries
 inner_join.csquares = function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   .no_stars(x)

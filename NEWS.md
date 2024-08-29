@@ -1,4 +1,4 @@
-csquares v0.0.9
+csquares v0.1.0
 -------------
 
   * Added code coverage workflow and badge
