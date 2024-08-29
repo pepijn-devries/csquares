@@ -80,6 +80,7 @@ generics. So load the \code{dplyr} package first, then call the function without
 suffix (see examples). When \code{x} inherits from \code{stars}, only \code{left_join} is supported.
 }
 \examples{
+\donttest{
 if (requireNamespace(c("sf", "dplyr"))) {
   library(csquares)
   library(sf)
@@ -95,7 +96,7 @@ if (requireNamespace(c("sf", "dplyr"))) {
   orca_grid <- new_csquares(orca_sf, 5)
   orca_grid <- left_join(orca_grid, orca, by = "csquares")
 }
-
+}
 }
 \author{
 Pepijn de Vries

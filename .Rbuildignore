@@ -4,7 +4,7 @@
 ^\.Rproj\.user$
 ^CODE_OF_CONDUCT\.md$
 ^\.github$
+^doc$
 ^docs$
 ^pkgdown$
-^doc$
 ^Meta$
