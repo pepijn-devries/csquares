@@ -107,6 +107,9 @@ st_bbox(c(xmin = 5.0, xmax = 5.5, ymin = 52.5, ymax = 53), crs = 4326) |>
 
 ## References
 
+- Rees, T. (2015); ““C-Squares,” A New Spatial Indexing System and its
+  Applicability to the Description of Oceanographic Datasets”
+  Oceanography 16(1), 11-19 <https://doi.org/10.5670/oceanog.2003.52>
 - <https://www.cmar.csiro.au/csquares/>
 - <https://en.wikipedia.org/wiki/C-squares>
 - Costello, M.J. (2017); University of Auckland
