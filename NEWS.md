@@ -1,3 +1,8 @@
+csquares v0.1.0.0001
+-------------
+
+  * Added reference to Rees (2015)
+
 csquares v0.1.0
 -------------
 

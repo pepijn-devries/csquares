@@ -45,8 +45,9 @@ csquare R package facilitates the translation of c-square code into spatial info
 and vice versa.
 
 For more technical information on c-squares, please consult the
-[Wikipedia page](https://en.wikipedia.org/wiki/C-squares) or the
-[CSIRO c-squares page](https://www.cmar.csiro.au/csquares/).
+[Wikipedia page](https://en.wikipedia.org/wiki/C-squares); the
+[CSIRO c-squares page](https://www.cmar.csiro.au/csquares/); or the
+[original paper by Tony Rees](https://doi.org/10.5670/oceanog.2003.52).
 
 ## Installation
 
@@ -102,6 +103,10 @@ st_bbox(c(xmin = 5.0, xmax = 5.5, ymin = 52.5, ymax = 53), crs = 4326) |>
 
 ## References
 
+ * Rees, T. (2015); ""C-Squares," A New Spatial Indexing
+   System and its Applicability to the Description of
+   Oceanographic Datasets" Oceanography 16(1), 11-19
+   <https://doi.org/10.5670/oceanog.2003.52>
  * <https://www.cmar.csiro.au/csquares/>
  * <https://en.wikipedia.org/wiki/C-squares>
  * Costello, M.J. (2017); University of Auckland <https://doi.org/10.17608/k6.auckland.5086654>
