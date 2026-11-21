@@ -24,7 +24,7 @@ library(csquares)
 _Support for ICES rectangles is experimental_
 
 [ICES statistical rectangles](https://en.wikipedia.org/wiki/ICES_Statistical_Rectangles) is
-a notation system developped by the International Council for the Exploration of the Sea (ICES).
+a notation system developed by the International Council for the Exploration of the Sea (ICES).
 The packages allows you to convert the notation into a [`sf`](https://r-spatial.github.io/sf/)
 object. The example and illustration below shows a small subset of ICES rectangles and subrectangles.
 

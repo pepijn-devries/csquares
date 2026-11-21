@@ -32,7 +32,7 @@ print(csq)
 These are four squares of 5&deg; by 5&deg;. As you can see the first four digits
 of each of the four squares are identical. Therefore, these squares could be
 notated as `"1000:*"` where `*` is the wildcard symbol. The wildcard thus represent
-each of the four posibble values that are allowed at its position. Constructing a
+each of the four possible values that are allowed at its position. Constructing a
 `csquares` object with `as_csquares()` results in an identical object when the either
 the long format or the compact notation with wildcard is used.
 
@@ -52,7 +52,7 @@ The `csquares` object does not store wildcards, as it will use the expanded form
 with explicit notation, where each raster cell is included in the character string and
 is separated by the pipe `"|"` character. The function `as_csquares()` wraps a
 call to `expand_wildcards()` which expands c-square codes containing wildcards. It will
-replace the short notation with wildcard by pipe seperated csquares codes.
+replace the short notation with wildcard by pipe separated csquares codes.
 
 ```{r expand}
 expand_wildcards("1000:*") |>

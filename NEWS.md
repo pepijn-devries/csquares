@@ -2,6 +2,9 @@ csquares v0.1.0.0001
 -------------
 
   * Added reference to Rees (2015)
+  * Replaced deprecated tidyverse function calls
+  * Fix for https://github.com/pepijn-devries/csquares/issues/38
+  * Corrected some typos
 
 csquares v0.1.0
 -------------

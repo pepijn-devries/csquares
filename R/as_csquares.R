@@ -22,6 +22,13 @@
 #' @returns Returns a `csquares` object that contains c-squares codes.
 #' @examples
 #' as_csquares(cbind(x = 5.2399066, y = 52.7155812), resolution = 1)
+#' pts <-
+#'   expand.grid(
+#'     x = seq(-0.1, 0.1, by = 0.01),
+#'     y = seq(-0.1, 0.1, by = 0.01)
+#'   ) |>
+#'   sf::st_as_sf(coords = c("x", "y"), crs = 4326)
+#' as_csquares(pts, 0.05)
 #' orca_csq <- as_csquares(orca, csquares = "csquares")
 #' @include helpers.R
 #' @author Pepijn de Vries
@@ -137,57 +144,59 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
 .csquares_generic <- function(x, resolution) {
   l10 <- attributes(resolution)$l10
   l5  <- attributes(resolution)$l5
+  res <- as.numeric(resolution)
+  
   x <-
     x |>
     dplyr::as_tibble(.name_repair = "minimal") |>
     dplyr::rename(x = 1, y = 2)
   
-  if (!"L3" %in% colnames(x))
+  if (!"L3" %in% colnames(x)) {
     x <-
-    x |>
-    dplyr::mutate(
-      L3 = dplyr::row_number()
-    )
+      x |>
+      dplyr::mutate(
+        L3 = dplyr::row_number()
+      )
+  }
+  
   x <-
     x |>
     dplyr::mutate(
-      quadrant = (0L + 4L*(.data$x < 0)) + (2L + 2L*xor(.data$x >= 0, .data$y >= 0)) - 1L,
-      x_cur    = floor(abs(trunc(.data$x/10)) + resolution*.025),
-      y_cur    = floor(abs(trunc(.data$y/10)) + resolution*.025),
-      x        = abs(.data$x) - resolution*0.25,
-      y        = abs(.data$y) - resolution*0.25,
+      quadrant = (0L + 4L * (.data$x < 0)) + (2L + 2L * xor(.data$x >= 0, .data$y >= 0)) - 1L,
+      abs_x    = ifelse(abs(.data$x) >= 180, 180 - res * 0.25, abs(.data$x)),
+      abs_y    = ifelse(abs(.data$y) >= 90,   90 - res * 0.25, abs(.data$y)),
+      x_center = (floor(.data$abs_x / res) + 0.5) * res,
+      y_center = (floor(.data$abs_y / res) + 0.5) * res,
+      x_cur    = floor(.data$x_center / 10),
+      y_cur    = floor(.data$y_center / 10),
       digits   = {
-        check_dup <- cbind(xc = .data$x_cur, yc = .data$y_cur, x = .data$x, y = .data$y)
-        
-        array(rep(seq_len(l10 + 1), each = length(.data$x)),
-              dim = c(length(.data$x), l10 + 1, 2)) |>
-          apply(2, function(x, x1, y1) {
-            
-            last_digit <- x[1] == (l10 + 1)
-            if (last_digit) fun <- round else fun <- floor
-            x <-
-              (fun((10^(x - 1)) * abs(cbind(y1, x1))) %% 10)
-            x <- cbind(
-              .digit_check(x), x)
-            x[last_digit & l5 == 1,2:3] <- ""
-            
-            apply(x, 1, paste0, collapse = "")
-          }, x1 = .data$x, y1 = .data$y) |>
-          (\(x) if(is.null(dim(x)))
-            paste0(x[x != ""], collapse = ":") else
-              apply(x, 1, paste0, collapse = ":"))()
-        
+        array(
+          rep(seq_len(l10 + 1L), each = length(.data$x_center)),
+          dim = c(length(.data$x_center), l10 + 1L, 2L)
+        ) |>
+          apply(2, function(idx, x1, y1) {
+            last_digit <- idx[1L] == (l10 + 1L)
+            vals <- floor((10^(idx - 1L)) * cbind(y1, x1)) %% 10
+            vals <- cbind(.digit_check(vals), vals)
+            vals[last_digit & l5 == 1L, 2:3] <- ""
+            apply(vals, 1, paste0, collapse = "")
+          }, x1 = .data$x_center, y1 = .data$y_center) |>
+          (\(m) if (is.null(dim(m))) {
+            paste0(m[m != ""], collapse = ":")
+          } else {
+            apply(m, 1, paste0, collapse = ":")
+          })()
       },
       csquares = cbind(
-        sprintf("%1i%1i%02i", .data$quadrant,
-                abs(.data$y_cur), abs(.data$x_cur)),
-        .data$digits) |>
-        apply(1, \(x) paste0(x[x != ""], collapse = ":"))
+        sprintf("%1i%1i%02i", .data$quadrant, .data$y_cur, .data$x_cur),
+        .data$digits
+      ) |>
+        apply(1, \(r) paste0(r[r != ""], collapse = ":"))
     ) |>
     dplyr::group_by(dplyr::across(dplyr::any_of("L3"))) |>
     dplyr::summarise(csquares = paste0(.data$csquares, collapse = "|")) |>
     dplyr::pull("csquares") |>
     c()
-  x <- vctrs::new_vctr(x, class = c("csquares", "character"))
-  x
+  
+  vctrs::new_vctr(x, class = c("csquares", "character"))
 }

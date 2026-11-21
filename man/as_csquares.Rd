@@ -59,6 +59,13 @@ for a given resolution.
 }
 \examples{
 as_csquares(cbind(x = 5.2399066, y = 52.7155812), resolution = 1)
+pts <-
+  expand.grid(
+    x = seq(-0.1, 0.1, by = 0.01),
+    y = seq(-0.1, 0.1, by = 0.01)
+  ) |>
+  sf::st_as_sf(coords = c("x", "y"), crs = 4326)
+as_csquares(pts, 0.05)
 orca_csq <- as_csquares(orca, csquares = "csquares")
 }
 \author{

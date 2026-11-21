@@ -212,13 +212,13 @@
 }
 
 .get_quadrant <- function(x) {
-  dplyr::case_match(
+  dplyr::recode_values(
     substr(x, 1L, 1L),
     "7" ~ "NW",
     "1" ~ "NE",
     "5" ~ "SW",
     "3" ~ "SE",
-    .default = "--")
+    default = "--")
 }
 
 .no_stars_or_char <- function(x, method) {

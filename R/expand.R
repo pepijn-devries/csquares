@@ -60,12 +60,12 @@ expand_wildcards <- function(x, csquares, ...) {
       wildcard_pos = x$wildcard_pos |> unique() |> sort()
     ) |>
     dplyr::mutate(
-      type = dplyr::case_match(
+      type = dplyr::recode_values(
         .data$wildcard_pos,
         1L ~ 0L,
         2L ~ 1,
         3L ~ 2L,
-        .default =  3L + ((.data$wildcard_pos - 5L) %% 4L > 1L)
+        default =  3L + ((.data$wildcard_pos - 5L) %% 4L > 1L)
       )
     ) |>
     dplyr::left_join(
