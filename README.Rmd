@@ -17,7 +17,7 @@ theme_set(theme_light())
 
 ```
 
-# csquares
+# csquares <a href="https://pepijn-devries.github.io/csquares/"><img src="man/figures/logo.svg" align="right" height="139" alt="csquares website" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/pepijn-devries/csquares/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pepijn-devries/csquares/actions/workflows/R-CMD-check.yaml)
@@ -27,8 +27,6 @@ theme_set(theme_light())
 [![csquares status badge](https://pepijn-devries.r-universe.dev/badges/csquares)](https://pepijn-devries.r-universe.dev/csquares)
 [![codecov](https://codecov.io/gh/pepijn-devries/csquares/graph/badge.svg?token=WCN5V5KJTH)](https://app.codecov.io/gh/pepijn-devries/csquares)
 <!-- badges: end -->
-
-<img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 The Concise Spatial QUery And REpresentation System (c-squares) are identifiers that
 correspond with cells in a global grid. The system was developed by
