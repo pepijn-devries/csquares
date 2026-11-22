@@ -43,3 +43,4 @@ st_as_sf(as_csquares("7500:110:3|7500:110:1|1500:110:3|1500:110:1"))
 \author{
 Pepijn de Vries
 }
+\concept{sf-methods}

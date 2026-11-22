@@ -25,6 +25,13 @@ st_as_stars(as_csquares("7500:110:3|7500:110:1|1500:110:3|1500:110:1"))
 st_as_stars(as_csquares(orca, csquares = "csquares"))
 }
 }
+\seealso{
+Other csquares-class:
+\code{\link[=as_csquares]{as_csquares()}},
+\code{\link[=new_csquares]{new_csquares()}},
+\code{\link[=validate_csquares]{validate_csquares()}}
+}
 \author{
 Pepijn de Vries
 }
+\concept{csquares-class}

@@ -9,6 +9,7 @@
 #' )
 #' @include helpers.R
 #' @author Pepijn de Vries
+#' @family csquares-class
 #' @export
 validate_csquares <- function(x) {
   if (!inherits(x, "csquares"))

@@ -54,6 +54,7 @@
 #'   nrow()
 #' 
 #' @include helpers.R
+#' @family csquares-handlers
 #' @export
 in_csquares <- function(x, table, strict = FALSE, mode = "any", ...) {
   rlang::arg_match(mode, c("any", "all"))

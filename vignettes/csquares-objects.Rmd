@@ -1,8 +1,8 @@
 ---
-title: "Csquares objects"
+title: "Csquares Objects"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Csquares objects}
+  %\VignetteIndexEntry{Csquares Objects}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

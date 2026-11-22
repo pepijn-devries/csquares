@@ -60,6 +60,7 @@
 #' }
 #' }
 #' @author Pepijn de Vries
+#' @family csquares-handlers
 #' @export
 resample_csquares <- function(x, method = "target", ..., resolution, magnitude = 1L) {
   .by <- .s3_df_stars_prep(x, allow_all_types = TRUE)

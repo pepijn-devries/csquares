@@ -1,6 +1,39 @@
 url: https://pepijn-devries.github.io/csquares/
 template:
   bootstrap: 5
+reference:
+  - title: "Creating `csquares` Class Objects"
+    desc: "Functions for creating and maintaining `csquares` class objects"
+    contents:
+      - has_concept("csquares-class")
+  - title: "Base Methods"
+    desc: "Base methods for handling `csquares` class objects"
+    contents:
+      - has_concept("csquares-methods")
+  - title: "Advanced Handlers"
+    desc: "More advanced handlers for `csquares` class objects"
+    contents:
+      - has_concept("csquares-handlers")
+  - title: "Other Grid Encodings"
+    desc: "Functions for handling grid encodings, other than C-Squares"
+    contents:
+      - has_concept("other-encodings")
+  - title: "Implementation of Spatial Methods"
+    desc: "Spatial methods enherited from the `sf` package, but adapted to handle C-Squares objects"
+    contents:
+      - has_concept("sf-methods")
+  - title: "Implementation of Tidy Operators"
+    desc: "Tidy operators from the `dplyr` and `tidyr` package, but adapted to handle C-Squares objects"
+    contents:
+      - has_concept("tidy-operators")
+  - title: "Implementation of vctrs Operators"
+    desc: "Operators from the `vctrs` package, but adapted to handle C-Squares objects"
+    contents:
+      - has_concept("vctrs-methods")
+  - title: "Example Data"
+    desc: "Data used in examples and demonstrations"
+    contents:
+      - has_concept("data")
 authors:
   Pepijn de Vries:
     href: https://github.com/pepijn-devries/

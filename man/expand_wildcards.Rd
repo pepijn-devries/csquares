@@ -36,6 +36,13 @@ expand_wildcards(c("1000:*", "1000:***", "1000:1**", "1000:***:*"))
 
 expand_wildcards(data.frame(csq = "1000:*", foo = "bar"), csquares = "csq")
 }
+\seealso{
+Other csquares-handlers:
+\code{\link[=drop_csquares]{drop_csquares()}},
+\code{\link[=in_csquares]{in_csquares()}},
+\code{\link[=resample_csquares]{resample_csquares()}}
+}
 \author{
 Pepijn de Vries
 }
+\concept{csquares-handlers}

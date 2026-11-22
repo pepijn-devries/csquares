@@ -18,6 +18,7 @@
 #' 
 #' drop_csquares(csq)
 #' @author Pepijn de Vries
+#' @family csquares-handlers
 #' @export
 drop_csquares <- function(x, ...) {
   class(x) <- setdiff(class(x), "csquares")

@@ -77,6 +77,13 @@ if (requireNamespace(c("dplyr", "stars"))) {
 }
 }
 }
+\seealso{
+Other csquares-handlers:
+\code{\link[=drop_csquares]{drop_csquares()}},
+\code{\link[=expand_wildcards]{expand_wildcards()}},
+\code{\link[=in_csquares]{in_csquares()}}
+}
 \author{
 Pepijn de Vries
 }
+\concept{csquares-handlers}

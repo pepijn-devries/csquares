@@ -22,6 +22,7 @@
 #' expand_wildcards(c("1000:*", "1000:***", "1000:1**", "1000:***:*"))
 #' 
 #' expand_wildcards(data.frame(csq = "1000:*", foo = "bar"), csquares = "csq")
+#' @family csquares-handlers
 #' @export
 expand_wildcards <- function(x, csquares, ...) {
   is_char <- inherits(x, "character")

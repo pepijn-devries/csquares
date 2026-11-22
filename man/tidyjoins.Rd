@@ -98,6 +98,11 @@ if (requireNamespace(c("sf", "dplyr"))) {
 }
 }
 }
+\seealso{
+Other tidy-operators:
+\code{\link{tidyverse}}
+}
 \author{
 Pepijn de Vries
 }
+\concept{tidy-operators}
