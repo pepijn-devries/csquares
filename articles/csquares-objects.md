@@ -1,0 +1,174 @@
+# Csquares objects
+
+``` r
+
+library(csquares)
+```
+
+## The S3 class `csquares`
+
+The csquares package has defined a `csquares` class. Objects that are of
+this class contain a `character` vector or is a `character` vector
+itself, where the characters represent valid
+[csquares](https://en.wikipedia.org/wiki/C-squares) codes. The advantage
+to have a distinct class for these objects is that you automatically
+inherit all methods that are available for parent classes. The
+`csquares` object can essentially inherit from the following classes
+(arranged from simplest to most complex):
+
+- `character` vectors;
+- `data.frame`;
+- spatial classes:
+  - sf
+    ([`sf::st_sf()`](https://r-spatial.github.io/sf/reference/sf.html));
+  - stars
+    ([`stars::st_as_stars()`](https://r-spatial.github.io/stars/reference/st_as_stars.html)).
+
+It is important to realise that `csquare` objects can have varying
+parents, which is visualised in the diagram below. What you can do with
+`csquares` objects in part depends on its parent. Let’s start with
+showing how `csqaures` objects are created and how they will inherit
+properties from the different parents listed above.
+
+![](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjgzcHQiIGhlaWdodD0iNDI5cHQiIHZpZXdib3g9IjAuMDAgMC4wMCAyODIuNjkgNDI5LjQwIj48ZyBpZD0iZ3JhcGgwIiBjbGFzcz0iZ3JhcGgiIHRyYW5zZm9ybT0ic2NhbGUoMSAxKSByb3RhdGUoMCkgdHJhbnNsYXRlKDQgNDI1LjQpIj48dGl0bGU+Q3NxdWFyZXMgc2NoZW1hdGljPC90aXRsZT4KPHBvbHlnb24gZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSJ0cmFuc3BhcmVudCIgcG9pbnRzPSItNCw0IC00LC00MjUuNCAyNzguNjkyMSwtNDI1LjQgMjc4LjY5MjEsNCAtNCw0Ij48L3BvbHlnb24+PGcgaWQ9ImNsdXN0MSIgY2xhc3M9ImNsdXN0ZXIiPjx0aXRsZT5jbHVzdGVyX2RmYzwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IiNlMGZmZmYiIHN0cm9rZT0iIzAwMDAwMCIgcG9pbnRzPSI5My4yMjQ0LC02NCA5My4yMjQ0LC0yNDIgMjI5LjIyNDQsLTI0MiAyMjkuMjI0NCwtNjQgOTMuMjI0NCwtNjQiPjwvcG9seWdvbj48dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNjEuMjI0NCIgeT0iLTIyNS40IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiIGZpbGw9IiMwMDAwMDAiPmRhdGEuZnJhbWUgY3NxdWFyZTwvdGV4dD48L2c+PGcgaWQ9ImNsdXN0MiIgY2xhc3M9ImNsdXN0ZXIiPjx0aXRsZT5jbHVzdGVyX2NoYXI8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSIjZTBmZmZmIiBzdHJva2U9IiMwMDAwMDAiIHBvaW50cz0iMTE0LjIyNDQsLTI1MCAxMTQuMjI0NCwtNDEzLjQgMjQ0LjIyNDQsLTQxMy40IDI0NC4yMjQ0LC0yNTAgMTE0LjIyNDQsLTI1MCI+PC9wb2x5Z29uPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE3OS4yMjQ0IiB5PSItMzk2LjgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCIgZmlsbD0iIzAwMDAwMCI+Y2hhcmFjdGVyIGNzcXVhcmU8L3RleHQ+PC9nPjwhLS0gY3NxdWFyZXMgLS0+PGcgaWQ9Im5vZGUxIiBjbGFzcz0ibm9kZSBjc3F1YXJlX25vZGVzIj48dGl0bGU+Y3NxdWFyZXM8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSIjOThmYjk4IiBzdHJva2U9IiMwMDAwMDAiIHBvaW50cz0iMjA3LjUxNTcsLTM2IDEzNC45MzMxLC0zNiAxMzQuOTMzMSwwIDIwNy41MTU3LDAgMjA3LjUxNTcsLTM2Ij48L3BvbHlnb24+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTcxLjIyNDQiIHk9Ii0xMy44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiIGZpbGw9IiMwMDAwMDAiPmNzcXVhcmVzPC90ZXh0PjwvZz48IS0tIHN0cnVjc3RycyAtLT48ZyBpZD0ibm9kZTIiIGNsYXNzPSJub2RlIGNzcXVhcmVfbm9kZXMiPjx0aXRsZT5zdHJ1Y3N0cnM8L3RpdGxlPgo8ZyBpZD0iYV9ub2RlMiI+PGEgeGxpbms6aHJlZj0iI3VzaW5nLXNwYXRpb3RlbXBvcmFsLWFycmF5cy1zdGFycyIgeGxpbms6dGl0bGU9InsmbHQ7c3RhcnMmZ3Q7c3RhcnM6OnN0YXJzfCZsdDtzdGFyc2NzcSZndDtjc3F1YXJlc30iPgogICAgICAgICAgPHBvbHlnb24gZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMDAwMDAwIiBwb2ludHM9IjAsLTcyLjUgMCwtMTIyLjEgODQuNDQ4OCwtMTIyLjEgODQuNDQ4OCwtNzIuNSAwLC03Mi41Ij48L3BvbHlnb24+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNDIuMjI0NCIgeT0iLTEwNS41IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiIGZpbGw9IiMwMDAwMDAiPnN0YXJzOjpzdGFyczwvdGV4dD48cG9seWxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBwb2ludHM9IjAsLTk3LjMgODQuNDQ4OCwtOTcuMyAiPjwvcG9seWxpbmU+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNDIuMjI0NCIgeT0iLTgwLjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCIgZmlsbD0iIzAwMDAwMCI+Y3NxdWFyZXM8L3RleHQ+PC9hPgogICAgICA8L2c+PC9nPjwhLS0gc3RydWNzdHJzJiM0NTsmZ3Q7Y3NxdWFyZXMgLS0+PGcgaWQ9ImVkZ2U1IiBjbGFzcz0iZWRnZSI+PHRpdGxlPnN0cnVjc3RyczpzdGFyc2NzcS0mZ3Q7Y3NxdWFyZXM8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIGQ9Ik04NC4yMjQ0LC04NS4zQzkzLjk0ODQsLTg1LjMgODMuMzc3OCwtNzEuNzcwMSA4OS4yMjQ0LC02NCA5OC40NzQ0LC01MS43MDY4IDExMi4wMjgsLTQyLjIzMDQgMTI1LjQ2MjYsLTM1LjE2MjkiIC8+PHBvbHlnb24gZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSIjMDAwMDAwIiBwb2ludHM9IjEyNy4yNDQ3LC0zOC4xODc2IDEzNC42OTAxLC0zMC42NDk5IDEyNC4xNjkyLC0zMS44OTk0IDEyNy4yNDQ3LC0zOC4xODc2Ij48L3BvbHlnb24+PC9nPjwhLS0gc3RydWNkZiAtLT48ZyBpZD0ibm9kZTMiIGNsYXNzPSJub2RlIGNzcXVhcmVfbm9kZXMiPjx0aXRsZT5zdHJ1Y2RmPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTMiPjxhIHhsaW5rOmhyZWY9IiN1c2luZy1kYXRhLWZyYW1lcyIgeGxpbms6dGl0bGU9InsmbHQ7ZGYmZ3Q7ZGF0YS5mcmFtZXwmbHQ7ZGZjc3EmZ3Q7Y3NxdWFyZXN9Ij4KICAgICAgICAgIDxwb2x5Z29uIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzAwMDAwMCIgcG9pbnRzPSIxMzcuNzcxNCwtMTU5LjEgMTM3Ljc3MTQsLTIwOC43IDIyMC42Nzc0LC0yMDguNyAyMjAuNjc3NCwtMTU5LjEgMTM3Ljc3MTQsLTE1OS4xIj48L3BvbHlnb24+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTc5LjIyNDQiIHk9Ii0xOTIuMSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIiBmaWxsPSIjMDAwMDAwIj5kYXRhLmZyYW1lPC90ZXh0Pjxwb2x5bGluZSBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHBvaW50cz0iMTM3Ljc3MTQsLTE4My45IDIyMC42Nzc0LC0xODMuOSAiPjwvcG9seWxpbmU+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTc5LjIyNDQiIHk9Ii0xNjcuMyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIiBmaWxsPSIjMDAwMDAwIj5jc3F1YXJlczwvdGV4dD48L2E+CiAgICAgIDwvZz48L2c+PCEtLSBzdHJ1Y2RmJiM0NTsmZ3Q7Y3NxdWFyZXMgLS0+PGcgaWQ9ImVkZ2UzIiBjbGFzcz0iZWRnZSI+PHRpdGxlPnN0cnVjZGY6ZGZjc3EtJmd0O2NzcXVhcmVzPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBkPSJNMTc5LjIyNDQsLTE1OC45QzE3OS4yMjQ0LC0xNDIuNjE0MyAxODMuMTEwNywtMTM4Ljg0NzUgMTg0LjIyNDQsLTEyMi42IDE4Ni4wMDU1LC05Ni42MTY1IDE4Ny43OTk3LC04OS43OTc5IDE4NC4yMjQ0LC02NCAxODMuNDEyNywtNTguMTQzIDE4Mi4wNDU4LC01MS45ODMgMTgwLjQ5NTYsLTQ2LjE0MjMiIC8+PHBvbHlnb24gZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSIjMDAwMDAwIiBwb2ludHM9IjE4My43MzMsLTQ0LjczOSAxNzcuNTg3OCwtMzYuMTA4NSAxNzcuMDA5NywtNDYuNjg3NSAxODMuNzMzLC00NC43MzkiPjwvcG9seWdvbj48L2c+PCEtLSBzdHJ1Y3NmIC0tPjxnIGlkPSJub2RlNCIgY2xhc3M9Im5vZGUgY3NxdWFyZV9ub2RlcyI+PHRpdGxlPnN0cnVjc2Y8L3RpdGxlPgo8ZyBpZD0iYV9ub2RlNCI+PGEgeGxpbms6aHJlZj0iI3VzaW5nLXNpbXBsZS1mZWF0dXJlcy1zZiIgeGxpbms6dGl0bGU9InsmbHQ7c2YmZ3Q7c2Y6OnNmfCZsdDtzZmNzcSZndDtjc3F1YXJlc30iPgogICAgICAgICAgPHBvbHlnb24gZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMDAwMDAwIiBwb2ludHM9IjEwMi44Mjg5LC03Mi41IDEwMi44Mjg5LC0xMjIuMSAxNzUuNjE5OSwtMTIyLjEgMTc1LjYxOTksLTcyLjUgMTAyLjgyODksLTcyLjUiPjwvcG9seWdvbj48dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxMzkuMjI0NCIgeT0iLTEwNS41IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiIGZpbGw9IiMwMDAwMDAiPnNmOjpzZjwvdGV4dD48cG9seWxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBwb2ludHM9IjEwMi44Mjg5LC05Ny4zIDE3NS42MTk5LC05Ny4zICI+PC9wb2x5bGluZT48dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxMzkuMjI0NCIgeT0iLTgwLjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCIgZmlsbD0iIzAwMDAwMCI+Y3NxdWFyZXM8L3RleHQ+PC9hPgogICAgICA8L2c+PC9nPjwhLS0gc3RydWNkZiYjNDU7Jmd0O3N0cnVjc2YgLS0+PGcgaWQ9ImVkZ2U2IiBjbGFzcz0iZWRnZSI+PHRpdGxlPnN0cnVjZGY6ZGYtJmd0O3N0cnVjc2Y6c2Y8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIGQ9Ik0xMzguMjI0NCwtMTk1LjlDMTI0LjM1OTIsLTE5NS45IDEzNC43MTg0LC0xNTQuNzY5NyAxMzguMTk2NSwtMTMyLjI3NTUiIC8+PHBvbHlnb24gZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSIjMDAwMDAwIiBwb2ludHM9IjE0MS42ODA4LC0xMzIuNjA2MSAxMzkuMjI0NCwtMTIyLjMgMTM0LjcxNzcsLTEzMS44ODg1IDE0MS42ODA4LC0xMzIuNjA2MSI+PC9wb2x5Z29uPjwvZz48IS0tIHN0cnVjc2YmIzQ1OyZndDtjc3F1YXJlcyAtLT48ZyBpZD0iZWRnZTQiIGNsYXNzPSJlZGdlIj48dGl0bGU+c3RydWNzZjpzZmNzcS0mZ3Q7Y3NxdWFyZXM8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIGQ9Ik0xMzkuMjI0NCwtNzIuM0MxMzkuMjI0NCwtNjIuMzkyMSAxNDMuMjI3NywtNTIuNjk5OSAxNDguNDAyNCwtNDQuMzEwNCIgLz48cG9seWdvbiBmaWxsPSIjMDAwMDAwIiBzdHJva2U9IiMwMDAwMDAiIHBvaW50cz0iMTUxLjI4MzEsLTQ2LjI5ODIgMTU0LjEwMDIsLTM2LjA4NDcgMTQ1LjUyODgsLTQyLjMxMjIgMTUxLjI4MzEsLTQ2LjI5ODIiPjwvcG9seWdvbj48L2c+PCEtLSBzdHJ1Y2NoYXIgLS0+PGcgaWQ9Im5vZGU1IiBjbGFzcz0ibm9kZSBjc3F1YXJlX25vZGVzIj48dGl0bGU+c3RydWNjaGFyPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTUiPjxhIHhsaW5rOmhyZWY9IiN1c2luZy1jaGFyYWN0ZXJzIiB4bGluazp0aXRsZT0ieyZsdDtjaGFyYWN0ZXImZ3Q7Y2hhcmFjdGVyfCZsdDtjaGFyY3NxJmd0O2NzcXVhcmVzfSI+CiAgICAgICAgICA8cG9seWdvbiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMwMDAwMDAiIHBvaW50cz0iMTQyLjA1MzMsLTI1OC41IDE0Mi4wNTMzLC0zMDguMSAyMTYuMzk1NSwtMzA4LjEgMjE2LjM5NTUsLTI1OC41IDE0Mi4wNTMzLC0yNTguNSI+PC9wb2x5Z29uPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE3OS4yMjQ0IiB5PSItMjkxLjUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCIgZmlsbD0iIzAwMDAwMCI+Y2hhcmFjdGVyPC90ZXh0Pjxwb2x5bGluZSBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHBvaW50cz0iMTQyLjA1MzMsLTI4My4zIDIxNi4zOTU1LC0yODMuMyAiPjwvcG9seWxpbmU+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTc5LjIyNDQiIHk9Ii0yNjYuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIiBmaWxsPSIjMDAwMDAwIj5jc3F1YXJlczwvdGV4dD48L2E+CiAgICAgIDwvZz48L2c+PCEtLSBzdHJ1Y2NoYXImIzQ1OyZndDtjc3F1YXJlcyAtLT48ZyBpZD0iZWRnZTIiIGNsYXNzPSJlZGdlIj48dGl0bGU+c3RydWNjaGFyOmNoYXJjc3EtJmd0O2NzcXVhcmVzPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBkPSJNMjE2LjIyNDQsLTI3MS4zQzI2Mi4zNzA4LC0yNzEuMyAzMTEuODQ1NCwtMjIwLjIyODkgMjMzLjIyNDQsLTY0IDIyOS4wMjEsLTU1LjY0NzQgMjIyLjUwNCwtNDguNDMxIDIxNS4yNDY2LC00Mi4zNTE4IiAvPjxwb2x5Z29uIGZpbGw9IiMwMDAwMDAiIHN0cm9rZT0iIzAwMDAwMCIgcG9pbnRzPSIyMTcuMjM0NywtMzkuNDY2NiAyMDcuMTU1NCwtMzYuMjAxNyAyMTIuOTk4NywtNDUuMDM5NSAyMTcuMjM0NywtMzkuNDY2NiI+PC9wb2x5Z29uPjwvZz48IS0tIHN0cnVjY2hhciYjNDU7Jmd0O3N0cnVjZGYgLS0+PGcgaWQ9ImVkZ2U3IiBjbGFzcz0iZWRnZSI+PHRpdGxlPnN0cnVjY2hhcjpjaGFyY3NxLSZndDtzdHJ1Y2RmOmRmY3NxPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBkPSJNMTc5LjIyNDQsLTI1OC4zQzE3OS4yMjQ0LC0yMjkuODcwMSAyMTAuNTMyOCwtMjM1LjkyNyAyMjAuMjI0NCwtMjA5LjIgMjI0LjEwOTcsLTE5OC40ODU1IDIzMC40ODgzLC0xODQuODczMyAyMjguNzA4NSwtMTc3LjQxMjEiIC8+PHBvbHlnb24gZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSIjMDAwMDAwIiBwb2ludHM9IjIzMC41MTY5LC0xNzQuNDEzMiAyMjAuMjI0NCwtMTcxLjkgMjI2LjcwMzIsLTE4MC4yODMxIDIzMC41MTY5LC0xNzQuNDEzMiI+PC9wb2x5Z29uPjwvZz48IS0tIHN0cnVjY2hhciYjNDU7Jmd0O3N0cnVjc2YgLS0+PGcgaWQ9ImVkZ2U4IiBjbGFzcz0iZWRnZSI+PHRpdGxlPnN0cnVjY2hhcjpjaGFyY3NxLSZndDtzdHJ1Y3NmOnNmY3NxPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBkPSJNMTQyLjIyNDQsLTI3MS4zQzEyMy44MzAzLC0yNzEuMyA5MS44NjU4LC0xMzAuMTYyNCA5Ny44ODgyLC05My43NzU0IiAvPjxwb2x5Z29uIGZpbGw9IiMwMDAwMDAiIHN0cm9rZT0iIzAwMDAwMCIgcG9pbnRzPSIxMDAuODU4MSwtOTUuNjI3MiAxMDMuMjI0NCwtODUuMyA5NC45MzQ1LC05MS44OTc1IDEwMC44NTgxLC05NS42MjcyIj48L3BvbHlnb24+PC9nPjwhLS0gdmN0ciAtLT48ZyBpZD0ibm9kZTYiIGNsYXNzPSJub2RlIGNzcXVhcmVfbm9kZXMiPjx0aXRsZT52Y3RyPC90aXRsZT4KPHBvbHlnb24gZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMDAwMDAwIiBwb2ludHM9IjIzNS45NDIsLTM4MC42IDEyMi41MDY4LC0zODAuNiAxMjIuNTA2OCwtMzQ0LjYgMjM1Ljk0MiwtMzQ0LjYgMjM1Ljk0MiwtMzgwLjYiPjwvcG9seWdvbj48dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNzkuMjI0NCIgeT0iLTM1OC40IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiIGZpbGw9IiMwMDAwMDAiPnZjdHJzOjp2Y3Ryc192Y3RyPC90ZXh0PjwvZz48IS0tIHZjdHImIzQ1OyZndDtzdHJ1Y2NoYXIgLS0+PGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+PHRpdGxlPnZjdHItJmd0O3N0cnVjY2hhcjpjaGFyYWN0ZXI8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIGQ9Ik0xNzkuMjI0NCwtMzQ0LjVDMTc5LjIyNDQsLTMzNi44Mjg3IDE3OS4yMjQ0LC0zMjcuNTY0OSAxNzkuMjI0NCwtMzE4LjQ0NDMiIC8+PHBvbHlnb24gZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSIjMDAwMDAwIiBwb2ludHM9IjE4Mi43MjQ1LC0zMTguMyAxNzkuMjI0NCwtMzA4LjMgMTc1LjcyNDUsLTMxOC4zIDE4Mi43MjQ1LC0zMTguMyI+PC9wb2x5Z29uPjwvZz48L2c+PC9zdmc+)
+
+## Creating `csquares` objects
+
+### Using characters
+
+The simplest way of creating a `csquares` object is by coercing other
+objects with
+[`as_csquares()`](https://pepijn-devries.github.io/csquares/reference/as_csquares.md).
+The example below shows how to create a `csquares` object from a vector
+of `characters`:
+
+``` r
+
+csquares_char <- as_csquares(c("1000", "3000", "5000", "7000"))
+```
+
+### Using data.frames
+
+Perhaps a more useful format is a `data.frame`, as you can add data
+associated with the spatial squares. You can cast the previous object to
+a `data.frame` and it will automatically inherit the `csquares` class:
+
+``` r
+
+csquares_df <- as.data.frame(csquares_char)
+
+class(csquares_df)
+#> [1] "csquares"   "data.frame"
+```
+
+This means that you can apply all operations that you could apply to a
+normal `data.frame`. This includes
+[tidyverse](https://www.tidyverse.org) operations as explained in more
+detail in
+[`vignette("tidy")`](https://pepijn-devries.github.io/csquares/articles/tidy.md).
+For example, you can add columns with data:
+
+``` r
+
+library(dplyr)
+
+csquares_df <-
+  csquares_df |>
+  mutate(dummy = 1:4)
+```
+
+You can also cast a plain `data.frame` to a csquares object. In that
+case, your `data.frame` should already contain a column with csquares
+codes. All you have to do is specify which column this is:
+
+``` r
+
+orca_csq <- as_csquares(orca, csquares = "csquares")
+```
+
+### Using Simple Features (sf)
+
+Remember that csquares encode geographic rectangles, so it makes sense
+to include this spatial information in the `data.frame`. This is
+achieved by coercing a `csquares` `data.frame` to a simple features
+(`sf`) object. It too will automatically inherit the `csquares` class:
+
+``` r
+
+library(sf)
+csquares_sf <- st_as_sf(csquares_df)
+```
+
+The object `csquares_sf` now has a column holding the csquares codes and
+a column containing the corresponding geometric features. Both should
+represent the same spatial object. But be careful! Not all methods are
+aware of this, so modifying the geometric column might break this
+association.
+
+### Using Spatiotemporal Arrays (stars)
+
+`csquares` objects inheriting from the `stars` are a little trickier.
+This is because there are more constraints: You cannot include just any
+csquares at any location with varying resolutions. At the moment
+`csquares` only support regular linear grids where each grid cell size
+is the same as that of the associated csquares. To create a `csquares`
+`stars` object, you have to provide a bounding box and a resolution in
+degrees:
+
+``` r
+
+library(stars)
+
+csquares_stars <- new_csquares(csquares_sf, resolution = 10L)
+```
+
+Even though we use the `csquares_sf` object to create the grid, it
+doesn’t include any of the columns from the `sf` object in the resulting
+`stars` object. That is because only the bounding box of `csquares_sf`
+is used to create `csquares_stars`. You can add information to the grid
+by matching the csquares codes:
+
+``` r
+
+## create an empty column:
+csquares_stars[["dummy"]] <- NA
+csquares_stars[["dummy"]] <-
+  csquares_df[["dummy"]] [
+    match(csquares_stars[["csquares"]], csquares_df[["csquares"]])
+  ]
+```
+
+Or simply use
+[`left_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html):
+
+``` r
+
+csquares_stars <-
+  left_join(csquares_stars,
+            data.frame(csquares = "1000", foo = "bar"),
+            by = "csquares")
+```
+
+## Validating `csquares` objects
+
+When creating a csquares object with `as_csquares`, it is not allowed to
+pass illegal codes, or codes with wildcards (see
+`vignette("wildcards")`). It will throw an error. You could try to work
+around this and create a fake `csquares` object by assigning the class
+manually to an illegal code. However, if you test its validity you will
+see that it is not going to fly:
+
+``` r
+
+## Let's create a fake csquares object with a code that is merely impossible:
+fake_csquares <- "1099"
+class(fake_csquares) <- "csquares"
+
+## Of course this isn't valid
+validate_csquares(fake_csquares)
+#> [1] FALSE
+
+## This one is:
+validate_csquares(csquares_char)
+#> [1] TRUE
+```
