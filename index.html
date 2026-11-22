@@ -27,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="index.html">csquares</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.0002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.0003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,15 +63,15 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.svg" class="logo" alt=""><h1 id="csquares">csquares<a class="anchor" aria-label="anchor" href="#csquares"></a>
+<img src="logo.svg" class="logo" alt=""><h1 id="csquares-">csquares 
+<a class="anchor" aria-label="anchor" href="#csquares-"></a>
 </h1>
 </div>
 <!-- badges: start -->
 
-<p><img src="reference/figures/logo.png" align="right" height="139" alt=""></p>
 <p>The Concise Spatial QUery And REpresentation System (c-squares) are identifiers that correspond with cells in a global grid. The system was developed by <a href="https://en.wikipedia.org/wiki/CSIRO_Oceans_and_Atmosphere" class="external-link">CSIRO Oceans &amp; Atmosphere</a> and divides the globe in rectangles of 10 by 10 degrees (longitude and latitude in WGS84). It is a hierarchical system, meaning that higher resolutions are also supported, as long as its cell size is a tenfold of 1 or 5 degrees (i.e., cells can have the following sizes in degrees: 10, 5, 1, 0.5, 0.1, etc.).</p>
 <p>The c-squares format is a well defined exchange format for spatial raster data, it allows for light-weight text querying / aggregation and expansion to different resolutions. The csquare R package facilitates the translation of c-square code into spatial information (<a href="https://r-spatial.github.io/sf/" class="external-link">sf</a> and <a href="https://r-spatial.github.io/stars/" class="external-link">stars</a>) and vice versa.</p>
-<p>For more technical information on c-squares, please consult the <a href="https://en.wikipedia.org/wiki/C-squares" class="external-link">Wikipedia page</a> or the <a href="https://www.cmar.csiro.au/csquares/" class="external-link">CSIRO c-squares page</a>.</p>
+<p>For more technical information on c-squares, please consult the <a href="https://en.wikipedia.org/wiki/C-squares" class="external-link">Wikipedia page</a>; the <a href="https://www.cmar.csiro.au/csquares/" class="external-link">CSIRO c-squares page</a>; or the <a href="https://doi.org/10.5670/oceanog.2003.52" class="external-link">original paper by Tony Rees</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -110,17 +110,22 @@
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">orca_sf</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">orcinus_orca</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-orca-1.png" width="100%"></p>
+<p><img src="reference/figures/README-orca-1.png" alt="" width="100%"></p>
 <p>The example above uses existing data with specified c-square codes. You can also create a raster with c-square codes from scratch. The example below shows how to create a 0.1 x 0.1 degrees raster for a specific bounding box.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="fl">5.0</span>, xmax <span class="op">=</span> <span class="fl">5.5</span>, ymin <span class="op">=</span> <span class="fl">52.5</span>, ymax <span class="op">=</span> <span class="fl">53</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/new_csquares.html">new_csquares</a></span><span class="op">(</span>resolution <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Registered S3 method overwritten by 'stars':</span></span>
+<span><span class="co">#&gt;   method                  from</span></span>
+<span><span class="co">#&gt;   st_interpolate_aw.stars sf</span></span>
 <span><span class="co">#&gt; stars object with 2 dimensions and 1 attribute</span></span>
 <span><span class="co">#&gt; attribute(s):</span></span>
-<span><span class="co">#&gt;   csquares         </span></span>
-<span><span class="co">#&gt;  Length:25         </span></span>
-<span><span class="co">#&gt;  Class :character  </span></span>
-<span><span class="co">#&gt;  Mode  :character  </span></span>
+<span><span class="co">#&gt;      csquares  </span></span>
+<span><span class="co">#&gt;  Length   :25  </span></span>
+<span><span class="co">#&gt;  N.unique :25  </span></span>
+<span><span class="co">#&gt;  N.blank  : 0  </span></span>
+<span><span class="co">#&gt;  Min.nchar:12  </span></span>
+<span><span class="co">#&gt;  Max.nchar:12  </span></span>
 <span><span class="co">#&gt; dimension(s):</span></span>
 <span><span class="co">#&gt;   from to offset delta refsys x/y</span></span>
 <span><span class="co">#&gt; x    1  5      5   0.1 WGS 84 [x]</span></span>

@@ -1,6 +1,6 @@
 # Changelog
 
-## csquares v0.1.0.0001
+## csquares v0.1.0.0003
 
 - Added reference to Rees (2015)
 - Added
@@ -8,6 +8,7 @@
 - Replaced deprecated tidyverse function calls
 - Fix for [issue](https://github.com/pepijn-devries/csquares/issues/38)
   [\#38](https://github.com/pepijn-devries/csquares/issues/38)
+- Redesigned logo
 - Corrected some typos
 
 ## csquares v0.1.0

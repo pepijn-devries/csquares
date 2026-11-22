@@ -1,7 +1,5 @@
 # csquares
 
-![](reference/figures/logo.png)
-
 The Concise Spatial QUery And REpresentation System (c-squares) are
 identifiers that correspond with cells in a global grid. The system was
 developed by [CSIRO Oceans &
@@ -20,8 +18,9 @@ the translation of c-square code into spatial information
 [stars](https://r-spatial.github.io/stars/)) and vice versa.
 
 For more technical information on c-squares, please consult the
-[Wikipedia page](https://en.wikipedia.org/wiki/C-squares) or the [CSIRO
-c-squares page](https://www.cmar.csiro.au/csquares/).
+[Wikipedia page](https://en.wikipedia.org/wiki/C-squares); the [CSIRO
+c-squares page](https://www.cmar.csiro.au/csquares/); or the [original
+paper by Tony Rees](https://doi.org/10.5670/oceanog.2003.52).
 
 ## Installation
 
@@ -84,12 +83,17 @@ bounding box.
 
 st_bbox(c(xmin = 5.0, xmax = 5.5, ymin = 52.5, ymax = 53), crs = 4326) |>
   new_csquares(resolution = 0.1)
+#> Registered S3 method overwritten by 'stars':
+#>   method                  from
+#>   st_interpolate_aw.stars sf
 #> stars object with 2 dimensions and 1 attribute
 #> attribute(s):
-#>   csquares         
-#>  Length:25         
-#>  Class :character  
-#>  Mode  :character  
+#>      csquares  
+#>  Length   :25  
+#>  N.unique :25  
+#>  N.blank  : 0  
+#>  Min.nchar:12  
+#>  Max.nchar:12  
 #> dimension(s):
 #>   from to offset delta refsys x/y
 #> x    1  5      5   0.1 WGS 84 [x]
