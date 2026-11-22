@@ -29,7 +29,10 @@ my_ices_codes <-
 my_ices_rects <- ices_rectangles(my_ices_codes)
 ```
 
-![](ices_files/figure-html/ices_plot-1.png)
+![Coastline derived from Natural
+Earth](ices_files/figure-html/ices_plot-1.png)
+
+Coastline derived from Natural Earth
 
 ICES subrectangles divide the parent ICES rectangle into 3 by 3 equal
 rectangles. Unfortunately, this makes the subrectangles incompatible
@@ -57,7 +60,10 @@ ices_csq <-
 The subrectangles produces `NA` values and shows a warning. This yields
 the csquares as depicted below.
 
-![](ices_files/figure-html/ices_plot2-1.png)
+![Coastline derived from Natural
+Earth](ices_files/figure-html/ices_plot2-1.png)
+
+Coastline derived from Natural Earth
 
 We can easily get the ICES rectangles that correspond with those
 csquares using:
