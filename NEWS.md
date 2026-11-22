@@ -2,8 +2,9 @@ csquares v0.1.0.0001
 -------------
 
   * Added reference to Rees (2015)
+  * Added `vignette("boundary-cases")`
   * Replaced deprecated tidyverse function calls
-  * Fix for https://github.com/pepijn-devries/csquares/issues/38
+  * Fix for [issue #38](https://github.com/pepijn-devries/csquares/issues/38)
   * Corrected some typos
 
 csquares v0.1.0
