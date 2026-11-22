@@ -1,8 +1,8 @@
 ---
-title: "ICES rectangles"
+title: "ICES Rectangles"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{ICES rectangles}
+  %\VignetteIndexEntry{ICES Rectangles}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

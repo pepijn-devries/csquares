@@ -15,6 +15,7 @@
 #' new_csquares(nc)
 #' @include as_csquares.R helpers.R
 #' @author Pepijn de Vries
+#' @family csquares-class
 #' @export
 new_csquares <-
   function(x, resolution = 1, crs = 4326) {

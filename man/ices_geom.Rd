@@ -38,7 +38,7 @@ csquares are located. It does not check if the resolution matches. \code{NA} val
 are returned when csquares are situated outside the area covered by ICES rectangles.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Functions to convert ICES rectangles
+Functions to convert ICES rectangles
 }
 \examples{
 ices_rects <-
@@ -51,6 +51,11 @@ ices_rectangles(ices_rects)
 ices_csq <- ices_to_csquares(ices_rects)
 ices_from_csquares(ices_csq)
 }
+\seealso{
+Other other-encodings:
+\code{\link[=ices_columns]{ices_columns()}}
+}
 \author{
 Pepijn de Vries
 }
+\concept{other-encodings}

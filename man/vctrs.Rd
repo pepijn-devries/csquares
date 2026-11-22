@@ -40,3 +40,4 @@ vec_ptype2.csquares(x, y, ...)
 \description{
 Implementations to support csquare vctrs operations. There is no need to call these functions directly.
 }
+\concept{vctrs-methods}

@@ -69,6 +69,13 @@ orca |>
   nrow()
 
 }
+\seealso{
+Other csquares-handlers:
+\code{\link[=drop_csquares]{drop_csquares()}},
+\code{\link[=expand_wildcards]{expand_wildcards()}},
+\code{\link[=resample_csquares]{resample_csquares()}}
+}
 \author{
 Pepijn de Vries
 }
+\concept{csquares-handlers}

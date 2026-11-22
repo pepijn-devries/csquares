@@ -29,6 +29,13 @@ library(sf)
 nc <- st_read(system.file("shape/nc.shp", package = "sf"))
 new_csquares(nc)
 }
+\seealso{
+Other csquares-class:
+\code{\link[=as_csquares]{as_csquares()}},
+\code{\link[=st_as_stars.csquares]{st_as_stars.csquares()}},
+\code{\link[=validate_csquares]{validate_csquares()}}
+}
 \author{
 Pepijn de Vries
 }
+\concept{csquares-class}

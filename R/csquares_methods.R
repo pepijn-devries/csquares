@@ -16,6 +16,7 @@
 #' @export format.csquares
 #' @rdname csquares-methods
 #' @include helpers.R
+#' @family csquares-methods
 #' @export
 format.csquares <- function(x, ...) {
   if (inherits(x, c("character", "vctrs_vctr"))) {

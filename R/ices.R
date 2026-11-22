@@ -1,12 +1,13 @@
 #' Valid ICES rectangle columns
 #' 
-#' `r lifecycle::badge('experimental')` Get all valid column codes of ICES rectangles.
+#' Get all valid column codes of ICES rectangles.
 #' Note that ICES subrectangles are not compatible with csquares. For more details
 #' see `vignette("ices")`.
 #' @returns A `character` vector with all allowed codes for the columns in ICES
 #' rectangles.
 #' @examples
 #' ices_columns()
+#' @family other-encodings
 #' @export
 ices_columns <- function() {
   ices_columns <-
@@ -24,7 +25,7 @@ ices_columns <- function() {
 
 #' Get ICES geometries
 #' 
-#' `r lifecycle::badge('experimental')` Functions to convert ICES rectangles
+#' Functions to convert ICES rectangles
 #' @param ices_rect A `character` vector containing valid ICES rectangle codes
 #' @param csquares A `csquares` object, or an object that can be coerced with
 #' `as_csquares()`.
@@ -54,6 +55,7 @@ ices_columns <- function() {
 #' ices_from_csquares(ices_csq)
 #' @author Pepijn de Vries
 #' @rdname ices_geom
+#' @family other-encodings
 #' @export
 ices_centroids <- function(ices_rect) {
   ices_columns <- ices_columns()
@@ -87,6 +89,7 @@ ices_centroids <- function(ices_rect) {
 }
 
 #' @rdname ices_geom
+#' @family other-encodings
 #' @export
 ices_rectangles <- function(ices_rect) {
   poly <-
@@ -116,6 +119,7 @@ ices_rectangles <- function(ices_rect) {
 }
 
 #' @rdname ices_geom
+#' @family other-encodings
 #' @export
 ices_to_csquares <- function (ices_rect) {
   result <-
@@ -149,6 +153,7 @@ ices_to_csquares <- function (ices_rect) {
 }
 
 #' @rdname ices_geom
+#' @family other-encodings
 #' @export
 ices_from_csquares <- function(csquares) {
   if (!inherits(csquares, "csquares")) csquares <- as_csquares(csquares)

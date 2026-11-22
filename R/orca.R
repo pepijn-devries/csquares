@@ -9,6 +9,7 @@
 #'   \item{orcinus_orca}{`logical` values indicating whether the corresponding c-squares
 #'   grid cell belongs to the killer whales (Orcinus orca) biogeographic realm or not.}
 #' }
+#' @family data
 #' @references
 #' * Costello, M.J. (2017); University of Auckland \doi{10.17608/k6.auckland.5086654}
 #'   Licence [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)

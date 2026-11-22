@@ -31,6 +31,13 @@ csq <-
 
 drop_csquares(csq)
 }
+\seealso{
+Other csquares-handlers:
+\code{\link[=expand_wildcards]{expand_wildcards()}},
+\code{\link[=in_csquares]{in_csquares()}},
+\code{\link[=resample_csquares]{resample_csquares()}}
+}
 \author{
 Pepijn de Vries
 }
+\concept{csquares-handlers}

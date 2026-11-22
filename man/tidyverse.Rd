@@ -184,6 +184,11 @@ if (requireNamespace(c("dplyr", "tidyr"))) {
 }
 
 }
+\seealso{
+Other tidy-operators:
+\code{\link{join}}
+}
 \author{
 Pepijn de Vries
 }
+\concept{tidy-operators}

@@ -24,6 +24,7 @@
 #' @rdname st_as_sf
 #' @author Pepijn de Vries
 #' @include tidyverse.R
+#' @family sf-methods
 #' @export
 st_as_sf.csquares <- function(x, ..., use_geometry = TRUE) {
   is_spatial <- inherits(x, c("stars", "sf"))

@@ -27,6 +27,7 @@
 #'   orca_grid <- left_join(orca_grid, orca, by = "csquares")
 #' }
 #' }
+#' @family tidy-operators
 #' @author Pepijn de Vries
 inner_join.csquares = function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
   .no_stars(x)

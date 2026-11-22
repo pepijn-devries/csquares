@@ -23,3 +23,12 @@ test_that("Source code should not have things on TODO list", {
     )
   })
 })
+
+test_that("Last NEWS entry version matches installed version", {
+  skip_on_cran()
+  expect_true({
+    news_heading <- readLines(system.file("NEWS.md", package = "csquares"), 1L)
+    new_vsn <- regmatches(news_heading, regexpr("[0-9]+(\\.[0-9]+)+", news_heading))
+    utils::packageVersion("csquares") == new_vsn
+  })
+})

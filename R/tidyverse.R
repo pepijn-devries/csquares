@@ -83,6 +83,7 @@
 #' }
 #' 
 #' @author Pepijn de Vries
+#' @family tidy-operators
 filter.csquares <- function(.data, ..., .dots) {
   .by <- .s3_df_stars_prep(.data, "filter")
   .s3_finalise(NextMethod(), .by)
@@ -149,6 +150,7 @@ rowwise.csquares <- function(.data, ...) {
   .s3_finalise(NextMethod(), .by)
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 mutate.csquares <- function(.data, ..., .dots) {
   .by <- .s3_df_stars_prep(.data, "mutate")
@@ -167,6 +169,7 @@ rename.csquares <- function(.data, ...) {
   .s3_finalise(NextMethod(), .by)
 }
 
+#' @name tidyverse
 #' @rdname tidyverse
 rename_with.csquares <- function(.data, .fn, .cols, ...) {
   .no_stars(.data)

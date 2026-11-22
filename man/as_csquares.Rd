@@ -68,6 +68,13 @@ pts <-
 as_csquares(pts, 0.05)
 orca_csq <- as_csquares(orca, csquares = "csquares")
 }
+\seealso{
+Other csquares-class:
+\code{\link[=new_csquares]{new_csquares()}},
+\code{\link[=st_as_stars.csquares]{st_as_stars.csquares()}},
+\code{\link[=validate_csquares]{validate_csquares()}}
+}
 \author{
 Pepijn de Vries
 }
+\concept{csquares-class}

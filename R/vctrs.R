@@ -17,6 +17,7 @@ vec_restore.csquares <- function(x, to, ...) {
 #' @param to Types to cast to. If NULL, `x` will be returned as is.
 #' @name vctrs
 #' @export vec_cast.csquares
+#' @family vctrs-methods
 #' @export
 vec_cast.csquares <- function(x, to, ...) {
   UseMethod("vec_cast.csquares")

@@ -14,6 +14,7 @@
 #' }
 #' @include as_csquares.R helpers.R
 #' @author Pepijn de Vries
+#' @family csquares-class
 #' @export
 st_as_stars.csquares <-
   function(x, ...) {

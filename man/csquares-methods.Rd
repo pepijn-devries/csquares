@@ -81,3 +81,4 @@ Returns (a subsetted / formatted / modified version of) x
 \description{
 Basic S3 methods for handling \code{csquares} objects
 }
+\concept{csquares-methods}

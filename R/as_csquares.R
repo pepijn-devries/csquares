@@ -34,6 +34,7 @@
 #' @author Pepijn de Vries
 #' @rdname as_csquares
 #' @name as_csquares
+#' @family csquares-class
 #' @export
 as_csquares <- function(x, resolution, csquares, ...) {
   UseMethod("as_csquares", x)
@@ -142,9 +143,14 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
 }
 
 .csquares_generic <- function(x, resolution) {
-  l10 <- attributes(resolution)$l10
-  l5  <- attributes(resolution)$l5
-  tol <- sqrt(.Machine$double.eps)
+  l10 <- as.integer(attributes(resolution)$l10)
+  l5  <- as.integer(attributes(resolution)$l5)
+  res <- as.numeric(resolution)
+  
+  # Exact power-of-10 scale factor (no 32-bit integer overflow; doubles are exact up to 2^53)
+  dec_places <- max(0L, l10)
+  scale      <- 10^dec_places
+  res_int    <- round(res * scale)
   
   x <-
     x |>
@@ -163,24 +169,32 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
     x |>
     dplyr::mutate(
       quadrant = (0L + 4L * (.data$x < 0)) + (2L + 2L * xor(.data$x >= 0, .data$y >= 0)) - 1L,
-      abs_x    = ifelse(abs(.data$x) >= 180, 180 - resolution * 0.25, abs(.data$x)),
-      abs_y    = ifelse(abs(.data$y) >= 90,   90 - resolution * 0.25, abs(.data$y)),
-      x_center = (floor(.data$abs_x / resolution + tol) + 0.5) * resolution,
-      y_center = (floor(.data$abs_y / resolution + tol) + 0.5) * resolution,
-      x_cur    = floor(.data$x_center / 10),
-      y_cur    = floor(.data$y_center / 10),
-      digits   = {
+      # Convert coordinates to exact scaled integer-valued doubles
+      xi = trunc(signif(abs(.data$x), 15) * scale),
+      yi = trunc(signif(abs(.data$y), 15) * scale),
+      # Clamp +/-180 and +/-90 inward by 1 scaled unit
+      xi = ifelse(.data$xi >= 180 * scale, 180 * scale - 1, .data$xi),
+      yi = ifelse(.data$yi >=  90 * scale,  90 * scale - 1, .data$yi),
+      # Snap to exact lower-limit cell in scaled integer units
+      xi = (.data$xi %/% res_int) * res_int,
+      yi = (.data$yi %/% res_int) * res_int,
+      # Extract 10-degree block indices via exact integer division
+      x_cur = .data$xi %/% (10 * scale),
+      y_cur = .data$yi %/% (10 * scale),
+      digits = {
         array(
-          rep(seq_len(l10 + 1L), each = length(.data$x_center)),
-          dim = c(length(.data$x_center), l10 + 1L, 2L)
+          rep(seq_len(l10 + 1L), each = length(.data$xi)),
+          dim = c(length(.data$xi), l10 + 1L, 2L)
         ) |>
           apply(2, function(idx, x1, y1) {
-            last_digit <- idx[1L] == (l10 + 1L)
-            vals <- floor((10^(idx - 1L)) * cbind(y1, x1)) %% 10
-            vals <- cbind(.digit_check(vals), vals)
+            k          <- idx[1L]
+            last_digit <- k == (l10 + 1L)
+            div        <- 10^(dec_places - (k - 1L))
+            vals       <- (cbind(y1, x1) %/% div) %% 10
+            vals       <- cbind(.digit_check(vals), vals)
             vals[last_digit & l5 == 1L, 2:3] <- ""
             apply(vals, 1, paste0, collapse = "")
-          }, x1 = .data$x_center, y1 = .data$y_center) |>
+          }, x1 = .data$xi, y1 = .data$yi) |>
           (\(m) if (is.null(dim(m))) {
             paste0(m[m != ""], collapse = ":")
           } else {
