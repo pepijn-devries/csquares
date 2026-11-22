@@ -1,4 +1,4 @@
-csquares v0.1.0.0004
+csquares v0.1.0.0005
 -------------
 
   * Added reference to Rees (2015)
@@ -7,6 +7,7 @@ csquares v0.1.0.0004
   * Fix for [issue #38](https://github.com/pepijn-devries/csquares/issues/38)
   * Redesigned logo
   * Organised reference page
+  * Reduced dependency footprint
   * Corrected some typos
 
 csquares v0.1.0

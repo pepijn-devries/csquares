@@ -9,3 +9,4 @@
 ^pkgdown$
 ^_pkgdown\.yml$
 ^Meta$
+^data-raw$
