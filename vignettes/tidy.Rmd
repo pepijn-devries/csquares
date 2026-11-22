@@ -69,8 +69,8 @@ orca_sum <-
 ## Add geometries to the object
   st_as_sf() |>
   ## use `mutate` to create a column that contains the csquares' quadrant
-  mutate(quadrant = case_match(substr(csquares |> as.character(), 1L, 1L),
-                               "1" ~ "NE", "3" ~ "SE", "5" ~ "SW", "7" ~ "NW")) |>
+  mutate(quadrant = recode_values(substr(csquares |> as.character(), 1L, 1L),
+                                  "1" ~ "NE", "3" ~ "SE", "5" ~ "SW", "7" ~ "NW")) |>
   ## grouping by the column with logical values and summarising
   ## will reduce the number of rows to 4 (one for each quadrant)
   group_by(quadrant) |>

@@ -48,8 +48,10 @@ export(validate_csquares)
 export(vec_cast.csquares)
 export(vec_ptype2.csquares)
 importFrom(methods,setOldClass)
-importFrom(rlang,"!!!")
-importFrom(rlang,"!!")
-importFrom(rlang,":=")
-importFrom(rlang,.data)
-importFrom(rlang,.env)
+importFrom(rlang,
+  "!!!",
+  "!!",
+  ":=",
+  .data,
+  .env
+)

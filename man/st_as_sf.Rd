@@ -26,14 +26,14 @@ the assumption that the geometry of \code{x} corresponds with the csquares codes
 In short: use \code{TRUE} for speed, use \code{FALSE} for reliability.}
 }
 \value{
-In case of \code{st_as_sfc.csquares} a list of geometries (\code{\link[sf:sfc]{sfc}},
+In case of \code{st_as_sfc.csquares} a list of geometries (\code{\link[sf:st_sfc]{sfc}},
 (MULTI)POLYGONS) is returned. In case of \code{st_as_sf.csquares} an object of class
-(\code{\link[sf:sf]{sf}}) is returned.
+(\code{\link[sf:st_sf]{sf}}) is returned.
 }
 \description{
 Converts a \code{character} string of c-squares in a spatially explicit simple features object
-(\code{\link[sf:sf]{sf}}. It can also convert \code{data.frame}s with a column of c-squares codes to
-an \code{\link[sf:sf]{sf}} object.
+(\code{\link[sf:st_sf]{sf}}. It can also convert \code{data.frame}s with a column of c-squares codes to
+an \code{\link[sf:st_sf]{sf}} object.
 }
 \examples{
 library(sf)
