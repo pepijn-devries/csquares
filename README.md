@@ -1,5 +1,5 @@
 
-# csquares
+# csquares <a href="https://pepijn-devries.github.io/csquares/"><img src="man/figures/logo.svg" align="right" height="139" alt="csquares website" /></a>
 
 <!-- badges: start -->
 
@@ -12,8 +12,6 @@ checks](https://badges.cranchecks.info/worst/csquares.svg)](https://cran.r-proje
 badge](https://pepijn-devries.r-universe.dev/badges/csquares)](https://pepijn-devries.r-universe.dev/csquares)
 [![codecov](https://codecov.io/gh/pepijn-devries/csquares/graph/badge.svg?token=WCN5V5KJTH)](https://app.codecov.io/gh/pepijn-devries/csquares)
 <!-- badges: end -->
-
-<img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 The Concise Spatial QUery And REpresentation System (c-squares) are
 identifiers that correspond with cells in a global grid. The system was
@@ -33,8 +31,9 @@ the translation of c-square code into spatial information
 [stars](https://r-spatial.github.io/stars/)) and vice versa.
 
 For more technical information on c-squares, please consult the
-[Wikipedia page](https://en.wikipedia.org/wiki/C-squares) or the [CSIRO
-c-squares page](https://www.cmar.csiro.au/csquares/).
+[Wikipedia page](https://en.wikipedia.org/wiki/C-squares); the [CSIRO
+c-squares page](https://www.cmar.csiro.au/csquares/); or the [original
+paper by Tony Rees](https://doi.org/10.5670/oceanog.2003.52).
 
 ## Installation
 
@@ -83,7 +82,7 @@ ggplot(orca_sf) +
   coord_sf(expand = FALSE)
 ```
 
-<img src="man/figures/README-orca-1.png" width="100%" />
+<img src="man/figures/README-orca-1.png" alt="" width="100%" />
 
 The example above uses existing data with specified c-square codes. You
 can also create a raster with c-square codes from scratch. The example
@@ -93,12 +92,17 @@ bounding box.
 ``` r
 st_bbox(c(xmin = 5.0, xmax = 5.5, ymin = 52.5, ymax = 53), crs = 4326) |>
   new_csquares(resolution = 0.1)
+#> Registered S3 method overwritten by 'stars':
+#>   method                  from
+#>   st_interpolate_aw.stars sf
 #> stars object with 2 dimensions and 1 attribute
 #> attribute(s):
-#>   csquares         
-#>  Length:25         
-#>  Class :character  
-#>  Mode  :character  
+#>      csquares  
+#>  Length   :25  
+#>  N.unique :25  
+#>  N.blank  : 0  
+#>  Min.nchar:12  
+#>  Max.nchar:12  
 #> dimension(s):
 #>   from to offset delta refsys x/y
 #> x    1  5      5   0.1 WGS 84 [x]
