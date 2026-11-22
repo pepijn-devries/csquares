@@ -7,4 +7,5 @@
 ^doc$
 ^docs$
 ^pkgdown$
+^_pkgdown\.yml$
 ^Meta$

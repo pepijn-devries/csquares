@@ -39,6 +39,7 @@
 #' resample_csquares(csq,    "down")
 #' resample_csquares(csq_df, "down")
 #' 
+#' \donttest{
 #' if (requireNamespace(c("dplyr", "stars"))) {
 #'   ## Csquares objects can inherit from the stars class as well.
 #'   ## These too can be resampled. But additional columns need
@@ -56,6 +57,7 @@
 #'   ## And back to a higher resolution (note that you have lost information as it was summarised
 #'   ## in the previous step)
 #'   resample_csquares(g_sum, "up", random = sum(random, na.rm = TRUE))
+#' }
 #' }
 #' @author Pepijn de Vries
 #' @export

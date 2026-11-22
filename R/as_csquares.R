@@ -144,7 +144,7 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
 .csquares_generic <- function(x, resolution) {
   l10 <- attributes(resolution)$l10
   l5  <- attributes(resolution)$l5
-  res <- as.numeric(resolution)
+  tol <- sqrt(.Machine$double.eps)
   
   x <-
     x |>
@@ -163,10 +163,10 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
     x |>
     dplyr::mutate(
       quadrant = (0L + 4L * (.data$x < 0)) + (2L + 2L * xor(.data$x >= 0, .data$y >= 0)) - 1L,
-      abs_x    = ifelse(abs(.data$x) >= 180, 180 - res * 0.25, abs(.data$x)),
-      abs_y    = ifelse(abs(.data$y) >= 90,   90 - res * 0.25, abs(.data$y)),
-      x_center = (floor(.data$abs_x / res) + 0.5) * res,
-      y_center = (floor(.data$abs_y / res) + 0.5) * res,
+      abs_x    = ifelse(abs(.data$x) >= 180, 180 - resolution * 0.25, abs(.data$x)),
+      abs_y    = ifelse(abs(.data$y) >= 90,   90 - resolution * 0.25, abs(.data$y)),
+      x_center = (floor(.data$abs_x / resolution + tol) + 0.5) * resolution,
+      y_center = (floor(.data$abs_y / resolution + tol) + 0.5) * resolution,
       x_cur    = floor(.data$x_center / 10),
       y_cur    = floor(.data$y_center / 10),
       digits   = {

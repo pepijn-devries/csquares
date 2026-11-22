@@ -9,7 +9,9 @@
 #' @examples
 #' library(stars)
 #' st_as_stars(as_csquares("7500:110:3|7500:110:1|1500:110:3|1500:110:1"))
+#' \donttest{
 #' st_as_stars(as_csquares(orca, csquares = "csquares"))
+#' }
 #' @include as_csquares.R helpers.R
 #' @author Pepijn de Vries
 #' @export
