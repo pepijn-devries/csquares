@@ -49,6 +49,13 @@ in_csquares(x, table, strict = FALSE, mode = "any", ...)
 Returns a vector of `logical` values with the same number of elements or
 rows as `x`
 
+## See also
+
+Other csquares-handlers:
+[`drop_csquares()`](https://pepijn-devries.github.io/csquares/reference/drop_csquares.md),
+[`expand_wildcards()`](https://pepijn-devries.github.io/csquares/reference/expand_wildcards.md),
+[`resample_csquares()`](https://pepijn-devries.github.io/csquares/reference/resample_csquares.md)
+
 ## Author
 
 Pepijn de Vries

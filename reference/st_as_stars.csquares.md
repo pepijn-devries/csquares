@@ -32,6 +32,13 @@ Returns a spatiotemporal array
 ([stars](https://r-spatial.github.io/stars/reference/st_as_stars.html))
 object based on `x`.
 
+## See also
+
+Other csquares-class:
+[`as_csquares()`](https://pepijn-devries.github.io/csquares/reference/as_csquares.md),
+[`new_csquares()`](https://pepijn-devries.github.io/csquares/reference/new_csquares.md),
+[`validate_csquares()`](https://pepijn-devries.github.io/csquares/reference/validate_csquares.md)
+
 ## Author
 
 Pepijn de Vries

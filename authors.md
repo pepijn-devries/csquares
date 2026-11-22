@@ -13,13 +13,13 @@ Source:
 [`DESCRIPTION`](https://github.com/pepijn-devries/csquares/blob/main/DESCRIPTION)
 
 de Vries P (2026). *csquares: Concise Spatial Query and Representation
-System (c-Squares)*. R package version 0.1.0.0003,
+System (c-Squares)*. R package version 0.1.0.0004,
 <https://pepijn-devries.github.io/csquares/>.
 
     @Manual{,
       title = {csquares: Concise Spatial Query and Representation System (c-Squares)},
       author = {Pepijn {de Vries}},
       year = {2026},
-      note = {R package version 0.1.0.0003},
+      note = {R package version 0.1.0.0004},
       url = {https://pepijn-devries.github.io/csquares/},
     }

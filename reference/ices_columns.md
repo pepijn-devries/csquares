@@ -1,8 +1,7 @@
 # Valid ICES rectangle columns
 
-**\[experimental\]** Get all valid column codes of ICES rectangles. Note
-that ICES subrectangles are not compatible with csquares. For more
-details see
+Get all valid column codes of ICES rectangles. Note that ICES
+subrectangles are not compatible with csquares. For more details see
 [`vignette("ices")`](https://pepijn-devries.github.io/csquares/articles/ices.md).
 
 ## Usage
@@ -15,6 +14,11 @@ ices_columns()
 
 A `character` vector with all allowed codes for the columns in ICES
 rectangles.
+
+## See also
+
+Other other-encodings:
+[`ices_centroids()`](https://pepijn-devries.github.io/csquares/reference/ices_geom.md)
 
 ## Examples
 

@@ -1,6 +1,6 @@
 # Get ICES geometries
 
-**\[experimental\]** Functions to convert ICES rectangles
+Functions to convert ICES rectangles
 
 ## Usage
 
@@ -47,6 +47,11 @@ fast yet crude: it only checks in which ICES rectangles the centroids of
 the csquares are located. It does not check if the resolution matches.
 `NA` values are returned when csquares are situated outside the area
 covered by ICES rectangles.
+
+## See also
+
+Other other-encodings:
+[`ices_columns()`](https://pepijn-devries.github.io/csquares/reference/ices_columns.md)
 
 ## Author
 

@@ -1,6 +1,6 @@
 # Changelog
 
-## csquares v0.1.0.0003
+## csquares v0.1.0.0004
 
 - Added reference to Rees (2015)
 - Added
@@ -9,6 +9,7 @@
 - Fix for [issue](https://github.com/pepijn-devries/csquares/issues/38)
   [\#38](https://github.com/pepijn-devries/csquares/issues/38)
 - Redesigned logo
+- Organised reference page
 - Corrected some typos
 
 ## csquares v0.1.0

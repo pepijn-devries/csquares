@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">csquares</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.0003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.0004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,8 +19,8 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/boundary-cases.html">On the Edge</a></li>
-    <li><a class="dropdown-item" href="../articles/csquares-objects.html">Csquares objects</a></li>
-    <li><a class="dropdown-item" href="../articles/ices.html">ICES rectangles</a></li>
+    <li><a class="dropdown-item" href="../articles/csquares-objects.html">Csquares Objects</a></li>
+    <li><a class="dropdown-item" href="../articles/ices.html">ICES Rectangles</a></li>
     <li><a class="dropdown-item" href="../articles/tidy.html">Tidy csquares</a></li>
     <li><a class="dropdown-item" href="../articles/Wildcards.html">Wildcards</a></li>
   </ul></li>
@@ -39,9 +39,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="creating-csquares-class-objects">Creating <code>csquares</code> Class Objects<a class="anchor" aria-label="anchor" href="#creating-csquares-class-objects"></a></h2>
 
-
+      <div class="section-desc"><p>Functions for creating and maintaining <code>csquares</code> class objects</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -57,12 +57,51 @@
 
         <dt>
 
+          <code><a href="new_csquares.html">new_csquares()</a></code>
+
+        </dt>
+        <dd>Create a c-squares raster from a bounding box</dd>
+
+        <dt>
+
+          <code><a href="st_as_stars.csquares.html">st_as_stars.csquares()</a></code>
+
+        </dt>
+        <dd>Coerce csqaures object into a stars object</dd>
+
+        <dt>
+
+          <code><a href="validate_csquares.html">validate_csquares()</a></code>
+
+        </dt>
+        <dd>Test if a csquares object is valid</dd>
+      </dl></div><div class="section level2">
+      <h2 id="base-methods">Base Methods<a class="anchor" aria-label="anchor" href="#base-methods"></a></h2>
+
+      <div class="section-desc"><p>Base methods for handling <code>csquares</code> class objects</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
           <code><a href="csquares-methods.html">format(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">print(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">as.character(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">summary(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">as.data.frame(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">c(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">rbind(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">cbind(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`[`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`[[`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`$`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`[&lt;-`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`[[&lt;-`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`$&lt;-`(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">merge(<i>&lt;csquares&gt;</i>)</a></code> <code><a href="csquares-methods.html">`names&lt;-`(<i>&lt;csquares&gt;</i>)</a></code>
 
         </dt>
         <dd>Basic csquares methods</dd>
+      </dl></div><div class="section level2">
+      <h2 id="advanced-handlers">Advanced Handlers<a class="anchor" aria-label="anchor" href="#advanced-handlers"></a></h2>
 
-        <dt>
+      <div class="section-desc"><p>More advanced handlers for <code>csquares</code> class objects</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="drop_csquares.html">drop_csquares()</a></code>
 
@@ -78,20 +117,6 @@
 
         <dt>
 
-          <code><a href="ices_columns.html">ices_columns()</a></code>
-          <span class="badge lifecycle lifecycle-experimental">experimental</span>
-        </dt>
-        <dd>Valid ICES rectangle columns</dd>
-
-        <dt>
-
-          <code><a href="ices_geom.html">ices_centroids()</a></code> <code><a href="ices_geom.html">ices_rectangles()</a></code> <code><a href="ices_geom.html">ices_to_csquares()</a></code> <code><a href="ices_geom.html">ices_from_csquares()</a></code>
-          <span class="badge lifecycle lifecycle-experimental">experimental</span>
-        </dt>
-        <dd>Get ICES geometries</dd>
-
-        <dt>
-
           <code><a href="in_csquares.html">in_csquares()</a></code>
 
         </dt>
@@ -99,40 +124,60 @@
 
         <dt>
 
-          <code><a href="new_csquares.html">new_csquares()</a></code>
-
-        </dt>
-        <dd>Create a c-squares raster from a bounding box</dd>
-
-        <dt>
-
-          <code><a href="orca.html">orca</a></code>
-
-        </dt>
-        <dd>Killer whale realm</dd>
-
-        <dt>
-
           <code><a href="resample_csquares.html">resample_csquares()</a></code>
 
         </dt>
         <dd>Resample csquares to a different resolution</dd>
+      </dl></div><div class="section level2">
+      <h2 id="other-grid-encodings">Other Grid Encodings<a class="anchor" aria-label="anchor" href="#other-grid-encodings"></a></h2>
+
+      <div class="section-desc"><p>Functions for handling grid encodings, other than C-Squares</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="ices_columns.html">ices_columns()</a></code>
+
+        </dt>
+        <dd>Valid ICES rectangle columns</dd>
 
         <dt>
+
+          <code><a href="ices_geom.html">ices_centroids()</a></code> <code><a href="ices_geom.html">ices_rectangles()</a></code> <code><a href="ices_geom.html">ices_to_csquares()</a></code> <code><a href="ices_geom.html">ices_from_csquares()</a></code>
+
+        </dt>
+        <dd>Get ICES geometries</dd>
+      </dl></div><div class="section level2">
+      <h2 id="implementation-of-spatial-methods">Implementation of Spatial Methods<a class="anchor" aria-label="anchor" href="#implementation-of-spatial-methods"></a></h2>
+
+      <div class="section-desc"><p>Spatial methods enherited from the <code>sf</code> package, but adapted to handle C-Squares objects</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="st_as_sf.html">st_as_sf.csquares()</a></code> <code><a href="st_as_sf.html">st_as_sfc.csquares()</a></code>
 
         </dt>
         <dd>Create a simple features object from c-squares</dd>
+      </dl></div><div class="section level2">
+      <h2 id="implementation-of-tidy-operators">Implementation of Tidy Operators<a class="anchor" aria-label="anchor" href="#implementation-of-tidy-operators"></a></h2>
 
-        <dt>
+      <div class="section-desc"><p>Tidy operators from the <code>dplyr</code> and <code>tidyr</code> package, but adapted to handle C-Squares objects</p></div>
 
-          <code><a href="st_as_stars.csquares.html">st_as_stars.csquares()</a></code>
+      <dl></dl></div><div class="section level2">
 
-        </dt>
-        <dd>Coerce csqaures object into a stars object</dd>
 
-        <dt>
+
+
+      <dl><dt>
 
           <code><a href="tidyjoins.html">inner_join.csquares()</a></code> <code><a href="tidyjoins.html">left_join.csquares()</a></code> <code><a href="tidyjoins.html">right_join.csquares()</a></code> <code><a href="tidyjoins.html">full_join.csquares()</a></code> <code><a href="tidyjoins.html">semi_join.csquares()</a></code> <code><a href="tidyjoins.html">anti_join.csquares()</a></code> <code><a href="tidyjoins.html">st_join.csquares()</a></code>
 
@@ -145,22 +190,41 @@
 
         </dt>
         <dd>Tidyverse methods for csquares objects (drop the 'csquares'-suffix)</dd>
+      </dl></div><div class="section level2">
+      <h2 id="implementation-of-vctrs-operators">Implementation of vctrs Operators<a class="anchor" aria-label="anchor" href="#implementation-of-vctrs-operators"></a></h2>
 
-        <dt>
+      <div class="section-desc"><p>Operators from the <code>vctrs</code> package, but adapted to handle C-Squares objects</p></div>
 
-          <code><a href="validate_csquares.html">validate_csquares()</a></code>
+      <dl></dl></div><div class="section level2">
 
-        </dt>
-        <dd>Test if a csquares object is valid</dd>
 
-        <dt>
+
+
+      <dl><dt>
 
           <code><a href="vctrs.html">vec_cast.csquares()</a></code> <code><a href="vctrs.html">vec_ptype2.csquares()</a></code>
 
         </dt>
         <dd>vctrs methods for csquares objects</dd>
+      </dl></div><div class="section level2">
+      <h2 id="example-data">Example Data<a class="anchor" aria-label="anchor" href="#example-data"></a></h2>
+
+      <div class="section-desc"><p>Data used in examples and demonstrations</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="orca.html">orca</a></code>
+
+        </dt>
+        <dd>Killer whale realm</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

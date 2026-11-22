@@ -1,4 +1,4 @@
-# ICES rectangles
+# ICES Rectangles
 
 ``` r
 

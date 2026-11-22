@@ -38,6 +38,13 @@ Returns a
 [`stars`](https://r-spatial.github.io/stars/reference/st_as_stars.html)
 and `csquares` object based on the provided bounding box and resolution.
 
+## See also
+
+Other csquares-class:
+[`as_csquares()`](https://pepijn-devries.github.io/csquares/reference/as_csquares.md),
+[`st_as_stars.csquares()`](https://pepijn-devries.github.io/csquares/reference/st_as_stars.csquares.md),
+[`validate_csquares()`](https://pepijn-devries.github.io/csquares/reference/validate_csquares.md)
+
 ## Author
 
 Pepijn de Vries

@@ -106,6 +106,11 @@ version 0.0.5.002, to better reflect the `dplyr` generic implementation.
 To get results similar to the earlier implementation please use
 [`resample_csquares()`](https://pepijn-devries.github.io/csquares/reference/resample_csquares.md).
 
+## See also
+
+Other tidy-operators:
+[`join`](https://pepijn-devries.github.io/csquares/reference/tidyjoins.md)
+
 ## Author
 
 Pepijn de Vries

@@ -75,6 +75,13 @@ as_csquares(x, resolution = 1, csquares, ...)
 
 Returns a `csquares` object that contains c-squares codes.
 
+## See also
+
+Other csquares-class:
+[`new_csquares()`](https://pepijn-devries.github.io/csquares/reference/new_csquares.md),
+[`st_as_stars.csquares()`](https://pepijn-devries.github.io/csquares/reference/st_as_stars.csquares.md),
+[`validate_csquares()`](https://pepijn-devries.github.io/csquares/reference/validate_csquares.md)
+
 ## Author
 
 Pepijn de Vries

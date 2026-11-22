@@ -44,6 +44,13 @@ resample_csquares(x, method = "target", ..., resolution, magnitude = 1L)
 
 A `csquares` object based on `x`
 
+## See also
+
+Other csquares-handlers:
+[`drop_csquares()`](https://pepijn-devries.github.io/csquares/reference/drop_csquares.md),
+[`expand_wildcards()`](https://pepijn-devries.github.io/csquares/reference/expand_wildcards.md),
+[`in_csquares()`](https://pepijn-devries.github.io/csquares/reference/in_csquares.md)
+
 ## Author
 
 Pepijn de Vries

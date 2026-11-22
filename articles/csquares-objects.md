@@ -1,4 +1,4 @@
-# Csquares objects
+# Csquares Objects
 
 ``` r
 

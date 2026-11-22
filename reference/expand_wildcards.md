@@ -33,6 +33,13 @@ expand_wildcards(x, csquares, ...)
 
 Returns a `csquares` object with full notation
 
+## See also
+
+Other csquares-handlers:
+[`drop_csquares()`](https://pepijn-devries.github.io/csquares/reference/drop_csquares.md),
+[`in_csquares()`](https://pepijn-devries.github.io/csquares/reference/in_csquares.md),
+[`resample_csquares()`](https://pepijn-devries.github.io/csquares/reference/resample_csquares.md)
+
 ## Author
 
 Pepijn de Vries

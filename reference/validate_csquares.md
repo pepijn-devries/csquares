@@ -20,6 +20,13 @@ validate_csquares(x)
 Returns a `logical` value indicating whether the `csquares` object is
 valid or not.
 
+## See also
+
+Other csquares-class:
+[`as_csquares()`](https://pepijn-devries.github.io/csquares/reference/as_csquares.md),
+[`new_csquares()`](https://pepijn-devries.github.io/csquares/reference/new_csquares.md),
+[`st_as_stars.csquares()`](https://pepijn-devries.github.io/csquares/reference/st_as_stars.csquares.md)
+
 ## Author
 
 Pepijn de Vries

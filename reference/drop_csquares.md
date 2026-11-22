@@ -27,6 +27,13 @@ drop_csquares(x, ...)
 Returns a copy of `x` inheriting its parent classes but with out
 csquares info.
 
+## See also
+
+Other csquares-handlers:
+[`expand_wildcards()`](https://pepijn-devries.github.io/csquares/reference/expand_wildcards.md),
+[`in_csquares()`](https://pepijn-devries.github.io/csquares/reference/in_csquares.md),
+[`resample_csquares()`](https://pepijn-devries.github.io/csquares/reference/resample_csquares.md)
+
 ## Author
 
 Pepijn de Vries
