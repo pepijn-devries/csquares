@@ -39,20 +39,12 @@ my_ices_codes <-
 my_ices_rects <- ices_rectangles(my_ices_codes)
 ```
 
-```{r ices_plot, warning=FALSE, message=FALSE, echo=FALSE}
+```{r ices_plot, warning=FALSE, message=FALSE, echo=FALSE, fig.cap='Coastline derived from Natural Earth'}
 library(ggplot2)
-library(rnaturalearth)
-library(rnaturalearthdata)
-rnaturalearth::check_rnaturalearthdata()
-cur_s2 <- sf_use_s2()
-sf_use_s2(FALSE)
-world <- ne_countries(scale = "medium", returnclass = "sf") |>
-  st_crop(my_ices_rects) |>
-  suppressWarnings()
-sf_use_s2(cur_s2)
+load(system.file("coast.rdata", package = "csquares"))
 
 ggplot(my_ices_rects) +
-  geom_sf(data = world, fill = "yellowgreen") +
+  geom_sf(data = coast, fill = "yellowgreen") +
   geom_sf(fill = "transparent") +
   geom_sf_text(aes(label = ICES), size = ifelse(my_ices_rects$subrect, 2, 4)) +
   labs(x = NULL, y = NULL)
@@ -79,9 +71,9 @@ ices_csq <-
 The subrectangles produces `NA` values and shows a warning. This yields the csquares
 as depicted below.
 
-```{r ices_plot2, warning=FALSE, message=FALSE, echo=FALSE}
+```{r ices_plot2, warning=FALSE, message=FALSE, echo=FALSE, fig.cap='Coastline derived from Natural Earth'}
 ggplot(ices_csq) +
-  geom_sf(data = world, fill = "yellowgreen") +
+  geom_sf(data = coast, fill = "yellowgreen") +
   geom_sf(fill = "transparent") +
   geom_sf_text(aes(label = gsub("[|]", "\n", as.character(csquares))), angle = 30, size = 3) +
   labs(x = NULL, y = NULL)
