@@ -61,10 +61,9 @@ Pepijn de Vries
 
 ``` r
 ices_rects <-
-  c("31F21", "31F22", "31F23", "31F24", "31F25", "31F26", "31F27", "31F28", "31F29",
-    "32F2", "33F2", "34F2", "35F2",
-    "31F3", "32F3", "33F3", "34F3", "35F3",
-    "31F4", "32F4", "33F4", "34F4", "35F4")
+  c("31F21", "31F22", "31F23", "31F24", "31F25", "31F26", "31F27", "31F28",
+    "31F29", "32F2", "33F2", "34F2", "35F2", "31F3", "32F3", "33F3",
+    "34F3", "35F3", "31F4", "32F4", "33F4", "34F4", "35F4")
 ices_centroids(ices_rects)
 #> Simple feature collection with 23 features and 2 fields
 #> Geometry type: POINT

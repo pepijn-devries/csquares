@@ -99,3 +99,61 @@ names(x) <- value
 ## Value
 
 Returns (a subsetted / formatted / modified version of) x
+
+## Examples
+
+``` r
+orca_csq <- as_csquares(orca, csquares = "csquares") |> head(10)
+
+format(orca_csq)
+#>         csquares orcinus_orca
+#> 1  S60 E 30 (5°)        FALSE
+#> 2  S60 W 40 (5°)        FALSE
+#> 3  N10 W 90 (5°)         TRUE
+#> 4  N 0 W 40 (5°)        FALSE
+#> 5  S10 W 70 (5°)         TRUE
+#> 6  N 0 W100 (5°)         TRUE
+#> 7  N40 E 30 (5°)        FALSE
+#> 8  N 0 W100 (5°)         TRUE
+#> 9  S 0 W 10 (5°)        FALSE
+#> 10 S40 E130 (5°)         TRUE
+print(orca_csq)
+#>         csquares orcinus_orca
+#> 1  S60 E 30 (5°)        FALSE
+#> 2  S60 W 40 (5°)        FALSE
+#> 3  N10 W 90 (5°)         TRUE
+#> 4  N 0 W 40 (5°)        FALSE
+#> 5  S10 W 70 (5°)         TRUE
+#> 6  N 0 W100 (5°)         TRUE
+#> 7  N40 E 30 (5°)        FALSE
+#> 8  N 0 W100 (5°)         TRUE
+#> 9  S 0 W 10 (5°)        FALSE
+#> 10 S40 E130 (5°)         TRUE
+as.character(orca_csq)
+#> [1] "c(\"3603:3\", \"5604:4\", \"7109:4\", \"7004:3\", \"5107:4\", \"7010:3\", \"1403:4\", \"7010:4\", \"5001:1\", \"3413:4\")"
+#> [2] "c(FALSE, FALSE, TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, FALSE, TRUE)"                                                       
+summary(orca_csq)
+#>       csquares  orcinus_orca   
+#>  Length   :10   Mode :logical  
+#>  N.unique :10   FALSE:5        
+#>  N.blank  : 0   TRUE :5        
+#>  Min.nchar: 6                  
+#>  Max.nchar: 6                  
+as.data.frame(orca_csq)
+#>         csquares orcinus_orca
+#> 1  S60 E 30 (5°)        FALSE
+#> 2  S60 W 40 (5°)        FALSE
+#> 3  N10 W 90 (5°)         TRUE
+#> 4  N 0 W 40 (5°)        FALSE
+#> 5  S10 W 70 (5°)         TRUE
+#> 6  N 0 W100 (5°)         TRUE
+#> 7  N40 E 30 (5°)        FALSE
+#> 8  N 0 W100 (5°)         TRUE
+#> 9  S 0 W 10 (5°)        FALSE
+#> 10 S40 E130 (5°)         TRUE
+## Concatenating and subsetting
+c(orca_csq$csquares[1L:3L], orca_csq$csquares[4L:5L])
+#>  csquares [1:5] S60 E 30 (5°), S60 W 40 (5°), N10 W 90 (5°), N 0 W 40 (5°),...
+orca_csq$csquares[[1L]]
+#>  csquares [1:1] S60 E 30 (5°)
+```

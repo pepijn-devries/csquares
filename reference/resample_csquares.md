@@ -59,7 +59,9 @@ Pepijn de Vries
 
 ``` r
 csq    <- as_csquares(c("1000", "5000:2|5000:100", "3000:100:100"))
-csq_df <- as_csquares(data.frame(csq = csq, foobar = letters[1:3]), csquares = "csq")
+csq_df <- as_csquares(data.frame(csq = csq,
+                                 foobar = letters[1:3]),
+                                 csquares = "csq")
 
 ## Resample csquares based on the one with the lowest resolution:
 resample_csquares(csq,    "min")
@@ -109,16 +111,18 @@ if (requireNamespace(c("dplyr", "stars"))) {
   ## to be summarised when the resulting resolution is lower
   ## than the original:
   g <-
-    sf::st_bbox(c(xmin = 4.0, xmax = 6.5, ymin = 52.5, ymax = 53), crs = 4326) |>
+    sf::st_bbox(c(xmin = 4.0, xmax = 6.5, ymin = 52.5, ymax = 53),
+                crs = 4326) |>
       new_csquares(resolution = 0.1) |>
       ## add a column with some random positive numbers:
       dplyr::mutate(random = .data$csquares |> length() |> rnorm() |> exp())
 
   ## Resample stars object to lower resolution
-  g_sum <- resample_csquares(g, resolution = 10, random = sum(random, na.rm = TRUE))
+  g_sum <- resample_csquares(
+    g, resolution = 10, random = sum(random, na.rm = TRUE))
 
-  ## And back to a higher resolution (note that you have lost information as it was summarised
-  ## in the previous step)
+  ## And back to a higher resolution (note that you have lost information
+  ## as it was summarised in the previous step)
   resample_csquares(g_sum, "up", random = sum(random, na.rm = TRUE))
 }
 #> stars object with 2 dimensions and 2 attributes

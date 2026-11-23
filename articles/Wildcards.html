@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">csquares</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.0005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -146,14 +146,15 @@ the global killer whale data set using a wildcard notation.</p>
 <span><span class="co">## Note that the first number in the csquares code (1)</span></span>
 <span><span class="co">## represents the North East quadrant</span></span>
 <span><span class="co">## The remainder of the code consists of wildcards.</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span><span class="va">orca_filtered</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">orca_sf</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="../reference/in_csquares.html">in_csquares</a></span><span class="op">(</span><span class="va">csquares</span>, <span class="st">"1***:*"</span><span class="op">)</span></span>
-<span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="../reference/drop_csquares.html">drop_csquares</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="st">"orcinus_orca"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="../reference/in_csquares.html">in_csquares</a></span><span class="op">(</span><span class="va">csquares</span>, <span class="st">"1***:*"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/drop_csquares.html">drop_csquares</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="st">"orcinus_orca"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">orca_filtered</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Wildcards_files/figure-html/filter-2.png" class="r-plt" alt="" width="700"></p>
 <div class="section level3">
 <h3 id="mode">Mode<a class="anchor" aria-label="anchor" href="#mode"></a>
@@ -161,8 +162,8 @@ the global killer whale data set using a wildcard notation.</p>
 <p>Consider the following <code>csquares</code> object:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">csq_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/as_csquares.html">as_csquares</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1000:100|1000:111|1000:206|1000:207"</span>, <span class="st">"1000:122"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>It is a <code>vector</code> of two elements, the first containing 4
-squares, the second 1 square. Let’s say we want to check if
+<p>It is a <code>vector</code> of two elements, the first containing
+four squares, the second one square. Let’s say we want to check if
 <code>"1000:1**"</code> matches with any of the elements in the
 <code>vector</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">

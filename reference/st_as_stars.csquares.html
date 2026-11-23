@@ -9,7 +9,7 @@ coerce it to a spatiotemporal array (stars)."><meta property="og:image" content=
 
     <a class="navbar-brand me-2" href="../index.html">csquares</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.0005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,16 +57,41 @@ coerce it to a spatiotemporal array (<a href="https://r-spatial.github.io/stars/
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>An object of class <code>csquares</code> created with <a href="new_csquares.html">new_csquares</a> or <a href="as_csquares.html">as_csquares</a></p></dd>
+<dd><p>An object of class <code>csquares</code> created with <a href="new_csquares.html">new_csquares</a> or
+<a href="as_csquares.html">as_csquares</a></p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>ignored.</p></dd>
+<dd><p>Arguments passed on to <code><a href="as_csquares.html">as_csquares</a></code></p><dl><dt><code>resolution</code></dt>
+<dd><p>Resolution (in WGS84 degrees) to be used for creating
+c-squares codes. As per c-square specifications, the resolution should be
+10 or less, yet greater than 0. It should be a tenfold of 1 or 5. Valid
+resolutions are therefore: 10, 5, 1, 0.5, 0.1, etc.</p></dd>
+
+    <dt><code>csquares</code></dt>
+<dd><p>If <code>x</code> is not a vector of <code>character</code> strings (but for
+instance a <code>data.frame</code>), the <code>csquares</code> argument should specify the name
+of the element of <code>x</code> containing the c-square codes as <code>character</code> strings.</p></dd>
+
+    <dt><code>validate</code></dt>
+<dd><p>A <code>logical</code> value indicating whether the created object
+needs to be validated. Defaults to <code>TRUE</code>. Validation can be time-consuming
+so set to <code>FALSE</code> to save computing time.</p></dd>
+
+    <dt><code>use_centroids</code></dt>
+<dd><p>In case <code>x</code> is a simple features object and
+<code>use_centroids</code> is <code>TRUE</code>, the centroid of each geometry is used for
+deriving c-squares. If it is <code>FALSE</code> all coordinates in the geometry are
+used.</p></dd>
+
+
+</dl></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Returns a spatiotemporal array (<a href="https://r-spatial.github.io/stars/reference/st_as_stars.html" class="external-link">stars</a>) object based on <code>x</code>.</p>
+    <p>Returns a spatiotemporal array (<a href="https://r-spatial.github.io/stars/reference/st_as_stars.html" class="external-link">stars</a>)
+object based on <code>x</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

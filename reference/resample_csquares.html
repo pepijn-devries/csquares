@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">csquares</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.0005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,27 +58,30 @@
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
-<dd><p>Method for determining the resolution of the resulting csquares.
-Should be one of <code>"target"</code>, <code>"min"</code>, <code>"max"</code>, <code>"up"</code>, or <code>"down"</code>.
+<dd><p>Method for determining the resolution of the resulting
+csquares. Should be one of <code>"target"</code>, <code>"min"</code>, <code>"max"</code>, <code>"up"</code>, or
+<code>"down"</code>.
 <code>"target"</code> will resample <code>x</code> to the level specified with <code>resolution</code></p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>When <code>x</code> inherits the <code>stars</code> class and the resulting object has
-a lower resolution than <code>x</code>, the dots are passed on to <code><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">dplyr::summarise()</a></code>.
-This allows you to summarise columns to the lower resolution.</p></dd>
+a lower resolution than <code>x</code>, the dots are passed on to
+<code><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">dplyr::summarise()</a></code>. This allows you to summarise columns to the lower
+resolution.</p></dd>
 
 
 <dt id="arg-resolution">resolution<a class="anchor" aria-label="anchor" href="#arg-resolution"></a></dt>
-<dd><p>Resolution (in WGS84 degrees) to be used for creating c-squares codes.
-As per c-square specifications, the resolution should be 10 or less, yet greater than 0.
-It should be a tenfold of 1 or 5. Valid resolutions are therefore: 10, 5, 1, 0.5, 0.1, etc.</p></dd>
+<dd><p>Resolution (in WGS84 degrees) to be used for creating
+c-squares codes. As per c-square specifications, the resolution should be
+10 or less, yet greater than 0. It should be a tenfold of 1 or 5. Valid
+resolutions are therefore: 10, 5, 1, 0.5, 0.1, etc.</p></dd>
 
 
 <dt id="arg-magnitude">magnitude<a class="anchor" aria-label="anchor" href="#arg-magnitude"></a></dt>
 <dd><p>When <code>method == "up"</code> or <code>"down"</code>, this parameter specifies
-the number of steps to increase or decrease the resolution. Should be a positive
-integer.</p></dd>
+the number of steps to increase or decrease the resolution. Should be a
+positive integer.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -100,7 +103,9 @@ integer.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">csq</span>    <span class="op">&lt;-</span> <span class="fu"><a href="as_csquares.html">as_csquares</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1000"</span>, <span class="st">"5000:2|5000:100"</span>, <span class="st">"3000:100:100"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">csq_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="as_csquares.html">as_csquares</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>csq <span class="op">=</span> <span class="va">csq</span>, foobar <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span>, csquares <span class="op">=</span> <span class="st">"csq"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">csq_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="as_csquares.html">as_csquares</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>csq <span class="op">=</span> <span class="va">csq</span>,</span></span>
+<span class="r-in"><span>                                 foobar <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                 csquares <span class="op">=</span> <span class="st">"csq"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Resample csquares based on the one with the lowest resolution:</span></span></span>
 <span class="r-in"><span><span class="fu">resample_csquares</span><span class="op">(</span><span class="va">csq</span>,    <span class="st">"min"</span><span class="op">)</span></span></span>
@@ -150,16 +155,18 @@ integer.</p></dd>
 <span class="r-in"><span>  <span class="co">## to be summarised when the resulting resolution is lower</span></span></span>
 <span class="r-in"><span>  <span class="co">## than the original:</span></span></span>
 <span class="r-in"><span>  <span class="va">g</span> <span class="op">&lt;-</span></span></span>
-<span class="r-in"><span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="fl">4.0</span>, xmax <span class="op">=</span> <span class="fl">6.5</span>, ymin <span class="op">=</span> <span class="fl">52.5</span>, ymax <span class="op">=</span> <span class="fl">53</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="fl">4.0</span>, xmax <span class="op">=</span> <span class="fl">6.5</span>, ymin <span class="op">=</span> <span class="fl">52.5</span>, ymax <span class="op">=</span> <span class="fl">53</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>      <span class="fu"><a href="new_csquares.html">new_csquares</a></span><span class="op">(</span>resolution <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>      <span class="co">## add a column with some random positive numbers:</span></span></span>
 <span class="r-in"><span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>random <span class="op">=</span> <span class="va">.data</span><span class="op">$</span><span class="va">csquares</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co">## Resample stars object to lower resolution</span></span></span>
-<span class="r-in"><span>  <span class="va">g_sum</span> <span class="op">&lt;-</span> <span class="fu">resample_csquares</span><span class="op">(</span><span class="va">g</span>, resolution <span class="op">=</span> <span class="fl">10</span>, random <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">random</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">g_sum</span> <span class="op">&lt;-</span> <span class="fu">resample_csquares</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">g</span>, resolution <span class="op">=</span> <span class="fl">10</span>, random <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">random</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="co">## And back to a higher resolution (note that you have lost information as it was summarised</span></span></span>
-<span class="r-in"><span>  <span class="co">## in the previous step)</span></span></span>
+<span class="r-in"><span>  <span class="co">## And back to a higher resolution (note that you have lost information</span></span></span>
+<span class="r-in"><span>  <span class="co">## as it was summarised in the previous step)</span></span></span>
 <span class="r-in"><span>  <span class="fu">resample_csquares</span><span class="op">(</span><span class="va">g_sum</span>, <span class="st">"up"</span>, random <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">random</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> stars object with 2 dimensions and 2 attributes</span>

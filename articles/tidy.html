@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">csquares</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.0005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,10 +78,10 @@
 <p><code>csquares</code> objects can inherit properties from different
 parents as illustrated in <code><a href="../articles/csquares-objects.html">vignette("csquares-objects")</a></code>.
 When a <code>csquares</code> object inherits from the class
-<code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>, you can apply many <a href="https://www.tidyverse.org/" class="external-link">tidyverse</a> operations while
-preserving the <code>csquares</code> properties of the object. When you
-create a <code>csquares</code> object from a <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>,
-you cannot use tidyverse operations as it doesn’t inherit the
+<code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>, you can apply many <a href="https://tidyverse.org/" class="external-link">tidyverse</a> operations while preserving
+the <code>csquares</code> properties of the object. When you create a
+<code>csquares</code> object from a <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>, you cannot
+use tidyverse operations as it doesn’t inherit the
 <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> class. You can check which ancestors your
 object has by calling <code><a href="https://rdrr.io/r/base/class.html" class="external-link">class()</a></code> as shown in the example
 below.</p>
@@ -135,8 +135,9 @@ are recalculated after summarising.</p>
 <span><span class="co">## Add geometries to the object</span></span>
 <span>  <span class="fu"><a href="../reference/st_as_sf.html">st_as_sf</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co">## use `mutate` to create a column that contains the csquares' quadrant</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>quadrant <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/recode-and-replace-values.html" class="external-link">recode_values</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">csquares</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">)</span>, <span class="fl">1L</span>, <span class="fl">1L</span><span class="op">)</span>,</span>
-<span>                                  <span class="st">"1"</span> <span class="op">~</span> <span class="st">"NE"</span>, <span class="st">"3"</span> <span class="op">~</span> <span class="st">"SE"</span>, <span class="st">"5"</span> <span class="op">~</span> <span class="st">"SW"</span>, <span class="st">"7"</span> <span class="op">~</span> <span class="st">"NW"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>quadrant <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/recode-and-replace-values.html" class="external-link">recode_values</a></span><span class="op">(</span></span>
+<span>           <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">csquares</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">)</span>, <span class="fl">1L</span>, <span class="fl">1L</span><span class="op">)</span>,</span>
+<span>           <span class="st">"1"</span> <span class="op">~</span> <span class="st">"NE"</span>, <span class="st">"3"</span> <span class="op">~</span> <span class="st">"SE"</span>, <span class="st">"5"</span> <span class="op">~</span> <span class="st">"SW"</span>, <span class="st">"7"</span> <span class="op">~</span> <span class="st">"NW"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co">## grouping by the column with logical values and summarising</span></span>
 <span>  <span class="co">## will reduce the number of rows to 4 (one for each quadrant)</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">quadrant</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -228,7 +229,7 @@ join is meaningful when mismatching csquares codes are the result.</p>
 </h2>
 <p>For some additional <code>csquares</code> specific examples check out
 <code><a href="../reference/tidyverse.html">?tidyverse</a></code> and <code><a href="../reference/tidyjoins.html">?join</a></code>. For extensive
-documentation on tidy operations, consult the <a href="https://www.tidyverse.org" class="external-link">tidyverse website</a>.</p>
+documentation on tidy operations, consult the <a href="https://tidyverse.org/" class="external-link">tidyverse website</a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

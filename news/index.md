@@ -1,6 +1,6 @@
 # Changelog
 
-## csquares v0.1.0.0005
+## csquares v0.1.1
 
 - Added reference to Rees (2015)
 - Added
@@ -10,6 +10,7 @@
   [\#38](https://github.com/pepijn-devries/csquares/issues/38)
 - Redesigned logo
 - Organised reference page
+- Cleaned code to pass `pkgcheck::pkgcheck()`
 - Reduced dependency footprint
 - Corrected some typos
 

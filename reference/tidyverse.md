@@ -97,7 +97,13 @@ drop_na.csquares(x, ...)
   values_from, values_fill, values_fn, unused_fn, .tbl, .keep, col, sep,
   remove, .preserve:
 
-  Passed to tidyverse generic methods. Consult their documentation.
+  Passed to tidyverse generic methods. Consult their documentation. \#
+  nolint: line_length_linter.
+
+## Value
+
+The tidyverse operators are generally pipe-able. This means that it will
+return a mutated version of the input data.
 
 ## Details
 
@@ -129,7 +135,8 @@ if (requireNamespace(c("dplyr", "tidyr"))) {
   orca2 <- filter(orca_csq, orcinus_orca == TRUE)
   
   ## Mutate the object to hold information on the quadrant:
-  orca_csq <- mutate(orca_csq, quadrant = csquares |> as.character() |> substr(1,1))
+  orca_csq <- mutate(orca_csq, quadrant = csquares |> as.character() |>
+    substr(1,1))
   
   ## Select the quadrant column:
   orca2 <- select(orca_csq, quadrant)
@@ -166,14 +173,18 @@ if (requireNamespace(c("dplyr", "tidyr"))) {
   orca_csq[c(1, 1, 1),] |> distinct()
   
   ## Pivot to a wide format:
-  pivot_wider(orca_csq, names_from = "quadrant", values_from = "orcinus_orca")
-  pivot_wider(orca_csq, names_from = "orcinus_orca", values_from = "orcinus_orca",
+  pivot_wider(orca_csq, names_from = "quadrant",
+              values_from = "orcinus_orca")
+  pivot_wider(orca_csq, names_from = "orcinus_orca",
+              values_from = "orcinus_orca",
               id_cols = "quadrant", values_fn = length)
   
-  ## Pivot to a long format (note that you can't pivot the csquares column to long)
+  ## Pivot to a long format (note that you can't pivot the
+  ## csquares column to long)
   tibble(csq = "1000", a = 1, b = 2, d = 3) |>
     as_csquares(csquares = "csq") |>
-    pivot_longer(c("a", "b", "d"), names_to = "letter", values_to = "numeric")
+    pivot_longer(c("a", "b", "d"), names_to = "letter",
+                 values_to = "numeric")
   
   ## Unite two columns into one:
   unite(orca_csq, "quad_realm", any_of(c("quadrant", "orcinus_orca")))

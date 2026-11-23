@@ -7,10 +7,10 @@ illustrated in
 [`vignette("csquares-objects")`](https://pepijn-devries.github.io/csquares/articles/csquares-objects.md).
 When a `csquares` object inherits from the class
 [`data.frame()`](https://rdrr.io/r/base/data.frame.html), you can apply
-many [tidyverse](https://www.tidyverse.org/) operations while preserving
-the `csquares` properties of the object. When you create a `csquares`
-object from a [`character()`](https://rdrr.io/r/base/character.html),
-you cannot use tidyverse operations as it doesn’t inherit the
+many [tidyverse](https://tidyverse.org/) operations while preserving the
+`csquares` properties of the object. When you create a `csquares` object
+from a [`character()`](https://rdrr.io/r/base/character.html), you
+cannot use tidyverse operations as it doesn’t inherit the
 [`data.frame()`](https://rdrr.io/r/base/data.frame.html) class. You can
 check which ancestors your object has by calling
 [`class()`](https://rdrr.io/r/base/class.html) as shown in the example
@@ -76,8 +76,9 @@ orca_sum <-
 ## Add geometries to the object
   st_as_sf() |>
   ## use `mutate` to create a column that contains the csquares' quadrant
-  mutate(quadrant = recode_values(substr(csquares |> as.character(), 1L, 1L),
-                                  "1" ~ "NE", "3" ~ "SE", "5" ~ "SW", "7" ~ "NW")) |>
+  mutate(quadrant = recode_values(
+           substr(csquares |> as.character(), 1L, 1L),
+           "1" ~ "NE", "3" ~ "SE", "5" ~ "SW", "7" ~ "NW")) |>
   ## grouping by the column with logical values and summarising
   ## will reduce the number of rows to 4 (one for each quadrant)
   group_by(quadrant) |>
@@ -185,4 +186,4 @@ For some additional `csquares` specific examples check out
 and
 [`?join`](https://pepijn-devries.github.io/csquares/reference/tidyjoins.md).
 For extensive documentation on tidy operations, consult the [tidyverse
-website](https://www.tidyverse.org).
+website](https://tidyverse.org/).

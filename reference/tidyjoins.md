@@ -97,6 +97,10 @@ st_join.csquares(x, y, join, ..., suffix = c(".x", ".y"))
   [st_intersects](https://r-spatial.github.io/sf/reference/geos_binary_pred.html);
   see details
 
+## Value
+
+Returns a `csquares` object with `y` joined to it.
+
 ## See also
 
 Other tidy-operators:

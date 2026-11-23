@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">csquares</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.0005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -108,8 +108,9 @@
 
 
 <dt id="arg-short">short<a class="anchor" aria-label="anchor" href="#arg-short"></a></dt>
-<dd><p><code>logical</code> option to print <code>csquares</code> <code>vctrs_vec</code>. If <code>TRUE</code> it will only print one line, if
-<code>FALSE</code> it will print up to <code>options("max.print")</code> records.</p></dd>
+<dd><p><code>logical</code> option to print <code>csquares</code> <code>vctrs_vec</code>. If <code>TRUE</code> it
+will only print one line, if <code>FALSE</code> it will print up to
+<code>options("max.print")</code> records.</p></dd>
 
 
 <dt id="arg-deparse-level">deparse.level<a class="anchor" aria-label="anchor" href="#arg-deparse-level"></a></dt>
@@ -125,12 +126,13 @@
 
 
 <dt id="arg-drop">drop<a class="anchor" aria-label="anchor" href="#arg-drop"></a></dt>
-<dd><p><code>logical</code> value indicating if unused dimensions should be dropped</p></dd>
+<dd><p><code>logical</code> value indicating if unused dimensions should be
+dropped</p></dd>
 
 
 <dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
-<dd><p>Replacement values for a subset. a <code>csquares</code> object or a <code>character</code> string that can be coerced
-to a <code>csquares</code> object</p></dd>
+<dd><p>Replacement values for a subset. a <code>csquares</code> object or a
+<code>character</code> string that can be coerced to a <code>csquares</code> object</p></dd>
 
 
 <dt id="arg-y">y<a class="anchor" aria-label="anchor" href="#arg-y"></a></dt>
@@ -142,6 +144,63 @@ to a <code>csquares</code> object</p></dd>
     <p>Returns (a subsetted / formatted / modified version of) x</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">orca_csq</span> <span class="op">&lt;-</span> <span class="fu"><a href="as_csquares.html">as_csquares</a></span><span class="op">(</span><span class="va">orca</span>, csquares <span class="op">=</span> <span class="st">"csquares"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">orca_csq</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         csquares orcinus_orca</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  S60 E 30 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  S60 W 40 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  N10 W 90 (5°)         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  N 0 W 40 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  S10 W 70 (5°)         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  N 0 W100 (5°)         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  N40 E 30 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  N 0 W100 (5°)         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  S 0 W 10 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 S40 E130 (5°)         TRUE</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">orca_csq</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         csquares orcinus_orca</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  S60 E 30 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  S60 W 40 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  N10 W 90 (5°)         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  N 0 W 40 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  S10 W 70 (5°)         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  N 0 W100 (5°)         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  N40 E 30 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  N 0 W100 (5°)         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  S 0 W 10 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 S40 E130 (5°)         TRUE</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">orca_csq</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "c(\"3603:3\", \"5604:4\", \"7109:4\", \"7004:3\", \"5107:4\", \"7010:3\", \"1403:4\", \"7010:4\", \"5001:1\", \"3413:4\")"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "c(FALSE, FALSE, TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, FALSE, TRUE)"                                                       </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">orca_csq</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       csquares  orcinus_orca   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Length   :10   Mode :logical  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  N.unique :10   FALSE:5        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  N.blank  : 0   TRUE :5        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.nchar: 6                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.nchar: 6                  </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">orca_csq</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         csquares orcinus_orca</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  S60 E 30 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  S60 W 40 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  N10 W 90 (5°)         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  N 0 W 40 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  S10 W 70 (5°)         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  N 0 W100 (5°)         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  N40 E 30 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  N 0 W100 (5°)         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  S 0 W 10 (5°)        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 S40 E130 (5°)         TRUE</span>
+<span class="r-in"><span><span class="co">## Concatenating and subsetting</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">orca_csq</span><span class="op">$</span><span class="va">csquares</span><span class="op">[</span><span class="fl">1L</span><span class="op">:</span><span class="fl">3L</span><span class="op">]</span>, <span class="va">orca_csq</span><span class="op">$</span><span class="va">csquares</span><span class="op">[</span><span class="fl">4L</span><span class="op">:</span><span class="fl">5L</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  csquares [1:5] S60 E 30 (5°), S60 W 40 (5°), N10 W 90 (5°), N 0 W 40 (5°),...</span>
+<span class="r-in"><span><span class="va">orca_csq</span><span class="op">$</span><span class="va">csquares</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  csquares [1:1] S60 E 30 (5°)</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

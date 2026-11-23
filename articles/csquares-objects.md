@@ -62,9 +62,8 @@ class(csquares_df)
 ```
 
 This means that you can apply all operations that you could apply to a
-normal `data.frame`. This includes
-[tidyverse](https://www.tidyverse.org) operations as explained in more
-detail in
+normal `data.frame`. This includes [tidyverse](https://tidyverse.org/)
+operations as explained in more detail in
 [`vignette("tidy")`](https://pepijn-devries.github.io/csquares/articles/tidy.md).
 For example, you can add columns with data:
 

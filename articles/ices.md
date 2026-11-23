@@ -9,9 +9,9 @@ library(csquares)
 
 *Support for ICES rectangles is experimental*
 
-[ICES statistical
-rectangles](https://en.wikipedia.org/wiki/ICES_Statistical_Rectangles)
-is a notation system developed by the International Council for the
+\[ICES statistical rectangles\]\[ices-rect\] \[ices-rect\]:
+<https://en.wikipedia.org/wiki/ICES_Statistical_Rectangles> is a
+notation system developed by the International Council for the
 Exploration of the Sea (ICES). The packages allows you to convert the
 notation into a [`sf`](https://r-spatial.github.io/sf/) object. The
 example and illustration below shows a small subset of ICES rectangles
@@ -21,10 +21,9 @@ and subrectangles.
 
 library(sf)
 my_ices_codes <-
-  c("31F21", "31F22", "31F23", "31F24", "31F25", "31F26", "31F27", "31F28", "31F29",
-      "32F2", "33F2", "34F2", "35F2",
-      "31F3", "32F3", "33F3", "34F3", "35F3",
-      "31F4", "32F4", "33F4", "34F4", "35F4")
+  c("31F21", "31F22", "31F23", "31F24", "31F25", "31F26", "31F27",
+    "31F28", "31F29", "32F2", "33F2", "34F2", "35F2", "31F3", "32F3",
+    "33F3", "34F3", "35F3", "31F4", "32F4", "33F4", "34F4", "35F4")
 
 my_ices_rects <- ices_rectangles(my_ices_codes)
 ```
@@ -59,6 +58,16 @@ ices_csq <-
 
 The subrectangles produces `NA` values and shows a warning. This yields
 the csquares as depicted below.
+
+``` r
+
+ggplot(ices_csq) +
+  geom_sf(data = coast, fill = "yellowgreen") +
+  geom_sf(fill = "transparent") +
+  geom_sf_text(aes(label = gsub("|", "\n", as.character(csquares),
+                                fixed = TRUE)), angle = 30, size = 3) +
+  labs(x = NULL, y = NULL)
+```
 
 ![Coastline derived from Natural
 Earth](ices_files/figure-html/ices_plot2-1.png)

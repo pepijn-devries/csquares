@@ -1,7 +1,7 @@
 # csquares: Concise Spatial Query and Representation System (c-Squares)
 
-Encode and decode c-squares, from and to simple feature (sf) or
-spatiotemporal arrays (stars) objects. Use c-squares codes to quickly
+Encode and decode c-squares, from and to simple feature ('sf') or
+spatiotemporal arrays ('stars') objects. Use c-squares codes to quickly
 join or query spatial data.
 
 ## See also

@@ -91,14 +91,15 @@ plot(orca_sf["orcinus_orca"])
 ## Note that the first number in the csquares code (1)
 ## represents the North East quadrant
 ## The remainder of the code consists of wildcards.
-plot(
+orca_filtered <-
   orca_sf |>
-    filter(
-      in_csquares(csquares, "1***:*")
-    ) |>
-    drop_csquares() |>
-    select("orcinus_orca")
-)
+  filter(
+    in_csquares(csquares, "1***:*")
+  ) |>
+  drop_csquares() |>
+  select("orcinus_orca")
+
+plot(orca_filtered)
 ```
 
 ![](Wildcards_files/figure-html/filter-2.png)
@@ -112,9 +113,9 @@ Consider the following `csquares` object:
 csq_example <- as_csquares(c("1000:100|1000:111|1000:206|1000:207", "1000:122"))
 ```
 
-It is a `vector` of two elements, the first containing 4 squares, the
-second 1 square. Let’s say we want to check if `"1000:1**"` matches with
-any of the elements in the `vector`.
+It is a `vector` of two elements, the first containing four squares, the
+second one square. Let’s say we want to check if `"1000:1**"` matches
+with any of the elements in the `vector`.
 
 ``` r
 
