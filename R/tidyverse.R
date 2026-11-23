@@ -109,12 +109,16 @@ select.csquares <- function(.data, ...) {
     rlang::abort(c(
       x = "tidyselect required",
       i = "Install it first and try again"))
-  loc <- tidyselect::eval_select(quote(c(...)), .data |>
-                                   dplyr::as_tibble()) |> names()
+  loc <- names(
+    tidyselect::eval_select(
+      quote(c(...)),
+      dplyr::as_tibble(.data)))
   loc <- union(
     loc,
-    tidyselect::eval_select(quote(dplyr::any_of(.by)), .data |>
-                              dplyr::as_tibble()) |> names()
+    names(
+      tidyselect::eval_select(
+        quote(dplyr::any_of(.by)),
+        dplyr::as_tibble(.data)))
   )
   class(.data) <- setdiff(class(.data), "csquares")
   .data <- .data |>
@@ -235,11 +239,11 @@ summarise.csquares <- function(.data, ..., .dots) {
     lapply(sort(unique(i)), \(j)
            .data[[.by]][i == j] |>
              as.character() |>
-             strsplit("[|]") |>
+             strsplit("|", fixed = TRUE) |>
              unlist() |>
              unique() |>
              sort() |>
-             paste0(collapse = "|")) |>
+             stringr::str_flatten(collapse = "|")) |>
     unlist() |>
     as_csquares()
   result <- .s3_finalise(result, .by)
@@ -313,14 +317,17 @@ pivot_wider.csquares <- function(
     result <-
       dplyr::left_join(
         result,
-        data |>
-          dplyr::group_by(dplyr::across(dplyr::any_of(id_cols))) |>
-          dplyr::summarise(
-            !!.by := 
-              .data[[.by]] |> as.character() |> strsplit("[|]") |>
-              unlist() |> unique() |> sort() |> paste0(collapse = "|"),
-            .groups = "keep"
-          ),
+        dplyr::summarise(
+          dplyr::group_by(data, dplyr::across(dplyr::any_of(id_cols))),
+          !!.by := 
+            stringr::str_flatten(
+              sort(
+                unique(
+                  unlist(
+                    strsplit(as.character(.data[[.by]]), "|", fixed = TRUE)
+                  ))), collapse = "|"),
+          .groups = "keep"
+        ),
         by = id_cols)
   }
   if (.by %in% colnames(result)) result <- .s3_finalise(result, .by)

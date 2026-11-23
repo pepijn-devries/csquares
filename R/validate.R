@@ -26,7 +26,7 @@ validate_csquares <- function(x) {
     x[[attributes(x)$csquares_col]]
   }
   if (length(x[!is.na(x)]) == 0) return(TRUE)
-  strsplit(x[!is.na(x)], "[|]") |>
+  strsplit(x[!is.na(x)], "|", fixed = TRUE) |>
     unlist() |>
     .check_csquare_validity() |>
     all()

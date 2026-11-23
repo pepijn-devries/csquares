@@ -5,7 +5,7 @@
 #' object as this will render the object invalid. Use `drop_csquares` instead.
 #' @param x An object of class `csquares` from which the c-square information
 #' needs to be dropped.
-#' @param ... ignored
+#' @inheritDotParams as_csquares
 #' @returns Returns a copy of `x` inheriting its parent classes but with out
 #' csquares info.
 #' @examples

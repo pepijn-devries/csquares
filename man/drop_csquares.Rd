@@ -10,7 +10,24 @@ drop_csquares(x, ...)
 \item{x}{An object of class \code{csquares} from which the c-square information
 needs to be dropped.}
 
-\item{...}{ignored}
+\item{...}{
+  Arguments passed on to \code{\link{as_csquares}}
+  \describe{
+    \item{\code{resolution}}{Resolution (in WGS84 degrees) to be used for creating
+c-squares codes. As per c-square specifications, the resolution should be
+10 or less, yet greater than 0. It should be a tenfold of 1 or 5. Valid
+resolutions are therefore: 10, 5, 1, 0.5, 0.1, etc.}
+    \item{\code{csquares}}{If \code{x} is not a vector of \code{character} strings (but for
+instance a \code{data.frame}), the \code{csquares} argument should specify the name
+of the element of \code{x} containing the c-square codes as \code{character} strings.}
+    \item{\code{validate}}{A \code{logical} value indicating whether the created object
+needs to be validated. Defaults to \code{TRUE}. Validation can be time-consuming
+so set to \code{FALSE} to save computing time.}
+    \item{\code{use_centroids}}{In case \code{x} is a simple features object and
+\code{use_centroids} is \code{TRUE}, the centroid of each geometry is used for
+deriving c-squares. If it is \code{FALSE} all coordinates in the geometry are
+used.}
+  }}
 }
 \value{
 Returns a copy of \code{x} inheriting its parent classes but with out

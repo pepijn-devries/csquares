@@ -100,19 +100,20 @@ ices_rectangles <- function(ices_rect) {
     dplyr::bind_cols(sf::st_coordinates(poly)) |>
     dplyr::mutate(
       geometry =
-        mapply(
-          \(x, y, res) {
-            arguments <- unlist(as.list(environment()))
-            sf::st_polygon(
-              list(
-                cbind(x + res*c(-0.5, 0.5, 0.5, -0.5, -0.5),
-                      y + 0.5*res*c(-0.5, -0.5, 0.5, 0.5, -0.5))
+        sf::st_as_sfc(
+          mapply(
+            \(x, y, res) {
+              arguments <- unlist(as.list(environment()))
+              sf::st_polygon(
+                list(
+                  cbind(x + res*c(-0.5, 0.5, 0.5, -0.5, -0.5),
+                        y + 0.5*res*c(-0.5, -0.5, 0.5, 0.5, -0.5))
+                )
               )
-            )
-          }, x = .data$X, y = .data$Y, res = ifelse(.data$subrect, 1/3, 1),
-          SIMPLIFY = FALSE
-        ) |>
-        sf::st_as_sfc()
+            }, x = .data$X, y = .data$Y, res = ifelse(.data$subrect, 1/3, 1),
+            SIMPLIFY = FALSE
+          )
+        )
     ) |>
     dplyr::select(!dplyr::any_of(c("X", "Y"))) |>
     sf::st_make_valid()
@@ -128,10 +129,12 @@ ices_to_csquares <- function (ices_rect) {
     ices_rect |>
     ices_centroids() |>
     dplyr::mutate(
-      geom2    = sf::st_sfc(.data$geometry + c(0.25, 0), crs = 4326) |>
-        suppressWarnings(),
-      geometry = sf::st_sfc(.data$geometry + c(-0.25, 0), crs = 4326) |>
-        suppressWarnings(),
+      geom2    = suppressWarnings(
+        sf::st_sfc(.data$geometry + c(0.25, 0), crs = 4326)
+      ),
+      geometry = suppressWarnings(
+        sf::st_sfc(.data$geometry + c(-0.25, 0), crs = 4326)
+      ),
       csquares = ifelse(
         .data$subrect,
         as_csquares(NA_character_),
@@ -172,7 +175,7 @@ ices_from_csquares <- function(csquares) {
 
   if (sum(idx) > 0) {
     geom <- dplyr::tibble(
-      csq = strsplit(csquares[idx], "[|]")
+      csq = strsplit(csquares[idx], "|", fixed = TRUE)
     ) |>
       dplyr::mutate(id = dplyr::row_number()) |>
       tidyr::unnest("csq") |>
@@ -182,11 +185,14 @@ ices_from_csquares <- function(csquares) {
     result[idx] <-
       geom |>
       dplyr::bind_cols(
-        sf::st_centroid(geom) |>
-          suppressWarnings() |>
-          sf::st_coordinates() |>
-          as.data.frame()
-      ) |>
+        as.data.frame(
+          sf::st_coordinates(
+            suppressWarnings(
+              sf::st_centroid(geom)
+            )
+          )
+        )
+      )|>
       dplyr::mutate(
         X = floor(.data$X) + 45,
         X = ifelse(dplyr::between(.data$X, 1L, 113L),
@@ -198,7 +204,10 @@ ices_from_csquares <- function(csquares) {
       sf::st_drop_geometry() |>
       dplyr::group_by(.data$id) |>
       dplyr::summarise(
-        ICES = unique(.data$ICES) |> sort() |> paste0(collapse = "|"),
+        ICES =
+          stringr::str_flatten(
+            sort(unique(.data$ICES)),
+            collapse = "|"),
         valid = all(.data$valid)
       ) |>
       dplyr::mutate(ICES = ifelse(.data$valid, .data$ICES, NA)) |>

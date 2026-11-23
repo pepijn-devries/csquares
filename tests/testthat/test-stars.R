@@ -4,9 +4,9 @@
 }  |>
   suppressMessages() |> suppressWarnings()
 orca_sub <-
-  as_csquares(orca |>
-                filter(csquares %in% c("7817:4", "7817:3", "7817:2", "7817:1")),
-              csquares = "csquares")
+  as_csquares(
+    filter(orca, csquares %in% c("7817:4", "7817:3", "7817:2", "7817:1")),
+    csquares = "csquares")
 orca_sf <- orca_sub |> sf::st_as_sf()
 str1 <- st_as_stars(as_csquares("7500:110:3|7500:110:1|1500:110:3|1500:110:1"))
 str2 <- st_as_stars(orca_sub)
@@ -25,7 +25,8 @@ test_that("`st_as_stars` cannot be created from `sf` objects", {
   })
 })
 
-test_that("Cannot have more that one square per row if there is more than 1 row", {
+test_that(
+  "Cannot have more that one square per row if there is more than 1 row", {
   expect_error({
     st_as_stars(as_csquares(c("7500:110:3", "7500:110:1",
                               "1500:110:3", "1500:110:1|1500:110:4")))

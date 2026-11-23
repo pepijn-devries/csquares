@@ -1,5 +1,5 @@
 #' Convert lon-lat coordinates into c-square codes
-#' 
+#'
 #' Takes WGS84 longitude and latitude coordinates and finds the closest
 #' matching c-squares for a given resolution.
 #'
@@ -57,12 +57,12 @@ as_csquares.default <- function(x, resolution, csquares, ...) {
 #' @name as_csquares
 #' @export
 as_csquares.character <- function(
-    x, resolution, csquares, validate = TRUE, ...) {
+  x, resolution, csquares, validate = TRUE, ...) {
   x <- vctrs::new_vctr(x, class = c("csquares", "character"))
   if (validate && length(x) > 0) {
     check <- tryCatch({
       has_wildcards <- grepl("*", x, fixed = TRUE)
-      if (any( has_wildcards )) {
+      if (any(has_wildcards)) {
         x[has_wildcards] <- expand_wildcards(x[has_wildcards] |> unclass())
       }
       validate_csquares(x)
@@ -80,7 +80,7 @@ as_csquares.character <- function(
 #' @export
 as_csquares.numeric <- function(x, resolution = 1, csquares, ...) {
   if (inherits(x, "matrix")) {
-    as_csquares(data.frame(x = x[,1], y = x[,2]), resolution)
+    as_csquares(data.frame(x = x[, 1], y = x[, 2]), resolution)
   } else {
     rlang::abort(
       c(
@@ -99,23 +99,23 @@ as_csquares.data.frame <- function(x, resolution = 1, csquares, ...) {
   if (missing(csquares)) {
     if (inherits(x, "csquares")) return(x)
     resolution <- .check_resolution(resolution)
-    
+
     dat <- .csquares_generic(x, resolution)
     csquares <- make.names(c(colnames(x), "csquares"), unique = TRUE)
     csquares <- csquares[[length(csquares)]]
     x[[csquares]] <- dat
-    
+
   } else {
     x[[csquares]] <- as_csquares(x[[csquares]], ...)
   }
-  
+
   .s3_finalise(x, csquares)
 }
 
 #' @rdname as_csquares
 #' @export
 as_csquares.sf <- function(
-    x, resolution = 1, csquares, ..., use_centroids = TRUE) {
+  x, resolution = 1, csquares, ..., use_centroids = TRUE) {
   if (inherits(x, "csquares")) return(x)
   if (use_centroids) x <- sf::st_centroid(x)
   .csquares_spatial(x, resolution)
@@ -124,7 +124,7 @@ as_csquares.sf <- function(
 #' @rdname as_csquares
 #' @export
 as_csquares.sfc <- function(
-    x, resolution = 1, csquares, ..., use_centroids = TRUE) {
+  x, resolution = 1, csquares, ..., use_centroids = TRUE) {
   if (use_centroids) x <- sf::st_centroid(x)
   .csquares_spatial(x, resolution)
 }
@@ -146,7 +146,7 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
     sf::st_transform(4326) |>
     sf::st_coordinates() |>
     .csquares_generic(resolution)
-  if (inherits(x, "sfc")) return (csq)
+  if (inherits(x, "sfc")) return(csq)
   nms <- make.names(c(names(x), "csquares"), unique = TRUE)
   nms <- nms[[length(nms)]]
   x[[nms]] <- csq
@@ -157,18 +157,18 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
   l10 <- as.integer(attributes(resolution)$l10)
   l5  <- as.integer(attributes(resolution)$l5)
   res <- as.numeric(resolution)
-  
+
   # Exact power-of-10 scale factor (no 32-bit integer overflow; doubles
   # are exact up to 2^53)
   dec_places <- max(0L, l10)
   scale      <- 10^dec_places
   res_int    <- round(res * scale)
-  
+
   x <-
     x |>
     dplyr::as_tibble(.name_repair = "minimal") |>
     dplyr::rename(x = 1, y = 2)
-  
+
   if (!"L3" %in% colnames(x)) {
     x <-
       x |>
@@ -176,7 +176,7 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
         L3 = dplyr::row_number()
       )
   }
-  
+
   x <-
     x |>
     dplyr::mutate(
@@ -208,22 +208,27 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
             vals[last_digit & l5 == 1L, 2:3] <- ""
             apply(vals, 1, paste0, collapse = "")
           }, x1 = .data$xi, y1 = .data$yi) |>
-          (\(m) if (is.null(dim(m))) {
-            paste0(m[m != ""], collapse = ":")
-          } else {
-            apply(m, 1, paste0, collapse = ":")
+          (\(m) {
+            if (is.null(dim(m))) {
+              stringr::str_flatten(m[m != ""], collapse = ":")
+            } else {
+              apply(m, 1, stringr::str_flatten, collapse = ":")
+            }
           })()
       },
-      csquares = cbind(
-        sprintf("%1i%1i%02i", .data$quadrant, .data$y_cur, .data$x_cur),
-        .data$digits
-      ) |>
-        apply(1, \(r) paste0(r[r != ""], collapse = ":"))
+      csquares = 
+        apply(
+          cbind(
+            sprintf("%1i%1i%02i", .data$quadrant, .data$y_cur, .data$x_cur),
+            .data$digits
+          ),
+          1, \(r) stringr::str_flatten(r[r != ""], collapse = ":"))
     ) |>
     dplyr::group_by(dplyr::across(dplyr::any_of("L3"))) |>
-    dplyr::summarise(csquares = paste0(.data$csquares, collapse = "|")) |>
+    dplyr::summarise(
+      csquares = stringr::str_flatten(.data$csquares, collapse = "|")) |>
     dplyr::pull("csquares") |>
-    c()
-  
+    c.csquares()
+
   vctrs::new_vctr(x, class = c("csquares", "character"))
 }

@@ -16,8 +16,10 @@
   
   res_fixed <-
     sgnf *
-    ifelse(digit < 7.5 & digit > 2.5, 5,
-           ifelse(digit > 5, 10, 1))
+    dplyr::case_when(
+      digit < 7.5 & digit > 2.5 ~ 5,
+      digit > 5 ~ 10,
+      .default = 1)
   
   if (any(abs((res_fixed/resolution) - 1) > 1e-6)) {
     rlang::warn(c(i = "'resolution' should be a tenfold of 1 or 5."))
@@ -99,7 +101,7 @@
 }
 
 .to_df <- function(x) {
-  dplyr::as_tibble(lapply(x, function(y) structure(y, dim = NULL)))
+  dplyr::as_tibble(lapply(x, structure, dim = NULL))
 }
 
 .set_dim <- function(x, d) {
@@ -118,7 +120,7 @@
 
 .csquares_to_coords <- function(x) {
   x |>
-    strsplit("[|]") |>
+    strsplit("|", fixed = TRUE) |>
     purrr::map(\(x) dplyr::tibble(code = x, id = seq_along(x))) |>
     dplyr::tibble() |>
     dplyr::rename(split = 1) |>
@@ -128,7 +130,7 @@
       check     = .check_csquare_validity(.data$code),
       precision = .nchar_to_csq_res(.data$code),
       code      = ifelse(grepl("[^0-9^:]", .data$code), NA, .data$code),
-      code_part = strsplit(.data$code, "[:]")
+      code_part = strsplit(.data$code, ":", fixed = TRUE)
     ) |>
     tidyr::unnest("code_part") |>
     dplyr::group_by(.data$line_number, .data$id) |>
@@ -151,19 +153,17 @@
         ord  <- .data$code_order
         cd   <- .data$code_part
         dplyr::tibble(
-          x_sgn  = ifelse(grepl("E", .env$quad), 1, -1),
-          y_sgn  = ifelse(grepl("N", .env$quad), 1, -1),
+          x_sgn  = ifelse(grepl("E", .env$quad, fixed = TRUE), 1, -1),
+          y_sgn  = ifelse(grepl("N", .env$quad, fixed = TRUE), 1, -1),
           num    = stringr::str_sub(cd, 2L) |> as.numeric(),
           x      = .data$num %% ifelse(ord == 1, 100L, 10L),
           y      = trunc(.data$num/ifelse(ord == 1, 100L, 10L))
         ) |>
           dplyr::mutate(
-            x      = ifelse(is.na(.data$x),
-                            ifelse(cd %in% c("1", "3"), 0, 5),
-                            .data$x),
-            y      = ifelse(is.na(.data$y),
-                            ifelse(cd %in% c("1", "2"), 0, 5),
-                            .data$y),
+            x      = dplyr::coalesce(.data$x,
+                                     ifelse(cd %in% c("1", "3"), 0, 5)),
+            y      = dplyr::coalesce(.data$y,
+                                     ifelse(cd %in% c("1", "2"), 0, 5)),
             x      = stp * .data$x_sgn * .data$x,
             y      = stp * .data$y_sgn * .data$y) |>
           dplyr::select("x", "y", "x_sgn", "y_sgn")

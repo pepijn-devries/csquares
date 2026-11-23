@@ -11,7 +11,7 @@
 #' a column with csquares codes with wildcards
 #' @param csquares When `x` is `data.frame` this argument should
 #' specify the column name that contains the csquares codes with wildcards.
-#' @param ... ignored
+#' @inheritDotParams as_csquares
 #' @returns Returns a `csquares` object with full notation
 #' @author Pepijn de Vries
 #' @examples
@@ -94,9 +94,11 @@ expand_wildcards <- function(x, csquares, ...) {
     dplyr::group_by(.data$codes, .data$row, .data$code_id) |>
     dplyr::summarise(
       wildcard_pos = list(.data$wildcard_pos),
-      opts = do.call(expand.grid, .data$opts) |>
-        apply(1, as.character, simplify = FALSE) |>
-        list()
+      opts =  list(
+        apply(
+          do.call(expand.grid, .data$opts),
+          1, as.character, simplify = FALSE)
+      )
     ) |>
     dplyr::mutate(
       codes_exp = {
@@ -106,14 +108,14 @@ expand_wildcards <- function(x, csquares, ...) {
           result <- result[.check_csquare_validity(result)] |>
             unique() |>
             sort()
-          paste0(result, collapse = "|")
+          stringr::str_flatten(result, collapse = "|")
         })
       },
       codes_exp = unlist(.data$codes_exp)
     ) |>
     dplyr::group_by(.data$row) |>
-    dplyr::summarise(codes_exp = .data$codes_exp |> unique() |> sort() |>
-                       paste0(collapse = "|"),
+    dplyr::summarise(codes_exp = stringr::str_flatten(
+      sort(unique(.data$codes_exp)), collapse = "|"),
                      .groups = "keep") |>
     dplyr::arrange(.data$row) |>
     dplyr::pull("codes_exp") |>

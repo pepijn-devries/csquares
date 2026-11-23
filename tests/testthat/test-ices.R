@@ -9,20 +9,23 @@ test_that(
       skip_on_cran()
       skip_on_ci()
       skip_if_offline()
-      skip_if(!interactive(), "This test can only be performed in interactive R sessions")
+      skip_if(!interactive(),
+              "This test can only be performed in interactive R sessions")
       skip_if(
         utils::winDialog("yesno", "Skip ices testing (slow)?") == "YES",
         "Skipping at user's request"
       )
       fl <- tempfile(fileext = ".zip")
       td <- tempdir()
-      utils::download.file("https://gis.ices.dk/shapefiles/ICES_rectangles.zip", fl,
-                           quiet = TRUE)
+      utils::download.file(
+        "https://gis.ices.dk/shapefiles/ICES_rectangles.zip", fl,
+        quiet = TRUE)
       utils::unzip(fl, exdir = td)
       fs <- list.files(td, "\\.shp$", full.names = TRUE)
       ices <- sf::st_read(fs, quiet = TRUE)
       unlink(fl)
-      fs <- list.files(td, gsub("\\.shp$", "*.?", basename(fs)), full.names = TRUE)
+      fs <- list.files(td, gsub("\\.shp$", "*.?", basename(fs)),
+                       full.names = TRUE)
       unlink(fs)
       ices_test  <- ices |> dplyr::filter(ICESNAME %in% test_rects)
       ices_calc  <- ices_rectangles(test_rects)
@@ -31,14 +34,17 @@ test_that(
         ices_test |>
         dplyr::select("ICESNAME", test_geom = "geometry") |>
         dplyr::left_join(
-          ices_calc |> dplyr::select(ICESNAME = "ICES", calc1_geom = "geometry") |>
-            as.data.frame(),
+          as.data.frame(
+            dplyr::select(ices_calc, ICESNAME = "ICES",
+                          calc1_geom = "geometry")
+          ),
           by = "ICESNAME"
         ) |>
         dplyr::left_join(
-          ices_calc2 |> drop_csquares() |>
-            dplyr::select(ICESNAME = "ICES", calc2_geom = "geom") |>
-            as.data.frame(),
+          as.data.frame(
+            dplyr::select(drop_csquares(ices_calc2),
+                          ICESNAME = "ICES", calc2_geom = "geom")
+          ),
           by = "ICESNAME"
         ) |>
         dplyr::mutate(
@@ -60,7 +66,8 @@ test_that(
 )
 
 test_that(
-  "Translating ICES rectangles to csquares and back to ICES rects result in the original set",
+  paste("Translating ICES rectangles to csquares and back",
+        "to ICES rects result in the original set"),
   {
     expect_true({
       csq <- ices_to_csquares(test_rects)
@@ -70,7 +77,8 @@ test_that(
   })
 
 test_that(
-  "`ices_rectangles` produces a simple features object with same number of rows as input length",
+  paste("`ices_rectangles` produces a simple features object with same",
+        "number of rows as input length"),
   {
     expect_true({
       rct <- ices_rectangles(test_rects)
@@ -93,8 +101,9 @@ test_that(
   })
 
 test_that(
-  "Character is also accepted as csquares (when valid csquares) and produces correct ICES rect",
+  paste("Character is also accepted as csquares (when valid csquares)",
+        "and produces correct ICES rect"),
   {
-    expect_equal(ices_from_csquares("1500:122:1"), "33F2")
+    expect_identical(ices_from_csquares("1500:122:1"), "33F2")
   })
 

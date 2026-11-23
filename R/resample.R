@@ -127,15 +127,17 @@ resample_csquares <- function(
               seq(from = 5L, to = y, by = 4L)
           }, x = .data$len, y = .data$target_len, SIMPLIFY = FALSE) |>
           lapply(\(x) c("*", ":")[as.numeric(x) + 1] |>
-                   paste0(collapse = "")) |>
+                   stringr::str_flatten(collapse = "")) |>
           unlist()
         paste0(.data$csq, suffix)
       }, substr(.data$csq, 1L, .data$target_len))
     ) |>
     expand_wildcards(csquares = "csq") |>
     dplyr::group_by(.data$id) |>
-    dplyr::summarise(csq = .data$csq |> as.character() |> unique() |>
-                       sort() |> paste0(collapse = "|")) |>
+    dplyr::summarise(csq = 
+                       stringr::str_flatten(
+                         sort(unique(as.character(.data$csq))),
+                         collapse = "|")) |>
     dplyr::pull("csq")
   
   if (is_df || is_stars) {
@@ -158,11 +160,15 @@ resample_csquares <- function(
         as_csquares(csquares = .by, validate = FALSE)
     }
     resolution <- .nchar_to_csq_res(
-      x$csquares[[1]] |> unclass() |> strsplit("|", fixed = TRUE) |>
-        unlist()) |> min()
+      unlist(
+        strsplit(unclass(x$csquares[[1]]),
+                 "|", fixed = TRUE)
+      ))
     
-    grd <- new_csquares(x |> as_csquares(csquares = .by, validate = FALSE) |>
-                          sf::st_as_sf(), resolution = resolution) |>
+    grd <- new_csquares(
+      sf::st_as_sf(
+        as_csquares(x, csquares = .by, validate = FALSE)
+      ), resolution = resolution) |>
       dplyr::rename(!!.by := "csquares")
     ret <- x |> sf::st_drop_geometry()
     class(ret) <- setdiff(class(ret), "csquares")

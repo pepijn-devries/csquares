@@ -1,11 +1,11 @@
 #' Coerce csqaures object into a stars object
-#' 
+#'
 #' Take a `csquares` object created with [new_csquares] or [as_csquares] and
 #' coerce it to a spatiotemporal array ([stars][stars::st_as_stars]).
-#' 
+#'
 #' @param x An object of class `csquares` created with [new_csquares] or
 #' [as_csquares]
-#' @param ... ignored.
+#' @inheritDotParams as_csquares
 #' @returns Returns a spatiotemporal array ([stars][stars::st_as_stars])
 #' object based on `x`.
 #' @examples
@@ -72,4 +72,3 @@ st_as_stars.csquares <-
     }
     NextMethod()
   }
-

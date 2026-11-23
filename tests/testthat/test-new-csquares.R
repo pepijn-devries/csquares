@@ -6,16 +6,19 @@ nc     <- st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE) |>
 nc_csq <- new_csquares(nc, resolution = 1)
 nc_sf1 <- nc_csq |> st_as_sf()
 nc_sf2 <- nc_csq$csquares |>
-  c() |>
+  as.vector() |>
   as_csquares() |>
   st_as_sf() |>
   st_centroid() |>
   suppressWarnings()
 
-fine_grid <- st_bbox(c(xmin = -6, xmax = 6, ymin = -6, ymax = 6), crs = 4326) |>
+fine_grid <- st_bbox(c(xmin = -6, xmax = 6, ymin = -6, ymax = 6),
+                     crs = 4326) |>
   new_csquares(resolution = 0.05)
 
-test_that("new_squares produces c-square codes that translate to coordinates in the grid", {
+test_that(
+  paste("new_squares produces c-square codes that translate to",
+        "coordinates in the grid"), {
   expect_true({
     st_within(nc_sf2, nc_sf1) |>
       lapply(\(x) length(x) > 0) |>
@@ -26,16 +29,16 @@ test_that("new_squares produces c-square codes that translate to coordinates in 
 
 test_that("Rounded bboxes of input and output are identical", {
   nc_bbox <- st_bbox(nc)
-  nc_bbox[grepl("min", names(nc_bbox))] <-
-    floor(nc_bbox[grepl("min", names(nc_bbox))])
-  nc_bbox[grepl("max", names(nc_bbox))] <-
-    ceiling(nc_bbox[grepl("max", names(nc_bbox))])
+  nc_bbox[grepl("min", names(nc_bbox), fixed = TRUE)] <-
+    floor(nc_bbox[grepl("min", names(nc_bbox), fixed = TRUE)])
+  nc_bbox[grepl("max", names(nc_bbox), fixed = TRUE)] <-
+    ceiling(nc_bbox[grepl("max", names(nc_bbox), fixed = TRUE)])
   
   nc_csq_bbox <- st_bbox(nc_csq)
-  nc_csq_bbox[grepl("min", names(nc_csq_bbox))] <-
-    floor(nc_csq_bbox[grepl("min", names(nc_csq_bbox))])
-  nc_csq_bbox[grepl("max", names(nc_csq_bbox))] <-
-    ceiling(nc_csq_bbox[grepl("max", names(nc_csq_bbox))])
+  nc_csq_bbox[grepl("min", names(nc_csq_bbox), fixed = TRUE)] <-
+    floor(nc_csq_bbox[grepl("min", names(nc_csq_bbox), fixed = TRUE)])
+  nc_csq_bbox[grepl("max", names(nc_csq_bbox), fixed = TRUE)] <-
+    ceiling(nc_csq_bbox[grepl("max", names(nc_csq_bbox), fixed = TRUE)])
   
   expect_identical(nc_csq_bbox, nc_bbox)
 })
@@ -56,7 +59,7 @@ test_that("C-squares coordinates from new_csquares form a regular grid", {
 
 test_that("Fine grids near N0, E0 don't produce duplicated csquares", {
   expect_false({
-    fine_grid |> pull("csquares") |> c() |> duplicated() |> any()
+    fine_grid |> pull("csquares") |> as.vector() |> duplicated() |> any()
   })
 })
 

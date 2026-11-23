@@ -20,17 +20,17 @@ orca_nest2 <-
 
 test_that("`filter` returns correct number of rows", {
   dat <- orca_csq |> filter(orcinus_orca)
-  expect_equal({ nrow(dat) }, 5L)
+  expect_identical({ nrow(dat) }, 5L)
 })
 
 test_that("`select` returns correct number of columns", {
   dat <- orca_csq |> select(csquares)
-  expect_equal({ ncol(dat) }, 1L)
+  expect_identical({ ncol(dat) }, 1L)
 })
 
 test_that("`as_tibble` on csqaures character returns correct number of rows", {
   dat <- orca_csq$csquares |> as_tibble()
-  expect_equal({ nrow(dat) }, 10L)
+  expect_identical({ nrow(dat) }, 10L)
 })
 
 test_that("`arrange` sorts csquares correctly", {
@@ -46,7 +46,7 @@ test_that("No error when using `rowwise`", {
 })
 
 test_that("Renaming csquares column is handled correctly", {
-  expect_equal({
+  expect_identical({
     oc <-
       orca_csq |>
       rename(csq = "csquares")
@@ -55,7 +55,7 @@ test_that("Renaming csquares column is handled correctly", {
 })
 
 test_that("`rename_with` works as expected", {
-  expect_equal({
+  expect_identical({
     oc <-
       orca_csq |>
       rename_with(~paste0(., "_test"), any_of("csquares"))
@@ -68,7 +68,7 @@ test_that("`slice` works as expected", {
 })
 
 test_that("`distinct` works as expected", {
-  expect_equal(orca_csq[c(1L, 1L, 1L, 2L, 2L),] |> distinct() |> nrow(), 2L)
+  expect_identical(orca_csq[c(1L, 1L, 1L, 2L, 2L),] |> distinct() |> nrow(), 2L)
 })
 
 test_that("`summarise` works on csquares sf", {
@@ -104,9 +104,11 @@ test_that("`pivot_wider` works as expected", {
 test_that("`pivot_wider` works as expected", {
   expect_true({
     op <-
-      pivot_wider(orca_sf, names_from = "orcinus_orca", values_from = "csquares",
+      pivot_wider(orca_sf, names_from = "orcinus_orca",
+                  values_from = "csquares",
                   values_fn = list)
-    nrow(op) == 10L && ncol(op) == 5L && inherits(op, "csquares")  && inherits(op, "sf")
+    nrow(op) == 10L && ncol(op) == 5L && inherits(op, "csquares")  &&
+      inherits(op, "sf")
   })
 })
 

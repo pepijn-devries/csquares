@@ -10,25 +10,30 @@ if (requireNamespace("DiagrammeR") && requireNamespace("DiagrammeRsvg") &&
 digraph 'Csquares schematic' {
 layout = 'dot';
 splines = spline;
-node [fontname = Helvetica shape = box style = filled fillcolor = white class = 'csquare_nodes'];
+node [fontname = Helvetica shape = box style = filled fillcolor =
+      white class = 'csquare_nodes'];
 
 csquares   [label = 'csquares' fillcolor = palegreen];
-strucstrs  [label = '{<stars>stars::stars|<starscsq>csquares}' URL='#using-spatiotemporal-arrays-stars' shape = record];
+strucstrs  [label = '{<stars>stars::stars|<starscsq>csquares}'
+            URL='#using-spatiotemporal-arrays-stars' shape = record];
 
 subgraph cluster_dfc {
 style = filled;
 fontname = Helvetica;
 fillcolor = lightcyan;
 label = 'data.frame csquare';
-strucdf    [label = '{<df>data.frame|<dfcsq>csquares}' URL='#using-data-frames' shape = record];
-strucsf    [label = '{<sf>sf::sf|<sfcsq>csquares}' URL='#using-simple-features-sf' shape = record];
+strucdf    [label = '{<df>data.frame|<dfcsq>csquares}'
+            URL='#using-data-frames' shape = record];
+strucsf    [label = '{<sf>sf::sf|<sfcsq>csquares}'
+            URL='#using-simple-features-sf' shape = record];
 }
 subgraph cluster_char {
 style = filled;
 fontname = Helvetica;
 fillcolor = lightcyan;
 label = 'character csquare';
-strucchar  [label = '{<character>character|<charcsq>csquares}' URL='#using-characters' shape = record];
+strucchar  [label = '{<character>character|<charcsq>csquares}'
+            URL='#using-characters' shape = record];
 vctr       [label = 'vctrs::vctrs_vctr'];
 }
 

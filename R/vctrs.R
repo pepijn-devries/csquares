@@ -13,7 +13,7 @@ vec_restore.csquares <- function(x, to, ...) {
 #' Implementations to support csquare vctrs operations. There is no need to
 #' call these functions directly.
 #' @param x,y Vector types.
-#' @param ... Ignored.
+#' @inheritDotParams as_csquares
 #' @param x_arg,y_arg Argument names for `x` and `y`.
 #' @param to Types to cast to. If NULL, `x` will be returned as is.
 #' @name vctrs
