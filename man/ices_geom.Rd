@@ -22,30 +22,31 @@ ices_from_csquares(csquares)
 \code{as_csquares()}.}
 }
 \value{
-In case of \code{ices_centroids} a \code{sf::st_sf()} object is returned, with
-\code{POINT} geometries representing the centroids of the ICES rectangles.
+In case of \code{ices_centroids} a \code{sf::st_sf()} object is returned,
+with \code{POINT} geometries representing the centroids of the ICES rectangles.
 
 In case of \code{ices_rectangles} a \code{sf::st_sf()} object is returned, with
 \code{POLYGON} geometries representing the outline of the ICES rectangles.
 
-In case of \code{ices_to_csquares} a \code{csquares} object inheriting from  \code{sf::st_sf()}
-is returned, the csquares code should represent the ICES rectangles.
+In case of \code{ices_to_csquares} a \code{csquares} object inheriting from
+\code{sf::st_sf()} is returned, the csquares code should represent the ICES
+rectangles.
 
 In case of \code{ices_from_csquares} a \code{character} vector is returned with
 ICES rectangle codes that correspond with the csquares. The method is
-fast yet crude: it only checks in which ICES rectangles the centroids of the
-csquares are located. It does not check if the resolution matches. \code{NA} values
-are returned when csquares are situated outside the area covered by ICES rectangles.
+fast yet crude: it only checks in which ICES rectangles the centroids of
+the csquares are located. It does not check if the resolution matches.
+\code{NA} values are returned when csquares are situated outside the area
+covered by ICES rectangles.
 }
 \description{
 Functions to convert ICES rectangles
 }
 \examples{
 ices_rects <-
-  c("31F21", "31F22", "31F23", "31F24", "31F25", "31F26", "31F27", "31F28", "31F29",
-    "32F2", "33F2", "34F2", "35F2",
-    "31F3", "32F3", "33F3", "34F3", "35F3",
-    "31F4", "32F4", "33F4", "34F4", "35F4")
+  c("31F21", "31F22", "31F23", "31F24", "31F25", "31F26", "31F27", "31F28",
+    "31F29", "32F2", "33F2", "34F2", "35F2", "31F3", "32F3", "33F3",
+    "34F3", "35F3", "31F4", "32F4", "33F4", "34F4", "35F4")
 ices_centroids(ices_rects)
 ices_rectangles(ices_rects)
 ices_csq <- ices_to_csquares(ices_rects)

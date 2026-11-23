@@ -1,14 +1,17 @@
 #' Create a c-squares raster from a bounding box
 #' 
-#' Creates a spatial raster ([`stars`][stars::st_as_stars]) with c-square codes for a specified bounding box,
-#' using a specified resolution. The raster will be conform c-squares specifications.
+#' Creates a spatial raster ([`stars`][stars::st_as_stars]) with c-square
+#' codes for a specified bounding box, using a specified resolution. The
+#' raster will be conform c-squares specifications.
 #' 
-#' @param x An object of class [`bbox`][sf::st_bbox] or an object that can be coerced to a `bbox`.
-#' It defines the bounding box for the c-squares grid created by this function.
+#' @param x An object of class [`bbox`][sf::st_bbox] or an object that can be
+#' coerced to a `bbox`. It defines the bounding box for the c-squares grid
+#' created by this function.
 #' @inheritParams as_csquares
-#' @param crs The projection to be used for the created grid. By default it is WGS84 (EPSG:4326).
-#' @returns Returns a [`stars`][stars::st_as_stars] and `csquares` object based on the provided bounding box and
-#' resolution.
+#' @param crs The projection to be used for the created grid. By default it
+#' is WGS84 (EPSG:4326).
+#' @returns Returns a [`stars`][stars::st_as_stars] and `csquares` object
+#' based on the provided bounding box and resolution.
 #' @examples
 #' library(sf)
 #' nc <- st_read(system.file("shape/nc.shp", package = "sf"))
@@ -44,10 +47,14 @@ new_csquares <-
     x <-
       sf::st_bbox(
         c(
-          xmin = resolution*round((x[["xmin"]] - 0.499999*resolution)/resolution),
-          xmax = resolution*round((x[["xmax"]] + 0.499999*resolution)/resolution),
-          ymin = resolution*round((x[["ymin"]] - 0.499999*resolution)/resolution),
-          ymax = resolution*round((x[["ymax"]] + 0.499999*resolution)/resolution)
+          xmin = resolution*round((x[["xmin"]] - 0.499999*resolution) /
+                                    resolution),
+          xmax = resolution*round((x[["xmax"]] + 0.499999*resolution) /
+                                    resolution),
+          ymin = resolution*round((x[["ymin"]] - 0.499999*resolution) /
+                                    resolution),
+          ymax = resolution*round((x[["ymax"]] + 0.499999*resolution) /
+                                    resolution)
         ),
         crs = 4326)
     
@@ -56,7 +63,8 @@ new_csquares <-
       stars::st_as_stars(dx = resolution, dy = resolution)
 
     result[["values"]] <- NULL
-    result[["csquares"]] <- as_csquares.stars(result, resolution = resolution)[["csquares"]]
+    result[["csquares"]] <-
+      as_csquares.stars(result, resolution = resolution)[["csquares"]]
     result <- .s3_finalise(result, "csquares")
     return (result)
   }

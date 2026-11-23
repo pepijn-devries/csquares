@@ -6,7 +6,7 @@ test_that("`format` formats csquares correctly", {
 })
 
 test_that("`format` formats csquares correctly", {
-  expect_identical(format.csquares(as_csquares(as.character(NA))),
+  expect_identical(format.csquares(as_csquares(NA_character_)),
                    "empty")
 })
 
@@ -17,9 +17,9 @@ test_that("`format` formats csquares correctly", {
 
 test_that("Print long works without", {
   expect_no_error({
-    csquares:::print.csquares(as_csquares("1000"), short = TRUE) |>
+    print.csquares(as_csquares("1000"), short = TRUE) |>
       capture.output()
-    csquares:::print.csquares(as_csquares("1000"), short = FALSE) |>
+    print.csquares(as_csquares("1000"), short = FALSE) |>
       capture.output()
   })
 })
@@ -44,34 +44,32 @@ test_that("No error when calling as.data.frame on data.frame", {
   expect_no_error({as.data.frame(orca_csq)})
 })
 
-test_that("No error when calling as.data.frame on data.frame", {
-  expect_no_error({as.data.frame(c(csquares = "1000"))})
-})
-
 test_that("No error when calling summary", {
   expect_no_error({summary(orca_csq); summary(as_csquares("1000"))})
 })
 
 test_that("bind rows gives correct number of rows", {
-  expect_equal(csquares:::rbind.csquares(orca_csq, orca_csq) |> nrow(), 20L)
+  expect_identical(rbind.csquares(orca_csq, orca_csq) |> nrow(), 20L)
 })
 
 test_that("bind rows gives correct number of rows", {
-  expect_equal(csquares:::rbind.csquares(orca_csq, NULL) |> nrow(), 10L)
+  expect_identical(rbind.csquares(orca_csq, NULL) |> nrow(), 10L)
 })
 
 test_that("bind cols gives correct number of rows", {
-  expect_equal(csquares:::cbind.csquares(orca_csq, foo = "bar") |> ncol(), 3L)
+  expect_identical(cbind.csquares(orca_csq, foo = "bar") |> ncol(), 3L)
 })
 
 test_that("Error when bind cols with NULL", {
-  expect_error({csquares:::cbind.csquares(orca_csq, NULL)})
+  expect_error({cbind.csquares(orca_csq, NULL)})
 })
 
 test_that("merge gives correct number of rows", {
-  expect_equal(
-    merge(orca_csq, data.frame(orcinus_orca = TRUE, foo = "bar"), "orcinus_orca") |>
-      nrow(), 5L)
+  expect_identical(
+    nrow(
+      merge(orca_csq, data.frame(orcinus_orca = TRUE, foo = "bar"),
+            "orcinus_orca")
+    ), 5L)
 })
 
 test_that("concat works ok", {
@@ -80,8 +78,9 @@ test_that("concat works ok", {
 })
 
 test_that("concat works ok with mixed types", {
-  expect_identical({c(orca_csq$csquares[[1]], orca_csq$csquares[[2]] |> as.character())},
-                   orca_csq$csquares[1:2])
+  expect_identical({
+    c(orca_csq$csquares[[1]], as.character(orca_csq$csquares[[2]]))
+  }, orca_csq$csquares[1:2])
 })
 
 test_that("concat of data.frames is the the same as rbind", {

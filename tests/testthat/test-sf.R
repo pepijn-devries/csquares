@@ -15,7 +15,7 @@ orca_back <- orca_sf |> drop_csquares() |>
   as_csquares(resolution = 5) |> suppressWarnings()
 
 test_that("Number of rows of input and output matches", {
-  expect_equal({
+  expect_identical({
     nrow(orca_sf)
   }, nrow(orca))
 })
@@ -26,7 +26,8 @@ test_that("Created simple features object is valid", {
   })
 })
 
-test_that("Translating csquares to coordinates and back yield the same csquares", {
+test_that(
+  "Translating csquares to coordinates and back yield the same csquares", {
   expect_identical(orca_sf$csquares, orca_back$csquares)
 })
 

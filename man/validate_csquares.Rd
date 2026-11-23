@@ -10,10 +10,12 @@ validate_csquares(x)
 \item{x}{An object of class \code{csquares} to be evaluated.}
 }
 \value{
-Returns a \code{logical} value indicating whether the \code{csquares} object is valid or not.
+Returns a \code{logical} value indicating whether the \code{csquares}
+object is valid or not.
 }
 \description{
-Tests if a \code{csquares} object is correctly specified and can be translated into valid coordinates
+Tests if a \code{csquares} object is correctly specified and can be translated
+into valid coordinates
 }
 \examples{
 validate_csquares(

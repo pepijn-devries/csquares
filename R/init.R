@@ -5,13 +5,14 @@ NULL
 
 setOldClass("csquares")
 
-.onLoad = function(libname, pkgname) {
-  register_all_s3_methods() # dynamically registers non-imported pkgs (tidyverse)
+.onLoad <- function(libname, pkgname) {
+  # dynamically registers non-imported pkgs (tidyverse)
+  register_all_s3_methods()
 }
 
-register_all_s3_methods = function() {
-  ## Note that superseded tidyverse methods are not included, as there are better alternatives
-  ## vctrs
+register_all_s3_methods <- function() {
+  ## Note that superseded tidyverse methods are not included, as there
+  ## are better alternatives vctrs
   register_s3_method("vctrs",   "vec_cast",      "csquares")
   register_s3_method("vctrs",   "vec_ptype2",    "csquares")
   register_s3_method("vctrs",   "vec_proxy",     "csquares")
@@ -56,9 +57,10 @@ register_all_s3_methods = function() {
 
 # from: https://github.com/tidyverse/hms/blob/master/R/zzz.R
 register_s3_method <- function(pkg, generic, class, fun = NULL) {
-  stopifnot(is.character(pkg), length(pkg) == 1)
-  stopifnot(is.character(generic), length(generic) == 1)
-  stopifnot(is.character(class), length(class) == 1)
+  stopifnot(
+    is.character(pkg), length(pkg) == 1,
+    is.character(generic), length(generic) == 1,
+    is.character(class), length(class) == 1)
   
   if (is.null(fun)) {
     fun <- get(paste0(generic, ".", class), envir = parent.frame())

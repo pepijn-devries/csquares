@@ -28,34 +28,38 @@ as_csquares(x, resolution, csquares, ...)
 \method{as_csquares}{stars}(x, resolution = 1, csquares, ...)
 }
 \arguments{
-\item{x}{An object to be coerced to a \code{csquares} object. \code{x} can be a vector of \code{character} strings
-representing c-squares code. It can also be a \code{numeric} \code{matrix} with two columns
-containing the x and y coordinates. \code{x} can also be a simple features object
-(\code{\link[sf:st_as_sf]{sf}}) or a spatial arrays object (\code{\link[stars:st_as_stars]{stars}}).}
+\item{x}{An object to be coerced to a \code{csquares} object. \code{x} can be a vector
+of \code{character} strings representing c-squares code. It can also be a
+\code{numeric} \code{matrix} with two columns containing the x and y coordinates. \code{x}
+can also be a simple features object (\code{\link[sf:st_as_sf]{sf}}) or a spatial
+arrays object (\code{\link[stars:st_as_stars]{stars}}).}
 
-\item{resolution}{Resolution (in WGS84 degrees) to be used for creating c-squares codes.
-As per c-square specifications, the resolution should be 10 or less, yet greater than 0.
-It should be a tenfold of 1 or 5. Valid resolutions are therefore: 10, 5, 1, 0.5, 0.1, etc.}
+\item{resolution}{Resolution (in WGS84 degrees) to be used for creating
+c-squares codes. As per c-square specifications, the resolution should be
+10 or less, yet greater than 0. It should be a tenfold of 1 or 5. Valid
+resolutions are therefore: 10, 5, 1, 0.5, 0.1, etc.}
 
-\item{csquares}{If \code{x} is not a vector of \code{character} strings (but for instance a \code{data.frame}),
-the \code{csquares} argument should specify the name of the element of \code{x} containing the c-square
-codes as \code{character} strings.}
+\item{csquares}{If \code{x} is not a vector of \code{character} strings (but for
+instance a \code{data.frame}), the \code{csquares} argument should specify the name
+of the element of \code{x} containing the c-square codes as \code{character} strings.}
 
 \item{...}{Currently ignored}
 
-\item{validate}{A \code{logical} value indicating whether the created object needs to be validated.
-Defaults to \code{TRUE}. Validation can be time-consuming so set to \code{FALSE} to save computing time.}
+\item{validate}{A \code{logical} value indicating whether the created object
+needs to be validated. Defaults to \code{TRUE}. Validation can be time-consuming
+so set to \code{FALSE} to save computing time.}
 
-\item{use_centroids}{In case \code{x} is a simple features object and \code{use_centroids} is \code{TRUE},
-the centroid of each geometry is used for deriving c-squares. If it is \code{FALSE} all coordinates
-in the geometry are used.}
+\item{use_centroids}{In case \code{x} is a simple features object and
+\code{use_centroids} is \code{TRUE}, the centroid of each geometry is used for
+deriving c-squares. If it is \code{FALSE} all coordinates in the geometry are
+used.}
 }
 \value{
 Returns a \code{csquares} object that contains c-squares codes.
 }
 \description{
-Takes WGS84 longitude and latitude coordinates and finds the closest matching c-squares
-for a given resolution.
+Takes WGS84 longitude and latitude coordinates and finds the closest
+matching c-squares for a given resolution.
 }
 \examples{
 as_csquares(cbind(x = 5.2399066, y = 52.7155812), resolution = 1)

@@ -101,17 +101,24 @@ unnest.csquares_nested(data, cols, ...)
 drop_na.csquares(x, ...)
 }
 \arguments{
-\item{.data, ..., .dots, data, x, add, .fn, .cols, .keep_all, cols, cols_vary, names_to, names_prefix, names_sep, names_pattern, names_ptypes, names_transform, names_repair, values_to, values_drop_na, values_ptypes, values_transform, id_cols, id_expand, names_from, names_glue, names_sort, names_vary, names_expand, values_from, values_fill, values_fn, unused_fn, .tbl, .keep, col, sep, remove, .preserve}{Passed to tidyverse generic methods. Consult their documentation.}
+\item{.data, ..., .dots, data, x, add, .fn, .cols, .keep_all, cols, cols_vary, names_to, names_prefix, names_sep, names_pattern, names_ptypes, names_transform, names_repair, values_to, values_drop_na, values_ptypes, values_transform, id_cols, id_expand, names_from, names_glue, names_sort, names_vary, names_expand, values_from, values_fill, values_fn, unused_fn, .tbl, .keep, col, sep, remove, .preserve}{Passed to tidyverse generic methods. Consult their documentation.  # nolint: line_length_linter.}
+}
+\value{
+The tidyverse operators are generally pipe-able. This means that
+it will return a mutated version of the input data.
 }
 \description{
-Tidyverse methods for \code{csquares} objects that inherit from \code{data.frame}, \code{tibble}, \code{sf}, or
-in some cases \code{stars}. Load the tidyverse package containing the generic implementation (\code{dplyr} or \code{tidyr}),
-and call the function without the \code{.csquares} suffix.
-See examples and \code{vignette("tidy")} for more details. The methods implemented here ensure that the \code{csquare} class is preserved.
+Tidyverse methods for \code{csquares} objects that inherit from \code{data.frame},
+\code{tibble}, \code{sf}, or in some cases \code{stars}. Load the tidyverse package
+containing the generic implementation (\code{dplyr} or \code{tidyr}), and call the
+function without the \code{.csquares} suffix. See examples and
+\code{vignette("tidy")} for more details. The methods implemented here ensure
+that the \code{csquare} class is preserved.
 }
 \details{
-Note that the implementation of \code{summarise.csquares} has changed since version 0.0.5.002, to better
-reflect the \code{dplyr} generic implementation. To get results similar to the earlier implementation please
+Note that the implementation of \code{summarise.csquares} has changed since
+version 0.0.5.002, to better reflect the \code{dplyr} generic implementation.
+To get results similar to the earlier implementation please
 use \code{resample_csquares()}.
 }
 \examples{
@@ -126,7 +133,8 @@ if (requireNamespace(c("dplyr", "tidyr"))) {
   orca2 <- filter(orca_csq, orcinus_orca == TRUE)
   
   ## Mutate the object to hold information on the quadrant:
-  orca_csq <- mutate(orca_csq, quadrant = csquares |> as.character() |> substr(1,1))
+  orca_csq <- mutate(orca_csq, quadrant = csquares |> as.character() |>
+    substr(1,1))
   
   ## Select the quadrant column:
   orca2 <- select(orca_csq, quadrant)
@@ -163,14 +171,18 @@ if (requireNamespace(c("dplyr", "tidyr"))) {
   orca_csq[c(1, 1, 1),] |> distinct()
   
   ## Pivot to a wide format:
-  pivot_wider(orca_csq, names_from = "quadrant", values_from = "orcinus_orca")
-  pivot_wider(orca_csq, names_from = "orcinus_orca", values_from = "orcinus_orca",
+  pivot_wider(orca_csq, names_from = "quadrant",
+              values_from = "orcinus_orca")
+  pivot_wider(orca_csq, names_from = "orcinus_orca",
+              values_from = "orcinus_orca",
               id_cols = "quadrant", values_fn = length)
   
-  ## Pivot to a long format (note that you can't pivot the csquares column to long)
+  ## Pivot to a long format (note that you can't pivot the
+  ## csquares column to long)
   tibble(csq = "1000", a = 1, b = 2, d = 3) |>
     as_csquares(csquares = "csq") |>
-    pivot_longer(c("a", "b", "d"), names_to = "letter", values_to = "numeric")
+    pivot_longer(c("a", "b", "d"), names_to = "letter",
+                 values_to = "numeric")
   
   ## Unite two columns into one:
   unite(orca_csq, "quad_realm", any_of(c("quadrant", "orcinus_orca")))

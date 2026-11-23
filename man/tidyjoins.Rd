@@ -72,12 +72,16 @@ Should be a character vector of length 2.}
 
 \item{join}{geometry predicate function with the same profile as \link[sf]{st_intersects}; see details}
 }
+\value{
+Returns a \code{csquares} object with \code{y} joined to it.
+}
 \description{
-When a \code{csquares} object inherits from class \code{data.frame}, you can apply tidyverse
-joins to the object (\code{?dplyr::join}). The functions implemented here make sure that
-the csquares properties are preserved. The functions should be called via the \code{dplyr}
-generics. So load the \code{dplyr} package first, then call the function without the \code{.csquares}
-suffix (see examples). When \code{x} inherits from \code{stars}, only \code{left_join} is supported.
+When a \code{csquares} object inherits from class \code{data.frame}, you can apply
+tidyverse joins to the object (\code{?dplyr::join}). The functions implemented
+here make sure that the csquares properties are preserved. The functions
+should be called via the \code{dplyr} generics. So load the \code{dplyr} package
+first, then call the function without the \code{.csquares} suffix (see
+examples). When \code{x} inherits from \code{stars}, only \code{left_join} is supported.
 }
 \examples{
 \donttest{

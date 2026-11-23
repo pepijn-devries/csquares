@@ -33,7 +33,7 @@ test_that("Random global coordinates produce valid and overlapping csquares", {
 })
 
 test_that("Length of input codes and output csquares are equal", {
-  expect_equal({length(codes)}, {length(csq)})
+  expect_identical({length(codes)}, {length(csq)})
 })
 
 test_that("A stars can be converted into a csquares object", {
@@ -44,12 +44,14 @@ test_that("A stars can be converted into a csquares object", {
         resolution = 5)
     
     orca_stars[["orcinus_orca"]] <- NA
-    orca_stars[["orcinus_orca"]][match(orca$csquares, orca_stars$csquares)] <- orca$orcinus_orca
+    orca_stars[["orcinus_orca"]][match(orca$csquares, orca_stars$csquares)] <-
+      orca$orcinus_orca
     orca_stars$csquares_copy <- orca_stars$csquares
     orca_stars <- drop_csquares(orca_stars)
     orca_stars <- as_csquares(orca_stars)
     
-    inherits(orca_stars, "csquares") && "csquares_col" %in% names(attributes(orca_stars))
+    inherits(orca_stars, "csquares") && "csquares_col" %in%
+      names(attributes(orca_stars))
   })
 })
 
@@ -71,9 +73,10 @@ test_that("Error when coercing numeric with wrong dimensions to csquares", {
   })
 })
 
-test_that("Expect specific number of items when converting string with wildcard", {
-  expect_equal(as_csquares("*000") |> length(), 1L)
-})
+test_that(
+  "Expect specific number of items when converting string with wildcard", {
+    expect_identical(as_csquares("*000") |> length(), 1L)
+  })
 
 test_that("Error when input is of unsupported type", {
   expect_error(as_csquares(TRUE))
@@ -84,7 +87,8 @@ test_that("Error when input is invalid code", {
 })
 
 test_that("Wildcards are supported", {
-  expect_identical(as_csquares("1000:*") |> unclass(), "1000:1|1000:2|1000:3|1000:4")
+  expect_identical(as_csquares("1000:*") |> unclass(),
+                   "1000:1|1000:2|1000:3|1000:4")
 })
 
 test_that("Error when numeric is not matrix", {
@@ -94,7 +98,8 @@ test_that("Error when numeric is not matrix", {
 test_that("Warn when csquares column is specified when coercing stars",{
   expect_warning({
     temp <-
-      new_csquares(sf::st_bbox(c(xmin = 0, xmax = 1, ymin = 50, ymax = 51), crs = 4326)) |>
+      new_csquares(sf::st_bbox(c(xmin = 0, xmax = 1, ymin = 50, ymax = 51),
+                               crs = 4326)) |>
       as_csquares()
     temp|> as_csquares(csquares = "csquares")
   })

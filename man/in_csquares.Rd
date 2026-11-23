@@ -12,22 +12,39 @@ values in \code{table}}
 
 \item{table}{A \code{character} string representing a csquares code. The
 code can contain wildcards (asterisk \code{*} and percentage \verb{\%} characters,
-both having identical meaning). Any symbol in \code{x} will result in a positive match
-against the wildcard. \code{table} can also be of class \code{csquares}, but these
-objects cannot contain wildcards.}
+both having identical meaning). Any symbol in \code{x} will result in a positive
+match against the wildcard. \code{table} can also be of class \code{csquares}, but
+these objects cannot contain wildcards.}
 
 \item{strict}{When set to \code{FALSE}, a match is positive when the start
-of \code{x}, matches against values in \code{table}, even when \code{x} has a higher resolution.
-When set to \code{TRUE}, a match is only positive when the resolution of \code{x} and
-\code{table} is identical.}
+of \code{x}, matches against values in \code{table}, even when \code{x} has a higher
+resolution. When set to \code{TRUE}, a match is only positive when the
+resolution of \code{x} and \code{table} is identical.}
 
 \item{mode}{Two modes are allowed: \code{"all"} and \code{"any"}. When an element of
 \code{x} consists of multiple raster cells, it the mode will determine whether
-a match is positive or not. In case of \code{"all"}, all raster cells in the element
-of \code{x} need to match with the cells in \code{table}, for a positive match. In
-case of \code{"any"}, any match will do.}
+a match is positive or not. In case of \code{"all"}, all raster cells in the
+element of \code{x} need to match with the cells in \code{table}, for a positive
+match. In case of \code{"any"}, any match will do.}
 
-\item{...}{Ignored}
+\item{...}{
+  Arguments passed on to \code{\link{as_csquares}}
+  \describe{
+    \item{\code{resolution}}{Resolution (in WGS84 degrees) to be used for creating
+c-squares codes. As per c-square specifications, the resolution should be
+10 or less, yet greater than 0. It should be a tenfold of 1 or 5. Valid
+resolutions are therefore: 10, 5, 1, 0.5, 0.1, etc.}
+    \item{\code{csquares}}{If \code{x} is not a vector of \code{character} strings (but for
+instance a \code{data.frame}), the \code{csquares} argument should specify the name
+of the element of \code{x} containing the c-square codes as \code{character} strings.}
+    \item{\code{validate}}{A \code{logical} value indicating whether the created object
+needs to be validated. Defaults to \code{TRUE}. Validation can be time-consuming
+so set to \code{FALSE} to save computing time.}
+    \item{\code{use_centroids}}{In case \code{x} is a simple features object and
+\code{use_centroids} is \code{TRUE}, the centroid of each geometry is used for
+deriving c-squares. If it is \code{FALSE} all coordinates in the geometry are
+used.}
+  }}
 }
 \value{
 Returns a vector of \code{logical} values with the same number of
@@ -35,8 +52,8 @@ elements or rows as \code{x}
 }
 \description{
 Checks if csquares codes in \code{table} matches values in \code{x}. Wildcards
-are allowed in \code{table} for this comparison. Check out \code{vignette("wildcards")}
-for more details.
+are allowed in \code{table} for this comparison. Check out
+\code{vignette("wildcards")} for more details.
 }
 \examples{
 library(dplyr)
