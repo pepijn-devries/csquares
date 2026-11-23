@@ -7,12 +7,14 @@
 st_as_stars.csquares(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{csquares} created with \link{new_csquares} or \link{as_csquares}}
+\item{x}{An object of class \code{csquares} created with \link{new_csquares} or
+\link{as_csquares}}
 
 \item{...}{ignored.}
 }
 \value{
-Returns a spatiotemporal array (\link[stars:st_as_stars]{stars}) object based on \code{x}.
+Returns a spatiotemporal array (\link[stars:st_as_stars]{stars})
+object based on \code{x}.
 }
 \description{
 Take a \code{csquares} object created with \link{new_csquares} or \link{as_csquares} and

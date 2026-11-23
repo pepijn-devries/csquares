@@ -9,21 +9,24 @@ resample_csquares(x, method = "target", ..., resolution, magnitude = 1L)
 \arguments{
 \item{x}{A \code{csquares} object to be resampled to a different resolution}
 
-\item{method}{Method for determining the resolution of the resulting csquares.
-Should be one of \code{"target"}, \code{"min"}, \code{"max"}, \code{"up"}, or \code{"down"}.
+\item{method}{Method for determining the resolution of the resulting
+csquares. Should be one of \code{"target"}, \code{"min"}, \code{"max"}, \code{"up"}, or
+\code{"down"}.
 \code{"target"} will resample \code{x} to the level specified with \code{resolution}}
 
 \item{...}{When \code{x} inherits the \code{stars} class and the resulting object has
-a lower resolution than \code{x}, the dots are passed on to \code{dplyr::summarise()}.
-This allows you to summarise columns to the lower resolution.}
+a lower resolution than \code{x}, the dots are passed on to
+\code{dplyr::summarise()}. This allows you to summarise columns to the lower
+resolution.}
 
-\item{resolution}{Resolution (in WGS84 degrees) to be used for creating c-squares codes.
-As per c-square specifications, the resolution should be 10 or less, yet greater than 0.
-It should be a tenfold of 1 or 5. Valid resolutions are therefore: 10, 5, 1, 0.5, 0.1, etc.}
+\item{resolution}{Resolution (in WGS84 degrees) to be used for creating
+c-squares codes. As per c-square specifications, the resolution should be
+10 or less, yet greater than 0. It should be a tenfold of 1 or 5. Valid
+resolutions are therefore: 10, 5, 1, 0.5, 0.1, etc.}
 
 \item{magnitude}{When \code{method == "up"} or \code{"down"}, this parameter specifies
-the number of steps to increase or decrease the resolution. Should be a positive
-integer.}
+the number of steps to increase or decrease the resolution. Should be a
+positive integer.}
 }
 \value{
 A \code{csquares} object based on \code{x}
@@ -33,7 +36,9 @@ Resample csquares objects to higher or lower resolutions.
 }
 \examples{
 csq    <- as_csquares(c("1000", "5000:2|5000:100", "3000:100:100"))
-csq_df <- as_csquares(data.frame(csq = csq, foobar = letters[1:3]), csquares = "csq")
+csq_df <- as_csquares(data.frame(csq = csq,
+                                 foobar = letters[1:3]),
+                                 csquares = "csq")
 
 ## Resample csquares based on the one with the lowest resolution:
 resample_csquares(csq,    "min")
@@ -63,16 +68,18 @@ if (requireNamespace(c("dplyr", "stars"))) {
   ## to be summarised when the resulting resolution is lower
   ## than the original:
   g <-
-    sf::st_bbox(c(xmin = 4.0, xmax = 6.5, ymin = 52.5, ymax = 53), crs = 4326) |>
+    sf::st_bbox(c(xmin = 4.0, xmax = 6.5, ymin = 52.5, ymax = 53),
+                crs = 4326) |>
       new_csquares(resolution = 0.1) |>
       ## add a column with some random positive numbers:
       dplyr::mutate(random = .data$csquares |> length() |> rnorm() |> exp())
 
   ## Resample stars object to lower resolution
-  g_sum <- resample_csquares(g, resolution = 10, random = sum(random, na.rm = TRUE))
+  g_sum <- resample_csquares(
+    g, resolution = 10, random = sum(random, na.rm = TRUE))
 
-  ## And back to a higher resolution (note that you have lost information as it was summarised
-  ## in the previous step)
+  ## And back to a higher resolution (note that you have lost information
+  ## as it was summarised in the previous step)
   resample_csquares(g_sum, "up", random = sum(random, na.rm = TRUE))
 }
 }

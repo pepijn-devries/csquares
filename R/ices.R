@@ -1,10 +1,10 @@
 #' Valid ICES rectangle columns
 #' 
 #' Get all valid column codes of ICES rectangles.
-#' Note that ICES subrectangles are not compatible with csquares. For more details
-#' see `vignette("ices")`.
-#' @returns A `character` vector with all allowed codes for the columns in ICES
-#' rectangles.
+#' Note that ICES subrectangles are not compatible with csquares. For more
+#' details see `vignette("ices")`.
+#' @returns A `character` vector with all allowed codes for the columns in
+#' ICES rectangles.
 #' @examples
 #' ices_columns()
 #' @family other-encodings
@@ -29,26 +29,27 @@ ices_columns <- function() {
 #' @param ices_rect A `character` vector containing valid ICES rectangle codes
 #' @param csquares A `csquares` object, or an object that can be coerced with
 #' `as_csquares()`.
-#' @returns In case of `ices_centroids` a `sf::st_sf()` object is returned, with
-#' `POINT` geometries representing the centroids of the ICES rectangles.
+#' @returns In case of `ices_centroids` a `sf::st_sf()` object is returned,
+#' with `POINT` geometries representing the centroids of the ICES rectangles.
 #' 
 #' In case of `ices_rectangles` a `sf::st_sf()` object is returned, with
 #' `POLYGON` geometries representing the outline of the ICES rectangles.
 #' 
-#' In case of `ices_to_csquares` a `csquares` object inheriting from  `sf::st_sf()`
-#' is returned, the csquares code should represent the ICES rectangles.
+#' In case of `ices_to_csquares` a `csquares` object inheriting from
+#' `sf::st_sf()` is returned, the csquares code should represent the ICES
+#' rectangles.
 #' 
 #' In case of `ices_from_csquares` a `character` vector is returned with
 #' ICES rectangle codes that correspond with the csquares. The method is
-#' fast yet crude: it only checks in which ICES rectangles the centroids of the
-#' csquares are located. It does not check if the resolution matches. `NA` values
-#' are returned when csquares are situated outside the area covered by ICES rectangles.
+#' fast yet crude: it only checks in which ICES rectangles the centroids of
+#' the csquares are located. It does not check if the resolution matches.
+#' `NA` values are returned when csquares are situated outside the area
+#' covered by ICES rectangles.
 #' @examples
 #' ices_rects <-
-#'   c("31F21", "31F22", "31F23", "31F24", "31F25", "31F26", "31F27", "31F28", "31F29",
-#'     "32F2", "33F2", "34F2", "35F2",
-#'     "31F3", "32F3", "33F3", "34F3", "35F3",
-#'     "31F4", "32F4", "33F4", "34F4", "35F4")
+#'   c("31F21", "31F22", "31F23", "31F24", "31F25", "31F26", "31F27", "31F28",
+#'     "31F29", "32F2", "33F2", "34F2", "35F2", "31F3", "32F3", "33F3",
+#'     "34F3", "35F3", "31F4", "32F4", "33F4", "34F4", "35F4")
 #' ices_centroids(ices_rects)
 #' ices_rectangles(ices_rects)
 #' ices_csq <- ices_to_csquares(ices_rects)
@@ -104,11 +105,12 @@ ices_rectangles <- function(ices_rect) {
             arguments <- unlist(as.list(environment()))
             sf::st_polygon(
               list(
-                cbind(x + res*c(-.5, .5, .5, -.5, -.5),
-                      y + 0.5*res*c(-.5, -.5, .5, .5, -.5))
+                cbind(x + res*c(-0.5, 0.5, 0.5, -0.5, -0.5),
+                      y + 0.5*res*c(-0.5, -0.5, 0.5, 0.5, -0.5))
               )
             )
-          }, x = .data$X, y = .data$Y, res = ifelse(.data$subrect, 1/3, 1), SIMPLIFY = FALSE
+          }, x = .data$X, y = .data$Y, res = ifelse(.data$subrect, 1/3, 1),
+          SIMPLIFY = FALSE
         ) |>
         sf::st_as_sfc()
     ) |>
@@ -126,21 +128,24 @@ ices_to_csquares <- function (ices_rect) {
     ices_rect |>
     ices_centroids() |>
     dplyr::mutate(
-      geom2    = sf::st_sfc(.data$geometry + c(0.25, 0), crs = 4326) |> suppressWarnings(),
-      geometry = sf::st_sfc(.data$geometry + c(-0.25, 0), crs = 4326) |> suppressWarnings(),
+      geom2    = sf::st_sfc(.data$geometry + c(0.25, 0), crs = 4326) |>
+        suppressWarnings(),
+      geometry = sf::st_sfc(.data$geometry + c(-0.25, 0), crs = 4326) |>
+        suppressWarnings(),
       csquares = ifelse(
         .data$subrect,
-        as_csquares(as.character(NA)),
+        as_csquares(NA_character_),
         as_csquares(.data$geometry, 0.5, use_centroids = TRUE)),
       csquares2 = ifelse(
         .data$subrect,
-        as_csquares(as.character(NA)),
+        as_csquares(NA_character_),
         as_csquares(.data$geom2, 0.5, use_centroids = TRUE)),
       csquares = {
         csq <- .data$csquares
         csq[!.data$subrect] <-
           as_csquares(paste(.data$csquares[!.data$subrect],
-                            .data$csquares2[!.data$subrect], sep = "|"), validate = FALSE)
+                            .data$csquares2[!.data$subrect], sep = "|"),
+                      validate = FALSE)
         csq |> as_csquares(validate = FALSE)
       }
     ) |>
@@ -148,7 +153,9 @@ ices_to_csquares <- function (ices_rect) {
     dplyr::select("ICES", "subrect", "csquares") |>
     as_csquares(csquares = "csquares", validate = FALSE)
   if (any(result$subrect))
-    rlang::warn("Input contains ICES subrectangles which are incompatible with csquares.")
+    rlang::warn(
+      paste("Input contains ICES subrectangles which are",
+            "incompatible with csquares."))
   result
 }
 
@@ -161,7 +168,7 @@ ices_from_csquares <- function(csquares) {
     csquares <- csquares[[attributes(csquares)$csquares_col]]
   csquares <- unclass(csquares)
   idx <- !is.na(csquares)
-  result <- rep(as.character(NA), length(idx))
+  result <- rep(NA_character_, length(idx))
 
   if (sum(idx) > 0) {
     geom <- dplyr::tibble(

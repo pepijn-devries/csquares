@@ -19,13 +19,17 @@ test_that("vctrs vec is correctly cast to character", {
 })
 
 test_that("vctrs vec is correctly cast to csquares", {
-  expect_identical(vec_cast.csquares(csq, as_csquares(as.character(NA))), csq)
+  expect_identical(vec_cast.csquares(csq, as_csquares(NA_character_)), csq)
 })
 
 test_that("No errors when calling s3 specific implementations", {
-  csquares:::vec_cast.csquares.character("1000", as_csquares(as.character(NA)))
-  csquares:::vec_cast.csquares.csquares(as_csquares("1000"), as_csquares(as.character(NA)))
-  csquares:::vec_cast.csquares.default(as_csquares("1000"), as_csquares(as.character(NA)))
+  expect_no_error({
+    csquares:::vec_cast.csquares.character("1000", as_csquares(NA_character_))
+    csquares:::vec_cast.csquares.csquares(as_csquares("1000"),
+                                          as_csquares(NA_character_))
+    csquares:::vec_cast.csquares.default(as_csquares("1000"),
+                                         as_csquares(NA_character_))
+  })
 })
 
 test_that("Error when csquares is not a vctrs", {

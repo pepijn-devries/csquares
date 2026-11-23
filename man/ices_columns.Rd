@@ -7,13 +7,13 @@
 ices_columns()
 }
 \value{
-A \code{character} vector with all allowed codes for the columns in ICES
-rectangles.
+A \code{character} vector with all allowed codes for the columns in
+ICES rectangles.
 }
 \description{
 Get all valid column codes of ICES rectangles.
-Note that ICES subrectangles are not compatible with csquares. For more details
-see \code{vignette("ices")}.
+Note that ICES subrectangles are not compatible with csquares. For more
+details see \code{vignette("ices")}.
 }
 \examples{
 ices_columns()

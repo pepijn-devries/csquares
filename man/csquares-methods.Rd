@@ -56,8 +56,9 @@
 
 \item{...}{Passed on to generic methods}
 
-\item{short}{\code{logical} option to print \code{csquares} \code{vctrs_vec}. If \code{TRUE} it will only print one line, if
-\code{FALSE} it will print up to \code{options("max.print")} records.}
+\item{short}{\code{logical} option to print \code{csquares} \code{vctrs_vec}. If \code{TRUE} it
+will only print one line, if \code{FALSE} it will print up to
+\code{options("max.print")} records.}
 
 \item{deparse.level}{integer controlling the construction of labels in
     the case of non-matrix-like arguments (for the default method):\cr
@@ -68,10 +69,11 @@
 
 \item{i, j, name}{Indices/name for selecting subsets of \code{x}}
 
-\item{drop}{\code{logical} value indicating if unused dimensions should be dropped}
+\item{drop}{\code{logical} value indicating if unused dimensions should be
+dropped}
 
-\item{value}{Replacement values for a subset. a \code{csquares} object or a \code{character} string that can be coerced
-to a \code{csquares} object}
+\item{value}{Replacement values for a subset. a \code{csquares} object or a
+\code{character} string that can be coerced to a \code{csquares} object}
 
 \item{y}{A \code{data.frame} to be merged with \code{x}}
 }
@@ -80,5 +82,17 @@ Returns (a subsetted / formatted / modified version of) x
 }
 \description{
 Basic S3 methods for handling \code{csquares} objects
+}
+\examples{
+orca_csq <- as_csquares(orca, csquares = "csquares") |> head(10)
+
+format(orca_csq)
+print(orca_csq)
+as.character(orca_csq)
+summary(orca_csq)
+as.data.frame(orca_csq)
+## Concatenating and subsetting
+c(orca_csq$csquares[1L:3L], orca_csq$csquares[4L:5L])
+orca_csq$csquares[[1L]]
 }
 \concept{csquares-methods}

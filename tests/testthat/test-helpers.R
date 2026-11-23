@@ -1,10 +1,12 @@
-nc       <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+nc       <- sf::st_read(system.file("shape/nc.shp", package = "sf"),
+                        quiet = TRUE)
 my_stars <- new_csquares(nc)
 
 test_that(
   "`.all_of_class` works correctly", {
     expect_true({
-      csquares:::.all_of_class("A", "B", "C", "D", "E", "F", my_class = "character")
+      csquares:::.all_of_class("A", "B", "C", "D", "E", "F",
+                               my_class = "character")
     })
   })
 

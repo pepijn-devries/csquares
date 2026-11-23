@@ -10,7 +10,8 @@ vec_restore.csquares <- function(x, to, ...) {
 
 #' vctrs methods for csquares objects
 #' 
-#' Implementations to support csquare vctrs operations. There is no need to call these functions directly.
+#' Implementations to support csquare vctrs operations. There is no need to
+#' call these functions directly.
 #' @param x,y Vector types.
 #' @param ... Ignored.
 #' @param x_arg,y_arg Argument names for `x` and `y`.
@@ -18,6 +19,13 @@ vec_restore.csquares <- function(x, to, ...) {
 #' @name vctrs
 #' @export vec_cast.csquares
 #' @family vctrs-methods
+#' @returns `vec_cast` returns a vector of the same length as `x`;
+#' `vec_ptype`, and `vec_ptype2` return unfinalised prototype.
+#' @examples
+#' orca_csq <- as_csquares(orca, csquares = "csquares")$csquares[1L:10L]
+#' vctrs::vec_cast(orca_csq, NULL)
+#' vctrs::vec_ptype(orca_csq)
+#' vctrs::vec_ptype2(orca_csq, character())
 #' @export
 vec_cast.csquares <- function(x, to, ...) {
   UseMethod("vec_cast.csquares")
@@ -27,22 +35,25 @@ vec_cast.csquares <- function(x, to, ...) {
 #' @method vec_cast.csquares csquares
 #' @export
 vec_cast.csquares.csquares <- function(x, to, ...) {
-  if (inherits(to, "csquares")) x else if (inherits(to, "character")) as.character(x) else
-    rlang::abort("Unable to cast csquares")
+  if (inherits(to, "csquares")) x else if (inherits(to, "character"))
+    as.character(x) else
+      rlang::abort("Unable to cast csquares")
 }
 
 #' @name vctrs
 #' @method vec_cast.csquares character
 #' @export
 vec_cast.csquares.character <- function(x, to, ...) {
-  if (inherits(to, "csquares")) as_csquares(x) else rlang::abort("Unable to cast csquares")
+  if (inherits(to, "csquares")) as_csquares(x) else
+    rlang::abort("Unable to cast csquares")
 }
 
 #' @name vctrs
 #' @method vec_cast.csquares default
 #' @export
 vec_cast.csquares.default <- function(x, to, ...) {
-  if (inherits(to, "csquares")) as_csquares(x) else rlang::abort("Unable to cast csquares")
+  if (inherits(to, "csquares")) as_csquares(x) else
+    rlang::abort("Unable to cast csquares")
 }
 
 #' @name vctrs
@@ -78,6 +89,9 @@ vec_ptype2.csquares.default <- function(x, y, ..., x_arg = "x", y_arg = "y") {
 
 .vec_char_only <- function(x) {
   if (typeof(x) != "character")
-    rlang::abort(c(x = "Vector operations on `csquare` are only allowed if they inherit `character`.",
-                   i = "If `x` inherits from `data.frame` or `stars`, pull the csquares column from that object."))
+    rlang::abort(c(
+      x = paste("Vector operations on `csquare` are only allowed if",
+                "they inherit `character`."),
+      i = paste("If `x` inherits from `data.frame` or `stars`, pull the",
+                "csquares column from that object.")))
 }

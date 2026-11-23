@@ -3,20 +3,24 @@
 #' Resample csquares objects to higher or lower resolutions.
 #' 
 #' @param x A `csquares` object to be resampled to a different resolution
-#' @param method Method for determining the resolution of the resulting csquares.
-#' Should be one of `"target"`, `"min"`, `"max"`, `"up"`, or `"down"`.
+#' @param method Method for determining the resolution of the resulting
+#' csquares. Should be one of `"target"`, `"min"`, `"max"`, `"up"`, or
+#' `"down"`.
 #' `"target"` will resample `x` to the level specified with `resolution`
 #' @param ... When `x` inherits the `stars` class and the resulting object has
-#' a lower resolution than `x`, the dots are passed on to `dplyr::summarise()`.
-#' This allows you to summarise columns to the lower resolution.
+#' a lower resolution than `x`, the dots are passed on to
+#' `dplyr::summarise()`. This allows you to summarise columns to the lower
+#' resolution.
 #' @inheritParams as_csquares
 #' @param magnitude When `method == "up"` or `"down"`, this parameter specifies
-#' the number of steps to increase or decrease the resolution. Should be a positive
-#' integer.
+#' the number of steps to increase or decrease the resolution. Should be a
+#' positive integer.
 #' @returns A `csquares` object based on `x`
 #' @examples
 #' csq    <- as_csquares(c("1000", "5000:2|5000:100", "3000:100:100"))
-#' csq_df <- as_csquares(data.frame(csq = csq, foobar = letters[1:3]), csquares = "csq")
+#' csq_df <- as_csquares(data.frame(csq = csq,
+#'                                  foobar = letters[1:3]),
+#'                                  csquares = "csq")
 #' 
 #' ## Resample csquares based on the one with the lowest resolution:
 #' resample_csquares(csq,    "min")
@@ -46,23 +50,26 @@
 #'   ## to be summarised when the resulting resolution is lower
 #'   ## than the original:
 #'   g <-
-#'     sf::st_bbox(c(xmin = 4.0, xmax = 6.5, ymin = 52.5, ymax = 53), crs = 4326) |>
+#'     sf::st_bbox(c(xmin = 4.0, xmax = 6.5, ymin = 52.5, ymax = 53),
+#'                 crs = 4326) |>
 #'       new_csquares(resolution = 0.1) |>
 #'       ## add a column with some random positive numbers:
 #'       dplyr::mutate(random = .data$csquares |> length() |> rnorm() |> exp())
 #' 
 #'   ## Resample stars object to lower resolution
-#'   g_sum <- resample_csquares(g, resolution = 10, random = sum(random, na.rm = TRUE))
+#'   g_sum <- resample_csquares(
+#'     g, resolution = 10, random = sum(random, na.rm = TRUE))
 #' 
-#'   ## And back to a higher resolution (note that you have lost information as it was summarised
-#'   ## in the previous step)
+#'   ## And back to a higher resolution (note that you have lost information
+#'   ## as it was summarised in the previous step)
 #'   resample_csquares(g_sum, "up", random = sum(random, na.rm = TRUE))
 #' }
 #' }
 #' @author Pepijn de Vries
 #' @family csquares-handlers
 #' @export
-resample_csquares <- function(x, method = "target", ..., resolution, magnitude = 1L) {
+resample_csquares <- function(
+    x, method = "target", ..., resolution, magnitude = 1L) {
   .by <- .s3_df_stars_prep(x, allow_all_types = TRUE)
   method   <- rlang::arg_match(method, c("target", "min", "max", "up", "down"))
   res_mis  <- missing(resolution)
@@ -71,7 +78,8 @@ resample_csquares <- function(x, method = "target", ..., resolution, magnitude =
   is_df    <- inherits(x, "data.frame")
   
   if (!res_mis && method != "target")
-    rlang::warn(sprintf("`resolution` is specified but not used for method \"%s\"", method))
+    rlang::warn(sprintf(
+      "`resolution` is specified but not used for method \"%s\"", method))
   
   if (is_stars) {
     col_names <- names(x)
@@ -89,7 +97,7 @@ resample_csquares <- function(x, method = "target", ..., resolution, magnitude =
   csq <-
     csq |>
     dplyr::mutate(id = dplyr::row_number(),
-                  csq = strsplit(.data$csq, "[|]")) |>
+                  csq = strsplit(.data$csq, "|", fixed = TRUE)) |>
     tidyr::unnest("csq") |>
     dplyr::mutate(
       len = nchar(.data$csq),
@@ -101,7 +109,8 @@ resample_csquares <- function(x, method = "target", ..., resolution, magnitude =
           target = {
             if (res_mis)
               rlang::abort(c(
-                x = "`resolution` not specified while method \"target\" requires it",
+                x = paste("`resolution` not specified while method,",
+                          "\"target\" requires it"),
                 i = "specify `resolution` and try again"))
             resolution <- .check_resolution(resolution)
             6L + attr(resolution, "l10")*4L + (1L - attr(resolution, "l5"))*2L
@@ -110,21 +119,23 @@ resample_csquares <- function(x, method = "target", ..., resolution, magnitude =
           down = .data$len - 2L*magnitude
         )
       },
-      target_len = ifelse(.data$target_len < 4L, 4L, .data$target_len),
+      target_len = pmax(.data$target_len, 4L),
       csq = ifelse(.data$len < .data$target_len, {
         suffix <- 
           mapply(\(x, y){
             seq(from = pmin(y, x + 1), to = y, by = 1L) %in%
               seq(from = 5L, to = y, by = 4L)
           }, x = .data$len, y = .data$target_len, SIMPLIFY = FALSE) |>
-          lapply(\(x) c("*", ":")[as.numeric(x) + 1] |> paste0(collapse = "")) |>
+          lapply(\(x) c("*", ":")[as.numeric(x) + 1] |>
+                   paste0(collapse = "")) |>
           unlist()
         paste0(.data$csq, suffix)
       }, substr(.data$csq, 1L, .data$target_len))
     ) |>
     expand_wildcards(csquares = "csq") |>
     dplyr::group_by(.data$id) |>
-    dplyr::summarise(csq = .data$csq |> as.character() |> unique() |> sort() |> paste0(collapse = "|")) |>
+    dplyr::summarise(csq = .data$csq |> as.character() |> unique() |>
+                       sort() |> paste0(collapse = "|")) |>
     dplyr::pull("csq")
   
   if (is_df || is_stars) {
@@ -147,7 +158,8 @@ resample_csquares <- function(x, method = "target", ..., resolution, magnitude =
         as_csquares(csquares = .by, validate = FALSE)
     }
     resolution <- .nchar_to_csq_res(
-      x$csquares[[1]] |> unclass() |> strsplit("[|]") |> unlist()) |> min()
+      x$csquares[[1]] |> unclass() |> strsplit("|", fixed = TRUE) |>
+        unlist()) |> min()
     
     grd <- new_csquares(x |> as_csquares(csquares = .by, validate = FALSE) |>
                           sf::st_as_sf(), resolution = resolution) |>

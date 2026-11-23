@@ -12,20 +12,20 @@ values in \code{table}}
 
 \item{table}{A \code{character} string representing a csquares code. The
 code can contain wildcards (asterisk \code{*} and percentage \verb{\%} characters,
-both having identical meaning). Any symbol in \code{x} will result in a positive match
-against the wildcard. \code{table} can also be of class \code{csquares}, but these
-objects cannot contain wildcards.}
+both having identical meaning). Any symbol in \code{x} will result in a positive
+match against the wildcard. \code{table} can also be of class \code{csquares}, but
+these objects cannot contain wildcards.}
 
 \item{strict}{When set to \code{FALSE}, a match is positive when the start
-of \code{x}, matches against values in \code{table}, even when \code{x} has a higher resolution.
-When set to \code{TRUE}, a match is only positive when the resolution of \code{x} and
-\code{table} is identical.}
+of \code{x}, matches against values in \code{table}, even when \code{x} has a higher
+resolution. When set to \code{TRUE}, a match is only positive when the
+resolution of \code{x} and \code{table} is identical.}
 
 \item{mode}{Two modes are allowed: \code{"all"} and \code{"any"}. When an element of
 \code{x} consists of multiple raster cells, it the mode will determine whether
-a match is positive or not. In case of \code{"all"}, all raster cells in the element
-of \code{x} need to match with the cells in \code{table}, for a positive match. In
-case of \code{"any"}, any match will do.}
+a match is positive or not. In case of \code{"all"}, all raster cells in the
+element of \code{x} need to match with the cells in \code{table}, for a positive
+match. In case of \code{"any"}, any match will do.}
 
 \item{...}{Ignored}
 }
@@ -35,8 +35,8 @@ elements or rows as \code{x}
 }
 \description{
 Checks if csquares codes in \code{table} matches values in \code{x}. Wildcards
-are allowed in \code{table} for this comparison. Check out \code{vignette("wildcards")}
-for more details.
+are allowed in \code{table} for this comparison. Check out
+\code{vignette("wildcards")} for more details.
 }
 \examples{
 library(dplyr)

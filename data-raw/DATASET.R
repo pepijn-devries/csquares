@@ -51,7 +51,8 @@ strucchar:charcsq -> strucsf:sfcsq;
   stop("Required libraries not installed. Please install and try again")
 }
 
-if (requireNamespace("rnaturalearth") && requireNamespace("rnaturalearthdata")) {
+if (requireNamespace("rnaturalearth") &&
+    requireNamespace("rnaturalearthdata")) {
   library(rnaturalearth)
   library(rnaturalearthdata)
   library(sf)
@@ -59,7 +60,8 @@ if (requireNamespace("rnaturalearth") && requireNamespace("rnaturalearthdata")) 
   cur_s2 <- sf_use_s2()
   sf_use_s2(FALSE)
   coast <- ne_countries(scale = "medium", returnclass = "sf") |>
-    st_crop(st_bbox(c(xmin = 2, ymin = 51, xmax = 5, ymax = 53.5), crs = 4326)) |>
+    st_crop(st_bbox(c(xmin = 2, ymin = 51, xmax = 5, ymax = 53.5),
+                    crs = 4326)) |>
     suppressWarnings() |>
     dplyr::select()
   sf_use_s2(cur_s2)

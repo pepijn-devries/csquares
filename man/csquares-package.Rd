@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
 
-Encode and decode c-squares, from and to simple feature (sf) or spatiotemporal arrays (stars) objects. Use c-squares codes to quickly join or query spatial data.
+Encode and decode c-squares, from and to simple feature ('sf') or spatiotemporal arrays ('stars') objects. Use c-squares codes to quickly join or query spatial data.
 }
 \seealso{
 Useful links:

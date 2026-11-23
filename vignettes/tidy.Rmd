@@ -19,7 +19,7 @@ ggplot2::theme_set(ggplot2::theme_light())
 
 `csquares` objects can inherit properties from different parents as illustrated in `vignette("csquares-objects")`.
 When a `csquares` object inherits from the class `data.frame()`, you can apply many
-[tidyverse](https://www.tidyverse.org/) operations while preserving the `csquares` properties of the object.
+[tidyverse](https://tidyverse.org/) operations while preserving the `csquares` properties of the object.
 When you create a `csquares` object from a `character()`, you cannot use tidyverse operations as it doesn't inherit
 the `data.frame()` class. You can check which ancestors your object has by calling `class()` as shown in the example below.
 
@@ -126,4 +126,4 @@ csquares codes are the result.
 ## Further reading
 
 For some additional `csquares` specific examples check out `?tidyverse` and `?join`. For extensive documentation
-on tidy operations, consult the [tidyverse website](https://www.tidyverse.org).
+on tidy operations, consult the [tidyverse website](https://tidyverse.org/).

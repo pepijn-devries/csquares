@@ -44,10 +44,6 @@ test_that("No error when calling as.data.frame on data.frame", {
   expect_no_error({as.data.frame(orca_csq)})
 })
 
-test_that("No error when calling as.data.frame on data.frame", {
-  expect_no_error({as.data.frame(c(csquares = "1000"))})
-})
-
 test_that("No error when calling summary", {
   expect_no_error({summary(orca_csq); summary(as_csquares("1000"))})
 })

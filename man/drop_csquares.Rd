@@ -17,9 +17,9 @@ Returns a copy of \code{x} inheriting its parent classes but with out
 csquares info.
 }
 \description{
-Drops c-square data from an object, but keeps the parent class of the object
-intact. You cannot deselect the csquare column from a \code{csquares} object as this
-will render the object invalid. Use \code{drop_csquares} instead.
+Drops c-square data from an object, but keeps the parent class of the
+object intact. You cannot deselect the csquare column from a \code{csquares}
+object as this will render the object invalid. Use \code{drop_csquares} instead.
 }
 \examples{
 csq <- as_csquares("1000")

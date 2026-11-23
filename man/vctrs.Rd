@@ -37,7 +37,18 @@ vec_ptype2.csquares(x, y, ...)
 
 \item{x_arg, y_arg}{Argument names for \code{x} and \code{y}.}
 }
+\value{
+\code{vec_cast} returns a vector of the same length as \code{x};
+\code{vec_ptype}, and \code{vec_ptype2} return unfinalised prototype.
+}
 \description{
-Implementations to support csquare vctrs operations. There is no need to call these functions directly.
+Implementations to support csquare vctrs operations. There is no need to
+call these functions directly.
+}
+\examples{
+orca_csq <- as_csquares(orca, csquares = "csquares")$csquares[1L:10L]
+vctrs::vec_cast(orca_csq, NULL)
+vctrs::vec_ptype(orca_csq)
+vctrs::vec_ptype2(orca_csq, character())
 }
 \concept{vctrs-methods}

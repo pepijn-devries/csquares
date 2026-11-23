@@ -6,21 +6,34 @@
 #' @param y A `data.frame` to be merged with `x`
 #' @inheritParams base::rbind
 #' @param i,j,name Indices/name for selecting subsets of `x`
-#' @param drop `logical` value indicating if unused dimensions should be dropped
-#' @param value Replacement values for a subset. a `csquares` object or a `character` string that can be coerced
-#' to a `csquares` object
-#' @param short `logical` option to print `csquares` `vctrs_vec`. If `TRUE` it will only print one line, if
-#' `FALSE` it will print up to `options("max.print")` records.
+#' @param drop `logical` value indicating if unused dimensions should be
+#' dropped
+#' @param value Replacement values for a subset. a `csquares` object or a
+#' `character` string that can be coerced to a `csquares` object
+#' @param short `logical` option to print `csquares` `vctrs_vec`. If `TRUE` it
+#' will only print one line, if `FALSE` it will print up to
+#' `options("max.print")` records.
 #' @param ... Passed on to generic methods
 #' @returns Returns (a subsetted / formatted / modified version of) x
 #' @export format.csquares
 #' @rdname csquares-methods
 #' @include helpers.R
 #' @family csquares-methods
+#' @examples
+#' orca_csq <- as_csquares(orca, csquares = "csquares") |> head(10)
+#' 
+#' format(orca_csq)
+#' print(orca_csq)
+#' as.character(orca_csq)
+#' summary(orca_csq)
+#' as.data.frame(orca_csq)
+#' ## Concatenating and subsetting
+#' c(orca_csq$csquares[1L:3L], orca_csq$csquares[4L:5L])
+#' orca_csq$csquares[[1L]]
 #' @export
 format.csquares <- function(x, ...) {
   if (inherits(x, c("character", "vctrs_vctr"))) {
-    dplyr::tibble(codes = strsplit(x, "[|]")) |>
+    dplyr::tibble(codes = strsplit(x, "|", fixed = TRUE)) |>
       dplyr::mutate(rown  = dplyr::row_number()) |>
       tidyr::unnest("codes") |>
       dplyr::group_by(.data$rown) |>
@@ -46,7 +59,8 @@ format.csquares <- function(x, ...) {
           )
         }
       ) |>
-      dplyr::pull("format")
+      dplyr::pull("format") |>
+      invisible()
   } else NextMethod()
 }
 
@@ -55,8 +69,8 @@ format.csquares <- function(x, ...) {
 print.csquares <- function(x, short = TRUE, ...) {
   if (inherits(x, c("character", "vctrs_vctr"))) {
     if (short) {
-      vctrs::obj_str(x)
-    } else vctrs::obj_print(x)
+      invisible(vctrs::obj_str(x))
+    } else invisible(vctrs::obj_print(x))
   } else NextMethod()
 }
 
@@ -89,7 +103,7 @@ as.data.frame.csquares <- function(x, ...) {
       names(x)[[1]] <- "csquares"
       .by <- "csquares"
     }
-
+    
   } else if (inherits(x, "data.frame")) {
     return(x)
   } else {

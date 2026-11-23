@@ -29,11 +29,15 @@ expand_wildcards <- function(x, csquares, ...) {
   copy <- NULL
   if (missing(csquares)) {
     if (inherits(x, "data.frame"))
-      rlang::abort(c(x = "`csquares` argument is missing", i = "Specify which column contains csquares codes"))
+      rlang::abort(c(x = "`csquares` argument is missing",
+                     i = "Specify which column contains csquares codes"))
   } else {
-    if (is_char)
-      rlang::abort(c(x = "Cannot assign `csquares` column when `x` inherits from `character`",
-                     i = "Coerce `x` to a data.frame or omit the `csquares` argument"))
+    if (is_char) {
+      rlang::abort(c(
+        x = paste("Cannot assign `csquares` column when `x` inherits",
+                  "from `character`"),
+        i = "Coerce `x` to a data.frame or omit the `csquares` argument"))
+    }
   }
   if (inherits(x, "data.frame")) {
     copy <- x
@@ -45,14 +49,15 @@ expand_wildcards <- function(x, csquares, ...) {
   x <-
     x |>
     dplyr::mutate(
-      codes = lapply(.data$codes, \(x) strsplit(x, "[|]")[[1]]),
+      codes = lapply(.data$codes, \(x) strsplit(x, "|", fixed = TRUE)[[1]]),
       row   = dplyr::row_number()
     ) |>
     tidyr::unnest("codes") |>
     dplyr::mutate(
       code_id      = dplyr::row_number(),
-      valid        = .check_csquare_validity(.data$codes, allow_wildcards = TRUE),
-      wildcard_pos = lapply(x$codes, \(x) gregexpr("[*]", x)[[1]])
+      valid        = .check_csquare_validity(.data$codes,
+                                             allow_wildcards = TRUE),
+      wildcard_pos = lapply(x$codes, \(x) gregexpr("*", x, fixed = TRUE)[[1]])
     ) |>
     tidyr::unnest("wildcard_pos")
   
@@ -70,7 +75,7 @@ expand_wildcards <- function(x, csquares, ...) {
       )
     ) |>
     dplyr::left_join(
-      wildcard_opts <- dplyr::tibble(
+      dplyr::tibble(
         type = 0L:4L,
         opts = list(
           1L + 2L*(0L:3L),
@@ -97,7 +102,7 @@ expand_wildcards <- function(x, csquares, ...) {
       codes_exp = {
         lapply(.data$opts, \(x) {
           result <- rep(.data$codes, length(x))
-          regmatches(result, gregexpr("[*]", result)) <- x
+          regmatches(result, gregexpr("*", result, fixed = TRUE)) <- x
           result <- result[.check_csquare_validity(result)] |>
             unique() |>
             sort()
@@ -107,7 +112,8 @@ expand_wildcards <- function(x, csquares, ...) {
       codes_exp = unlist(.data$codes_exp)
     ) |>
     dplyr::group_by(.data$row) |>
-    dplyr::summarise(codes_exp = .data$codes_exp |> unique() |> sort() |> paste0(collapse = "|"),
+    dplyr::summarise(codes_exp = .data$codes_exp |> unique() |> sort() |>
+                       paste0(collapse = "|"),
                      .groups = "keep") |>
     dplyr::arrange(.data$row) |>
     dplyr::pull("codes_exp") |>

@@ -5,7 +5,8 @@
   resolution <- as.numeric(resolution)
   if (any(resolution > 10 | resolution <= 0)) rlang::abort(
     c(x = "Cannot encode resolutions >10 or <= 0.",
-      i = "Make sure the value of 'resolution' is 10 or less yet greater than 0.")
+      i = paste("Make sure the value of 'resolution' is 10 or less yet",
+                "greater than 0."))
   )
   
   l10   <- ceiling(-log10(resolution))
@@ -79,7 +80,7 @@
     dplyr::group_by(.data$id) |>
     dplyr::summarise(check = all(.data$check)) |>
     dplyr::pull("check")
-
+  
   ## very first number should match a quadrant number
   checkstring <- c(as.character((1:4)*2 - 1), wc, "")
   check <- check &
@@ -97,11 +98,11 @@
   check
 }
 
-.to_df = function(x) {
+.to_df <- function(x) {
   dplyr::as_tibble(lapply(x, function(y) structure(y, dim = NULL)))
 }
 
-.set_dim = function(x, d) {
+.set_dim <- function(x, d) {
   lapply(x, function(y, dims) structure(y, dim = dims), dims = d)
 }
 
@@ -111,7 +112,7 @@
 
 .nchar_to_csq_res <- function(x) {
   res <- nchar(x)/4
-  res <- ifelse(res %% 1 > 0, .5, 1)*10^-floor(res - 2)
+  res <- ifelse(res %% 1 > 0, 0.5, 1)*10^-floor(res - 2)
   return(res)
 }
 
@@ -126,7 +127,7 @@
     dplyr::mutate(
       check     = .check_csquare_validity(.data$code),
       precision = .nchar_to_csq_res(.data$code),
-      code      = ifelse(!grepl("[^0-9^:]", .data$code), .data$code, NA),
+      code      = ifelse(grepl("[^0-9^:]", .data$code), NA, .data$code),
       code_part = strsplit(.data$code, "[:]")
     ) |>
     tidyr::unnest("code_part") |>
@@ -185,7 +186,7 @@
       geom      = mapply(
         \(x, y, x_sgn, y_sgn, precision, checks) {
           arguments <- unlist(as.list(environment()))
-          if (any(is.na(arguments)) || any(!checks)) {
+          if (anyNA(arguments) || !all(checks)) {
             sf::st_polygon()
           } else {
             sf::st_polygon(
@@ -225,19 +226,20 @@
   if (inherits(x, c("character", "stars"))) {
     rlang::abort(
       c(x = 
-          sprintf("'%s' is not implemented for 'csquares' objects inheriting from 'character' or 'stars'",
-                  method),
+          sprintf(
+            paste("'%s' is not implemented for 'csquares' objects",
+                  "inheriting from 'character' or 'stars'"), method),
         i = "Coerce object to 'data.frame', 'tibble' or 'sf' first.")
     )
   }
 }
 
 .no_stars <- function(x, method) {
-  if (inherits(x, c("stars"))) {
+  if (inherits(x, "stars")) {
     rlang::abort(
-      c(x = 
-          sprintf("'%s' is not implemented for 'csquares' objects inheriting from 'stars'",
-                  method),
+      c(x = sprintf(
+        paste("'%s' is not implemented for 'csquares' objects inheriting",
+              "from 'stars'"), method),
         i = "Coerce object to 'data.frame', 'tibble' or 'sf' first.")
     )
   }
@@ -247,9 +249,11 @@
   .by <- attributes(x)$csquares_col
   if (!inherits(x, c("data.frame", "stars")) && !allow_all_types) {
     rlang::abort(c(
-      x = sprintf("'%s' not available for csquares objects that don't inherit class 'data.frame' or 'stars'",
-                  method),
-      i = "Coerce your csquares object to 'sf', 'tibble', 'data.frame', or 'stars' first."
+      x = sprintf(
+        paste("'%s' not available for csquares objects that don't",
+              "inherit class 'data.frame' or 'stars'"), method),
+      i = paste("Coerce your csquares object to 'sf', 'tibble',",
+                "'data.frame', or 'stars' first.")
     ))
   }
   if (inherits(x, "stars") && !requireNamespace("stars", quietly = TRUE)) {
@@ -267,9 +271,11 @@
   if (!is.null(.by) && !.by %in% names(x)) {
     if (length(x) == 0L) .by2 <- NULL else
       .by2 <- (lapply(x, inherits, "csquares") |> unlist()) |> which()
-    if (length(.by2) < 1L)
-      rlang::abort(c(x = "No csquares column found in csquares object!",
-                     i = "Make sure you are working with a valid csquares object."))
+    if (length(.by2) < 1L) {
+      rlang::abort(c(
+        x = "No csquares column found in csquares object!",
+        i = "Make sure you are working with a valid csquares object."))
+    }
     .by <- names(x)[[.by2[[1L]]]]
   }
   

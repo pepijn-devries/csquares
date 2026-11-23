@@ -1,4 +1,4 @@
-csquares v0.1.0.0005
+csquares v0.1.0.0006
 -------------
 
   * Added reference to Rees (2015)

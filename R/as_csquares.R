@@ -1,24 +1,28 @@
 #' Convert lon-lat coordinates into c-square codes
 #' 
-#' Takes WGS84 longitude and latitude coordinates and finds the closest matching c-squares
-#' for a given resolution.
+#' Takes WGS84 longitude and latitude coordinates and finds the closest
+#' matching c-squares for a given resolution.
 #'
-#' @param x An object to be coerced to a `csquares` object. `x` can be a vector of `character` strings
-#' representing c-squares code. It can also be a `numeric` `matrix` with two columns
-#' containing the x and y coordinates. `x` can also be a simple features object
-#' ([`sf`][sf::st_as_sf]) or a spatial arrays object ([`stars`][stars::st_as_stars]).
-#' @param resolution Resolution (in WGS84 degrees) to be used for creating c-squares codes.
-#' As per c-square specifications, the resolution should be 10 or less, yet greater than 0.
-#' It should be a tenfold of 1 or 5. Valid resolutions are therefore: 10, 5, 1, 0.5, 0.1, etc.
-#' @param csquares If `x` is not a vector of `character` strings (but for instance a `data.frame`),
-#' the `csquares` argument should specify the name of the element of `x` containing the c-square
-#' codes as `character` strings.
-#' @param validate A `logical` value indicating whether the created object needs to be validated.
-#' Defaults to `TRUE`. Validation can be time-consuming so set to `FALSE` to save computing time.
+#' @param x An object to be coerced to a `csquares` object. `x` can be a vector
+#' of `character` strings representing c-squares code. It can also be a
+#' `numeric` `matrix` with two columns containing the x and y coordinates. `x`
+#' can also be a simple features object ([`sf`][sf::st_as_sf]) or a spatial
+#' arrays object ([`stars`][stars::st_as_stars]).
+#' @param resolution Resolution (in WGS84 degrees) to be used for creating
+#' c-squares codes. As per c-square specifications, the resolution should be
+#' 10 or less, yet greater than 0. It should be a tenfold of 1 or 5. Valid
+#' resolutions are therefore: 10, 5, 1, 0.5, 0.1, etc.
+#' @param csquares If `x` is not a vector of `character` strings (but for
+#' instance a `data.frame`), the `csquares` argument should specify the name
+#' of the element of `x` containing the c-square codes as `character` strings.
+#' @param validate A `logical` value indicating whether the created object
+#' needs to be validated. Defaults to `TRUE`. Validation can be time-consuming
+#' so set to `FALSE` to save computing time.
 #' @param ... Currently ignored
-#' @param use_centroids In case `x` is a simple features object and `use_centroids` is `TRUE`,
-#' the centroid of each geometry is used for deriving c-squares. If it is `FALSE` all coordinates
-#' in the geometry are used.
+#' @param use_centroids In case `x` is a simple features object and
+#' `use_centroids` is `TRUE`, the centroid of each geometry is used for
+#' deriving c-squares. If it is `FALSE` all coordinates in the geometry are
+#' used.
 #' @returns Returns a `csquares` object that contains c-squares codes.
 #' @examples
 #' as_csquares(cbind(x = 5.2399066, y = 52.7155812), resolution = 1)
@@ -52,11 +56,12 @@ as_csquares.default <- function(x, resolution, csquares, ...) {
 #' @rdname as_csquares
 #' @name as_csquares
 #' @export
-as_csquares.character <- function(x, resolution, csquares, validate = TRUE, ...) {
+as_csquares.character <- function(
+    x, resolution, csquares, validate = TRUE, ...) {
   x <- vctrs::new_vctr(x, class = c("csquares", "character"))
   if (validate && length(x) > 0) {
     check <- tryCatch({
-      has_wildcards <- grepl("[*]", x)
+      has_wildcards <- grepl("*", x, fixed = TRUE)
       if (any( has_wildcards )) {
         x[has_wildcards] <- expand_wildcards(x[has_wildcards] |> unclass())
       }
@@ -79,8 +84,10 @@ as_csquares.numeric <- function(x, resolution = 1, csquares, ...) {
   } else {
     rlang::abort(
       c(
-        x = "Numeric values can only be converted to c-squares in a two column matrix form",
-        i = "Make sure your numbers represent two columns (x and y coordinates) in a matrix"
+        x = paste("Numeric values can only be converted to c-squares in a two",
+                  "column matrix form"),
+        i = paste("Make sure your numbers represent two columns (x and y",
+                  "coordinates) in a matrix")
       )
     )
   }
@@ -107,7 +114,8 @@ as_csquares.data.frame <- function(x, resolution = 1, csquares, ...) {
 
 #' @rdname as_csquares
 #' @export
-as_csquares.sf <- function(x, resolution = 1, csquares, ..., use_centroids = TRUE) {
+as_csquares.sf <- function(
+    x, resolution = 1, csquares, ..., use_centroids = TRUE) {
   if (inherits(x, "csquares")) return(x)
   if (use_centroids) x <- sf::st_centroid(x)
   .csquares_spatial(x, resolution)
@@ -115,7 +123,8 @@ as_csquares.sf <- function(x, resolution = 1, csquares, ..., use_centroids = TRU
 
 #' @rdname as_csquares
 #' @export
-as_csquares.sfc <- function(x, resolution = 1, csquares, ..., use_centroids = TRUE) {
+as_csquares.sfc <- function(
+    x, resolution = 1, csquares, ..., use_centroids = TRUE) {
   if (use_centroids) x <- sf::st_centroid(x)
   .csquares_spatial(x, resolution)
 }
@@ -123,7 +132,9 @@ as_csquares.sfc <- function(x, resolution = 1, csquares, ..., use_centroids = TR
 #' @rdname as_csquares
 #' @export
 as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
-  if (!missing(csquares)) rlang::warn("Specified csquares column is ignored for stars object x")
+  if (!missing(csquares)) {
+    rlang::warn("Specified csquares column is ignored for stars object x")
+  }
   .csquares_spatial(x, resolution)
 }
 
@@ -147,7 +158,8 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
   l5  <- as.integer(attributes(resolution)$l5)
   res <- as.numeric(resolution)
   
-  # Exact power-of-10 scale factor (no 32-bit integer overflow; doubles are exact up to 2^53)
+  # Exact power-of-10 scale factor (no 32-bit integer overflow; doubles
+  # are exact up to 2^53)
   dec_places <- max(0L, l10)
   scale      <- 10^dec_places
   res_int    <- round(res * scale)
@@ -168,7 +180,8 @@ as_csquares.stars <- function(x, resolution = 1, csquares, ...) {
   x <-
     x |>
     dplyr::mutate(
-      quadrant = (0L + 4L * (.data$x < 0)) + (2L + 2L * xor(.data$x >= 0, .data$y >= 0)) - 1L,
+      quadrant = (0L + 4L * (.data$x < 0)) +
+        (2L + 2L * xor(.data$x >= 0, .data$y >= 0)) - 1L,
       # Convert coordinates to exact scaled integer-valued doubles
       xi = trunc(signif(abs(.data$x), 15) * scale),
       yi = trunc(signif(abs(.data$y), 15) * scale),

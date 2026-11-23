@@ -19,27 +19,18 @@ orca_nest2 <-
   nest(.by = "csquares")
 
 test_that("`filter` returns correct number of rows", {
-  expect_equal({
-    orca_csq |> filter(orcinus_orca) |> nrow()
-  }, 5L)
+  dat <- orca_csq |> filter(orcinus_orca)
+  expect_equal({ nrow(dat) }, 5L)
 })
 
 test_that("`select` returns correct number of columns", {
-  expect_equal({
-    orca_csq |> select(csquares) |> ncol()
-  }, 1L)
-})
-
-test_that("`select` returns correct number of columns", {
-  expect_equal({
-    orca_csq |> select(csquares) |> ncol()
-  }, 1L)
+  dat <- orca_csq |> select(csquares)
+  expect_equal({ ncol(dat) }, 1L)
 })
 
 test_that("`as_tibble` on csqaures character returns correct number of rows", {
-  expect_equal({
-    orca_csq$csquares |> as_tibble() |> nrow()
-  }, 10L)
+  dat <- orca_csq$csquares |> as_tibble()
+  expect_equal({ nrow(dat) }, 10L)
 })
 
 test_that("`arrange` sorts csquares correctly", {

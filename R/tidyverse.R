@@ -1,18 +1,23 @@
 #' Tidyverse methods for csquares objects (drop the 'csquares'-suffix)
 #' 
-#' Tidyverse methods for `csquares` objects that inherit from `data.frame`, `tibble`, `sf`, or
-#' in some cases `stars`. Load the tidyverse package containing the generic implementation (`dplyr` or `tidyr`),
-#' and call the function without the `.csquares` suffix.
-#' See examples and `vignette("tidy")` for more details. The methods implemented here ensure that the `csquare` class is preserved.
+#' Tidyverse methods for `csquares` objects that inherit from `data.frame`,
+#' `tibble`, `sf`, or in some cases `stars`. Load the tidyverse package
+#' containing the generic implementation (`dplyr` or `tidyr`), and call the
+#' function without the `.csquares` suffix. See examples and
+#' `vignette("tidy")` for more details. The methods implemented here ensure
+#' that the `csquare` class is preserved.
 #' 
-#' Note that the implementation of `summarise.csquares` has changed since version 0.0.5.002, to better
-#' reflect the `dplyr` generic implementation. To get results similar to the earlier implementation please
+#' Note that the implementation of `summarise.csquares` has changed since
+#' version 0.0.5.002, to better reflect the `dplyr` generic implementation.
+#' To get results similar to the earlier implementation please
 #' use `resample_csquares()`.
-#' @param .data,...,.dots,data,x,add,.fn,.cols,.keep_all,cols,cols_vary,names_to,names_prefix,names_sep,names_pattern,names_ptypes,names_transform,names_repair,values_to,values_drop_na,values_ptypes,values_transform,id_cols,id_expand,names_from,names_glue,names_sort,names_vary,names_expand,values_from,values_fill,values_fn,unused_fn,.tbl,.keep,col,sep,remove,.preserve Passed to tidyverse generic methods. Consult their documentation.
+#' @param .data,...,.dots,data,x,add,.fn,.cols,.keep_all,cols,cols_vary,names_to,names_prefix,names_sep,names_pattern,names_ptypes,names_transform,names_repair,values_to,values_drop_na,values_ptypes,values_transform,id_cols,id_expand,names_from,names_glue,names_sort,names_vary,names_expand,values_from,values_fill,values_fn,unused_fn,.tbl,.keep,col,sep,remove,.preserve Passed to tidyverse generic methods. Consult their documentation.  # nolint: line_length_linter.
 #' @name tidyverse
 #' @rdname tidyverse
 #' @include init.R
 #' @include helpers.R
+#' @returns The tidyverse operators are generally pipe-able. This means that
+#' it will return a mutated version of the input data.
 #' @examples
 #' if (requireNamespace(c("dplyr", "tidyr"))) {
 #'   library(dplyr)
@@ -25,7 +30,8 @@
 #'   orca2 <- filter(orca_csq, orcinus_orca == TRUE)
 #'   
 #'   ## Mutate the object to hold information on the quadrant:
-#'   orca_csq <- mutate(orca_csq, quadrant = csquares |> as.character() |> substr(1,1))
+#'   orca_csq <- mutate(orca_csq, quadrant = csquares |> as.character() |>
+#'     substr(1,1))
 #'   
 #'   ## Select the quadrant column:
 #'   orca2 <- select(orca_csq, quadrant)
@@ -62,14 +68,18 @@
 #'   orca_csq[c(1, 1, 1),] |> distinct()
 #'   
 #'   ## Pivot to a wide format:
-#'   pivot_wider(orca_csq, names_from = "quadrant", values_from = "orcinus_orca")
-#'   pivot_wider(orca_csq, names_from = "orcinus_orca", values_from = "orcinus_orca",
+#'   pivot_wider(orca_csq, names_from = "quadrant",
+#'               values_from = "orcinus_orca")
+#'   pivot_wider(orca_csq, names_from = "orcinus_orca",
+#'               values_from = "orcinus_orca",
 #'               id_cols = "quadrant", values_fn = length)
 #'   
-#'   ## Pivot to a long format (note that you can't pivot the csquares column to long)
+#'   ## Pivot to a long format (note that you can't pivot the
+#'   ## csquares column to long)
 #'   tibble(csq = "1000", a = 1, b = 2, d = 3) |>
 #'     as_csquares(csquares = "csq") |>
-#'     pivot_longer(c("a", "b", "d"), names_to = "letter", values_to = "numeric")
+#'     pivot_longer(c("a", "b", "d"), names_to = "letter",
+#'                  values_to = "numeric")
 #'   
 #'   ## Unite two columns into one:
 #'   unite(orca_csq, "quad_realm", any_of(c("quadrant", "orcinus_orca")))
@@ -92,17 +102,19 @@ filter.csquares <- function(.data, ..., .dots) {
 #' @name tidyverse
 #' @rdname tidyverse
 select.csquares <- function(.data, ...) {
-  # If .data is a 'csquares' object, make sure that the 'select' doesn't drop the
-  # csquares column
+  # If .data is a 'csquares' object, make sure that the 'select' doesn't
+  # drop the csquares column
   .by <- .s3_df_stars_prep(.data, "filter")
   if (!requireNamespace("tidyselect", quietly = TRUE)) 
     rlang::abort(c(
       x = "tidyselect required",
       i = "Install it first and try again"))
-  loc <- tidyselect::eval_select(quote(c(...)), .data |> dplyr::as_tibble()) |> names()
+  loc <- tidyselect::eval_select(quote(c(...)), .data |>
+                                   dplyr::as_tibble()) |> names()
   loc <- union(
     loc,
-    tidyselect::eval_select(quote(dplyr::any_of(.by)), .data |> dplyr::as_tibble()) |> names()
+    tidyselect::eval_select(quote(dplyr::any_of(.by)), .data |>
+                              dplyr::as_tibble()) |> names()
   )
   class(.data) <- setdiff(class(.data), "csquares")
   .data <- .data |>
@@ -174,11 +186,13 @@ rename.csquares <- function(.data, ...) {
 rename_with.csquares <- function(.data, .fn, .cols, ...) {
   .no_stars(.data)
   .by <- .s3_df_stars_prep(.data, "rename_with")
-  loc    <- tidyselect::eval_select(rlang::enquo(.cols), .data, allow_rename = FALSE)
+  loc    <- tidyselect::eval_select(
+    rlang::enquo(.cols), .data, allow_rename = FALSE)
   by_loc <- which(names(.data) == .by)
   class(.data) <- setdiff(class(.data), "csquares")
 
-  result <- dplyr::rename_with(.data = .data, .fn = .fn, .cols = {{.cols}}, ...)
+  result <- dplyr::rename_with(
+    .data = .data, .fn = .fn, .cols = {{.cols}}, ...)
   if (by_loc %in% loc) .by <- names(result)[[by_loc]]
   .s3_finalise(result, .by)
 }
@@ -207,7 +221,8 @@ summarise.csquares <- function(.data, ..., .dots) {
     .data <-
       .data |>
       dplyr::mutate(
-        !!sf_column := lapply(dplyr::cur_group_rows(), \(x) sf::st_polygon()) |> sf::st_sfc()
+        !!sf_column := lapply(dplyr::cur_group_rows(),
+                              \(x) sf::st_polygon()) |> sf::st_sfc()
       )
   }
   .by <- .s3_df_stars_prep(.data, "summarise")
@@ -248,7 +263,8 @@ pivot_longer.csquares <- function(
   .no_stars(data)
   .by <- .s3_df_stars_prep(data, "pivot_longer")
   if (attributes(data)$csquares_col %in% cols)
-    rlang::abort(c(x = "Cannot pivot 'csquares' column", i = "Please pivot other column(s)"))
+    rlang::abort(c(x = "Cannot pivot 'csquares' column",
+                   i = "Please pivot other column(s)"))
   class(data) <- setdiff(class(data), "csquares")
   result <-
     tidyr::pivot_longer(
@@ -265,9 +281,10 @@ pivot_longer.csquares <- function(
 #' @name tidyverse
 #' @rdname tidyverse
 pivot_wider.csquares <- function(
-    data, ..., id_cols = NULL, id_expand = FALSE, names_from = NULL, names_prefix = "", 
-    names_sep = "_", names_glue = NULL, names_sort = FALSE, names_vary = "fastest", 
-    names_expand = FALSE, names_repair = "check_unique", values_from = NULL, values_fill = NULL, 
+    data, ..., id_cols = NULL, id_expand = FALSE, names_from = NULL,
+    names_prefix = "", names_sep = "_", names_glue = NULL, names_sort = FALSE,
+    names_vary = "fastest", names_expand = FALSE,
+    names_repair = "check_unique", values_from = NULL, values_fill = NULL, 
     values_fn = NULL, unused_fn = NULL) {
   .no_stars(data)
   .by <- .s3_df_stars_prep(data, "pivot_wider")
@@ -275,8 +292,10 @@ pivot_wider.csquares <- function(
   ## union the csquares for each id_cols group and include that in the id_cols
   cic  <- utils::getFromNamespace("compat_id_cols", "tidyr")
   bice <- utils::getFromNamespace("build_wider_id_cols_expr", "tidyr")
-  id_cols <- cic(id_cols = {{id_cols}}, ..., fn_call = match.call(expand.dots = FALSE))
-  id_cols <- bice(data, !!id_cols, !!names_from, !!values_from, rlang::caller_env()) |> eval()
+  id_cols <- cic(id_cols = {{id_cols}},
+                 ..., fn_call = match.call(expand.dots = FALSE))
+  id_cols <- bice(data, !!id_cols, !!names_from, !!values_from,
+                  rlang::caller_env()) |> eval()
   is_sf <- inherits(data, "sf")
   class(data) <- setdiff(class(data), c("sf", "csquares"))
   attributes(data)$csquares_col <- NULL
@@ -284,10 +303,12 @@ pivot_wider.csquares <- function(
   attributes(data)$agr          <- NULL
   result <-
     tidyr::pivot_wider(
-      data, ..., id_cols = {{id_cols}}, id_expand = id_expand, names_from = {{names_from}}, names_prefix = names_prefix,
-      names_sep = names_sep, names_glue = names_glue, names_sort = names_sort, names_vary = names_vary,
-      names_expand = names_expand, names_repair = names_repair, values_from = {{values_from}}, values_fill = values_fill,
-      values_fn = values_fn, unused_fn = unused_fn)
+      data, ..., id_cols = {{id_cols}}, id_expand = id_expand,
+      names_from = {{names_from}}, names_prefix = names_prefix,
+      names_sep = names_sep, names_glue = names_glue, names_sort = names_sort,
+      names_vary = names_vary, names_expand = names_expand,
+      names_repair = names_repair, values_from = {{values_from}},
+      values_fill = values_fill, values_fn = values_fn, unused_fn = unused_fn)
   if (!.by %in% id_cols) {
     result <-
       dplyr::left_join(
@@ -324,14 +345,16 @@ nest.csquares <- function(.data, ...) {
   attributes(.data)$csquares_col <- NULL
   result <- NextMethod()
   nested_col <-
-    lapply(result, \(x) inherits(x, "list") && inherits(x[[1]], "data.frame") && .by %in% names(x[[1]])) |>
+    lapply(result, \(x) inherits(x, "list") &&
+             inherits(x[[1]], "data.frame") && .by %in% names(x[[1]])) |>
     unlist() |>
     which()
   if (length(nested_col) == 0) {
     result <- .s3_finalise(result, .by)
   } else {
     result[[nested_col]] <-
-      lapply(result[[nested_col]], as_csquares.data.frame, csquares = .by, validate = FALSE)
+      lapply(result[[nested_col]], as_csquares.data.frame,
+             csquares = .by, validate = FALSE)
     attributes(result)$csquares_col <- .by
     class(result) <- union("csquares_nested", class(result))
   }
@@ -369,7 +392,8 @@ unnest.csquares_nested <- function(data, cols, ...) {
   .by <- attributes(data)$csquares_col
   cols <- tidyselect::eval_select(cols, data)
   for (col in cols) {
-    is_csquares <- lapply(data[[col]], inherits, "csquares") |> unlist() |> any()
+    is_csquares <- lapply(data[[col]], inherits, "csquares") |>
+      unlist() |> any()
     if (is_csquares) {
       data[[col]] <- lapply(data[[col]], \(x) {
         class(x) <- setdiff(class(x), "csquares")
