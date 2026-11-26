@@ -9,7 +9,7 @@ test_that("Source code should not have things on TODO list", {
       r_path,
       pattern = ".[r|R]$|NEWS|DESCRIPTION|README\\.md",
       recursive = TRUE, full.names = TRUE)
-    files_to_check <- files_to_check[!endsWith(files_to_check, "test-dev.r")]
+    files_to_check <- files_to_check[!endsWith(files_to_check, "test-dev.R")]
     any(
       unlist(
         lapply(files_to_check, function(file) {
