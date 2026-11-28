@@ -1,6 +1,12 @@
 # Changelog
 
+## csquares v0.1.1.0001
+
+- Fix for failing test
+
 ## csquares v0.1.1
+
+CRAN release: 2026-11-23
 
 - Added reference to Rees (2015)
 - Added
